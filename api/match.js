@@ -28,11 +28,13 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
+    console.log('ANTHROPIC RESPONSE:', JSON.stringify(data));
     const textBlock = (data.content || []).find((b) => b.type === 'text');
     res.status(200).json({
       recommendation: textBlock ? textBlock.text : 'Could not generate a match right now — try again.'
     });
   } catch (err) {
+    console.log('ANTHROPIC ERROR:', err.message);
     res.status(500).json({ recommendation: 'Could not reach the matching engine right now — try again in a moment.' });
   }
 }
