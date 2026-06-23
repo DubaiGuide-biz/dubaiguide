@@ -6,7 +6,11 @@ export default async function handler(req, res) {
 
   try {
     const { vertical, answers } = req.body;
-
+    
+    const keyPreview = (process.env.ANTHROPIC_API_KEY || 'NOT FOUND').slice(0, 12);
+    res.status(200).json({ recommendation: 'Key preview: ' + keyPreview });
+    return;
+    
     const prompt = 'Give a 2-sentence Dubai property recommendation for someone with budget: ' + JSON.stringify(answers);
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
