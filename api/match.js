@@ -29,11 +29,13 @@ export default async function handler(req, res) {
 
     const data = await response.json();
     const textBlock = (data.content || []).find((b) => b.type === 'text');
+    const rawText = textBlock ? textBlock.text : null;
+    const cleanText = rawText ? rawText.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1') : null;
     const errorMsg = data.error ? data.error.message : null;
 
     res.status(200).json({
-      recommendation: textBlock
-        ? textBlock.text
+      recommendation: cleanText
+        ? cleanText
         : ('Error: ' + (errorMsg || JSON.stringify(data)))
     });
   } catch (err) {
