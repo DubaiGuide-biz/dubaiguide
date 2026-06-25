@@ -22,7 +22,7 @@ AI Recommendation:
 ${recommendation}
     `.trim();
 
-    await fetch('https://api.resend.com/emails', {
+    const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -36,8 +36,12 @@ ${recommendation}
       })
     });
 
-    res.status(200).json({ ok: true });
+    const resendResult = await response.json();
+    console.log('RESEND:', JSON.stringify(resendResult));
+    res.status(200).json({ ok: true, debug: resendResult });
+
   } catch (err) {
-    res.status(500).json({ ok: false });
+    console.log('LEAD ERROR:', err.message);
+    res.status(500).json({ ok: false, error: err.message });
   }
 }
