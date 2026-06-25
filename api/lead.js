@@ -29,7 +29,7 @@ ${recommendation}
         'Authorization': 'Bearer ' + process.env.RESEND_API_KEY
       },
       body: JSON.stringify({
-        from: 'onboarding@resend.dev',
+        from: 'leads@mydubaiguide.biz',
         to: 'tejas09999@gmail.com',
         subject: 'New ' + vertical + ' lead — ' + contact.name,
         text: emailBody
