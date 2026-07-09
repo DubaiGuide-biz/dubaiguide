@@ -12,10 +12,21 @@ export default async function handler(req, res) {
     });
 
     const prompt = vertical === 'property'
-      ? `You are a Dubai property expert. Today is ${today}. Based on these answers: ${JSON.stringify(answers)}
-Give a sharp, specific 2-3 sentence recommendation. Name 1-2 specific communities. Be direct and confident. Don't start with "Based on your answers". No bullet points. Sound like an expert friend giving honest advice. End with one specific reason why this area makes sense right now — reference current market conditions in ${today}, not future projections.`
-      : `You are a Dubai business setup expert. Today is ${today}. Based on these answers: ${JSON.stringify(answers)}
-Give a sharp, specific 2-3 sentence recommendation. Name the specific free zone or mainland route. Be direct and confident. Don't start with "Based on your answers". No bullet points. Sound like an expert friend. Include one specific cost figure accurate for ${today}.`;
+      ? `You are a Dubai property expert. Today is ${today}. A user has answered a property matching quiz with these answers: ${JSON.stringify(answers)}
+
+Write a complete, standalone 2-3 sentence property recommendation. Rules:
+- Start directly with the recommendation (e.g. "For a AED 1-2M investment budget...")
+- Name 1-2 specific Dubai communities
+- Reference current H2 2026 market conditions (cooling in some areas, selective buyers, good negotiating room)
+- End with one concrete reason this makes sense right now
+- No bullet points, no asterisks, no markdown, no incomplete sentences`
+      : `You are a Dubai business setup expert. Today is ${today}. A user has answered a business setup quiz with these answers: ${JSON.stringify(answers)}
+
+Write a complete, standalone 2-3 sentence business setup recommendation. Rules:
+- Start directly with the recommendation
+- Name the specific free zone or mainland route
+- Include one real 2026 cost figure (e.g. "all-in around AED 22,000 for year one")
+- No bullet points, no asterisks, no markdown, no incomplete sentences`;
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -25,31 +36,19 @@ Give a sharp, specific 2-3 sentence recommendation. Name the specific free zone 
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 400,
-        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-        messages: [{
-          role: 'user',
-          content: prompt
-        }]
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 250,
+        messages: [{ role: 'user', content: prompt }]
       })
     });
 
     const data = await response.json();
+    const textBlock = (data.content || []).find((b) => b.type === 'text');
+    const rawText = textBlock ? textBlock.text : null;
+    const cleanText = rawText
+      ? rawText.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1').trim()
+      : null;
 
-    // Extract final text from potentially multi-turn response
-    let cleanText = null;
-    if (data.content && Array.isArray(data.content)) {
-      const textBlock = data.content.filter(b => b.type === 'text').pop();
-      if (textBlock) {
-        cleanText = textBlock.text
-          .replace(/\*\*(.*?)\*\*/g, '$1')
-          .replace(/\*(.*?)\*/g, '$1')
-          .trim();
-      }
-    }
-
-    // Build links for property vertical
     let bayutListingsUrl = null;
     let bayutInsightsUrl = null;
 
