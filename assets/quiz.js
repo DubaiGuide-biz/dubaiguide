@@ -97,3 +97,5 @@ function initQuiz(config) {
   }
   ctaEl.disabled = false;
 });
+renderQuiz();
+}
