@@ -90,3 +90,4 @@ Give a sharp, specific 2-3 sentence recommendation. Name the specific free zone 
     res.status(200).json({
       recommendation: cleanText || ('Error: ' + JSON.stringify(data.error || data)),
       bayutListingsUrl,
+}
