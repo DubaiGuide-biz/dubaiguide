@@ -60,54 +60,34 @@ function initQuiz(config) {
   }
 
   ctaEl.addEventListener('click', async () => {
-    ctaEl.disabled = true;
-    resultEl.classList.add('show');
-    resultBody.innerHTML = '<div class="loading"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span>Matching your answers</span></div>';
-    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  ctaEl.disabled = true;
+  resultEl.classList.add('show');
+  resultBody.innerHTML = '<div class="loading"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span>Matching your answers</span></div>';
+  resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-    try {
-      const response = await fetch('/api/match', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ vertical: config.vertical, answers })
-      });
-      const data = await response.json();
-      lastRecommendation = data.recommendation || 'Could not generate a match right now.';
-    } catch (e) {
-      lastRecommendation = 'Could not reach the matching engine right now — try again in a moment.';
+  try {
+    const response = await fetch('/api/match', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ vertical: config.vertical, answers })
+    });
+    const data = await response.json();
+    lastRecommendation = data.recommendation || 'Could not generate a match right now.';
+    
+    let html = '<p>' + lastRecommendation + '</p>';
+    
+    if (data.bayutUrl) {
+      html += `<a href="${data.bayutUrl}" target="_blank" rel="noopener" style="display:inline-block;margin-top:1rem;padding:10px 18px;background:#fff;border:1px solid var(--accent);color:var(--accent);border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;">Browse matching listings on Bayut →</a>`;
     }
-
+    
+    if (data.vertical === 'property') {
+      html += `<div style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(0,0,0,0.1);"><p style="font-size:13px;margin-bottom:8px;opacity:0.8;">Need a mortgage? Get a free eligibility check.</p><a href="https://www.useholo.com" target="_blank" rel="noopener" style="display:inline-block;padding:8px 16px;background:#fff;border:1px solid var(--accent);color:var(--accent);border-radius:8px;text-decoration:none;font-size:13px;font-weight:600;">Check mortgage eligibility →</a></div>`;
+    }
+    
+    resultBody.innerHTML = html;
+  } catch (e) {
+    lastRecommendation = 'Could not reach the matching engine right now — try again in a moment.';
     resultBody.innerHTML = '<p>' + lastRecommendation + '</p>';
-    ctaEl.disabled = false;
-  });
-
-  leadForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const name = document.getElementById('lf-name').value.trim();
-    const email = document.getElementById('lf-email').value.trim();
-    const phone = document.getElementById('lf-phone').value.trim();
-    if (!name || !email || !phone) return;
-
-    try {
-      await fetch('/api/lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          vertical: config.vertical,
-          answers,
-          recommendation: lastRecommendation,
-          contact: { name, email, phone },
-          submittedAt: new Date().toISOString()
-        })
-      });
-    } catch (e) {
-      console.error('lead submit failed', e);
-    }
-
-    leadForm.style.display = 'none';
-    document.getElementById('confirm-text').textContent = 'Thanks, ' + name.split(' ')[0] + ' — noted. A specialist will be in touch.';
-    confirmEl.classList.add('show');
-  });
-
-  renderQuiz();
-}
+  }
+  ctaEl.disabled = false;
+});
