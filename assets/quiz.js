@@ -73,18 +73,24 @@ function initQuiz(config) {
     });
     const data = await response.json();
     lastRecommendation = data.recommendation || 'Could not generate a match right now.';
-    
-    let html = '<p>' + lastRecommendation + '</p>';
-    
-    if (data.bayutUrl) {
-      html += `<a href="${data.bayutUrl}" target="_blank" rel="noopener" style="display:inline-block;margin-top:1rem;padding:10px 18px;background:#fff;border:1px solid var(--accent);color:var(--accent);border-radius:8px;text-decoration:none;font-size:14px;font-weight:600;">Browse matching listings on Bayut →</a>`;
+
+    const btnStyle = `display:inline-block;margin-top:.75rem;margin-right:.5rem;padding:9px 16px;background:#fff;border:1.5px solid var(--accent);color:var(--accent);border-radius:8px;text-decoration:none;font-size:13px;font-weight:600;`;
+
+    let html = '<p>' + lastRecommendation + '</p><div style="margin-top:1rem;">';
+
+    if (data.bayutListingsUrl) {
+      html += `<a href="${data.bayutListingsUrl}" target="_blank" rel="noopener" style="${btnStyle}">Browse listings on Bayut →</a>`;
     }
-    
+    if (data.bayutInsightsUrl) {
+      html += `<a href="${data.bayutInsightsUrl}" target="_blank" rel="noopener" style="${btnStyle}">Area transaction data →</a>`;
+    }
     if (data.vertical === 'property') {
-      html += `<div style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(0,0,0,0.1);"><p style="font-size:13px;margin-bottom:8px;opacity:0.8;">Need a mortgage? Get a free eligibility check.</p><a href="https://www.useholo.com" target="_blank" rel="noopener" style="display:inline-block;padding:8px 16px;background:#fff;border:1px solid var(--accent);color:var(--accent);border-radius:8px;text-decoration:none;font-size:13px;font-weight:600;">Check mortgage eligibility →</a></div>`;
+      html += `<a href="/property/guides/mortgage-eligibility-expats/" style="${btnStyle}">Mortgage guide →</a>`;
     }
-    
+
+    html += '</div>';
     resultBody.innerHTML = html;
+
   } catch (e) {
     lastRecommendation = 'Could not reach the matching engine right now — try again in a moment.';
     resultBody.innerHTML = '<p>' + lastRecommendation + '</p>';
