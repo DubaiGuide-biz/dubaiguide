@@ -86,8 +86,20 @@ Give a sharp, specific 2-3 sentence recommendation. Name the specific free zone 
       const insightsArea = insightsSlug || 'dubai';
       bayutInsightsUrl = `https://www.bayut.com/property-trends/dubai/${insightsArea}/`;
     }
-
-    res.status(200).json({
+res.status(200).json({
       recommendation: cleanText || ('Error: ' + JSON.stringify(data.error || data)),
       bayutListingsUrl,
+      bayutInsightsUrl,
+      vertical
+    });
+
+  } catch (err) {
+    res.status(200).json({
+      recommendation: 'Fetch error: ' + err.message,
+      bayutListingsUrl: null,
+      bayutInsightsUrl: null,
+      vertical
+    });
+  }
 }
+   
