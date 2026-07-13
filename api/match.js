@@ -39,12 +39,6 @@ export default async function handler(req, res) {
       'Either':             'property'
     };
 
-    const completionMap = {
-      'Off-plan':          '&completion_status=off_plan',
-      'Ready to move in':  '&completion_status=ready',
-      'Either':            ''
-    };
-
     const freeZoneMap = {
       'Consultancy or services': ['IFZA', 'Meydan'],
       'Trading':                 ['IFZA', 'Dubai South Free Zone'],
@@ -106,14 +100,14 @@ Respond ONLY with a JSON object, no other text, no markdown, no backticks:
     if (vertical === 'property') {
       const budget = budgetMap[answers.budget] || { min: 0, max: 5000000 };
       const typeSlug = typeSlugMap[answers.type] || 'property';
-      const completionFilter = completionMap[answers.completion] || '';
+      
 
       const aiArea = parsed.area || null;
       const slugs = aiArea ? areaSlugMap[aiArea] : null;
       const areaPath = slugs ? `${slugs.listing}/` : '';
       const transactionsPath = slugs ? `${slugs.transactions}/` : '';
 
-      bayutListingsUrl = `https://www.bayut.com/for-sale/${typeSlug}/dubai/${areaPath}?price_min=${budget.min}&price_max=${budget.max}${completionFilter}`;
+      bayutListingsUrl = `https://www.bayut.com/for-sale/${typeSlug}/dubai/${areaPath}?price_min=${budget.min}&price_max=${budget.max}`;
       bayutInsightsUrl = `https://www.bayut.com/property-market-analysis/transactions/sale/property/dubai/${transactionsPath}`;
     }
 
