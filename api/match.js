@@ -93,11 +93,11 @@ Respond ONLY with a JSON object, no other text, no markdown, no backticks:
 
     let parsed = {};
     try {
-      parsed = JSON.parse(rawText);
+      const clean = rawText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+      parsed = JSON.parse(clean);
     } catch (e) {
-      parsed = { recommendation: rawText.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1') };
+      parsed = { recommendation: rawText.replace(/```json\n?/g, '').replace(/```\n?/g, '').replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1').trim() };
     }
-
     const recommendation = parsed.recommendation || 'Could not generate a match right now.';
 
     let bayutListingsUrl = null;
