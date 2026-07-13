@@ -94,10 +94,12 @@ Write a complete, standalone 2-3 sentence business setup recommendation. Rules:
       const insightsSlug = firstArea ? insightsSlugMap[firstArea] : null;
 
       const areaPath = areaSlug ? `${areaSlug}/` : '';
-      bayutListingsUrl = `https://www.bayut.com/buy/${type}-for-sale/${areaPath}?price_min=${budget.min}&price_max=${budget.max}&sort=date_desc`;
+      const typeSlug = type === 'apartment' ? 'apartments' : type === 'villa' ? 'villas' : 'property';
+      bayutListingsUrl = `https://www.bayut.com/for-sale/${typeSlug}/dubai/${areaPath}?price_min=${budget.min}&price_max=${budget.max}`;
 
-      const insightsArea = insightsSlug || 'dubai';
-      bayutInsightsUrl = `https://www.bayut.com/property-trends/dubai/${insightsArea}/`;
+      const insightsArea = insightsSlug || '';
+      const insightsAreaPath = insightsArea ? `${insightsArea}/` : '';
+      bayutInsightsUrl = `https://www.bayut.com/property-market-analysis/transactions/sale/property/dubai/${insightsAreaPath}`;
     }
 
     res.status(200).json({
