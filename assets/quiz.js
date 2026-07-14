@@ -98,4 +98,35 @@ function initQuiz(config) {
   ctaEl.disabled = false;
 });
 renderQuiz();
+
+  // GA4 event tracking
+  function trackEvent(name, params) {
+    if (typeof gtag !== 'undefined') {
+      gtag('event', name, params);
+    }
+  }
+
+  // Track each answer selection
+  const originalSelectOption = selectOption;
+  function selectOption(qId, value, btn, qDiv, multi) {
+    originalSelectOption(qId, value, btn, qDiv, multi);
+    trackEvent('quiz_answer_selected', {
+      vertical: config.vertical,
+      question_id: qId,
+      answer: Array.isArray(answers[qId]) ? answers[qId].join(', ') : answers[qId]
+    });
+  }
+
+  // Track when match is generated
+  const originalCtaClick = ctaEl.onclick;
+  ctaEl.addEventListener('click', () => {
+    trackEvent('quiz_completed', {
+      vertical: config.vertical,
+      budget: answers.budget || '',
+      type: answers.type || '',
+      purpose: answers.purpose || '',
+      area: Array.isArray(answers.area) ? answers.area.join(', ') : (answers.area || ''),
+      priority: answers.priority || ''
+    });
+  });
 }
