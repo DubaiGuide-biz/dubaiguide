@@ -59,67 +59,13 @@ function initQuiz(config) {
     ctaEl.disabled = done < total;
   }
 
-  ctaEl.addEventListener('click', async () => {
-  ctaEl.disabled = true;
-  resultEl.classList.add('show');
-  resultBody.innerHTML = '<div class="loading"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span>Matching your answers</span></div>';
-  resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-  try {
-    const response = await fetch('/api/match', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ vertical: config.vertical, answers })
-    });
-    const data = await response.json();
-    lastRecommendation = data.recommendation || 'Could not generate a match right now.';
-
-    const btnStyle = `display:inline-block;margin-top:.75rem;margin-right:.5rem;padding:9px 16px;background:#fff;border:1.5px solid var(--accent);color:var(--accent);border-radius:8px;text-decoration:none;font-size:13px;font-weight:600;`;
-
-    let html = '<p>' + lastRecommendation + '</p><div style="margin-top:1rem;">';
-
-    if (data.bayutListingsUrl) {
-      html += `<a href="${data.bayutListingsUrl}" target="_blank" rel="noopener" style="${btnStyle}">Browse listings on Bayut →</a>`;
-    }
-    if (data.bayutInsightsUrl) {
-      html += `<a href="${data.bayutInsightsUrl}" target="_blank" rel="noopener" style="${btnStyle}">Area transaction data →</a>`;
-    }
-    if (data.vertical === 'property') {
-      html += `<a href="/property/guides/mortgage-eligibility-expats/" style="${btnStyle}">Mortgage guide →</a>`;
-    }
-
-    html += '</div>';
-    resultBody.innerHTML = html;
-
-  } catch (e) {
-    lastRecommendation = 'Could not reach the matching engine right now — try again in a moment.';
-    resultBody.innerHTML = '<p>' + lastRecommendation + '</p>';
-  }
-  ctaEl.disabled = false;
-});
-renderQuiz();
-
-  // GA4 event tracking
   function trackEvent(name, params) {
     if (typeof gtag !== 'undefined') {
       gtag('event', name, params);
     }
   }
 
-  // Track each answer selection
-  const originalSelectOption = selectOption;
-  function selectOption(qId, value, btn, qDiv, multi) {
-    originalSelectOption(qId, value, btn, qDiv, multi);
-    trackEvent('quiz_answer_selected', {
-      vertical: config.vertical,
-      question_id: qId,
-      answer: Array.isArray(answers[qId]) ? answers[qId].join(', ') : answers[qId]
-    });
-  }
-
-  // Track when match is generated
-  const originalCtaClick = ctaEl.onclick;
-  ctaEl.addEventListener('click', () => {
+  ctaEl.addEventListener('click', async () => {
     trackEvent('quiz_completed', {
       vertical: config.vertical,
       budget: answers.budget || '',
@@ -128,5 +74,78 @@ renderQuiz();
       area: Array.isArray(answers.area) ? answers.area.join(', ') : (answers.area || ''),
       priority: answers.priority || ''
     });
+
+    ctaEl.disabled = true;
+    resultEl.classList.add('show');
+    resultBody.innerHTML = '<div class="loading"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span>Matching your answers</span></div>';
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    try {
+      const response = await fetch('/api/match', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ vertical: config.vertical, answers })
+      });
+      const data = await response.json();
+      lastRecommendation = data.recommendation || 'Could not generate a match right now.';
+
+      const btnStyle = `display:inline-block;margin-top:.75rem;margin-right:.5rem;padding:9px 16px;background:#fff;border:1.5px solid var(--accent);color:var(--accent);border-radius:8px;text-decoration:none;font-size:13px;font-weight:600;`;
+
+      let html = '<p>' + lastRecommendation + '</p><div style="margin-top:1rem;">';
+
+      if (data.bayutListingsUrl) {
+        html += `<a href="${data.bayutListingsUrl}" target="_blank" rel="noopener" style="${btnStyle}" onclick="trackEvent('bayut_listings_clicked', {vertical: '${config.vertical}'})">Browse listings on Bayut →</a>`;
+      }
+      if (data.bayutInsightsUrl) {
+        html += `<a href="${data.bayutInsightsUrl}" target="_blank" rel="noopener" style="${btnStyle}" onclick="trackEvent('bayut_transactions_clicked', {vertical: '${config.vertical}'})">Area transaction data →</a>`;
+      }
+      if (data.vertical === 'property') {
+        html += `<a href="/property/guides/mortgage-eligibility-expats/" style="${btnStyle}">Mortgage guide →</a>`;
+      }
+
+      html += '</div>';
+      resultBody.innerHTML = html;
+
+    } catch (e) {
+      lastRecommendation = 'Could not reach the matching engine right now — try again in a moment.';
+      resultBody.innerHTML = '<p>' + lastRecommendation + '</p>';
+    }
+    ctaEl.disabled = false;
   });
+
+  leadForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('lf-name').value.trim();
+    const email = document.getElementById('lf-email').value.trim();
+    const phone = document.getElementById('lf-phone').value.trim();
+    if (!name || !email || !phone) return;
+
+    trackEvent('lead_submitted', {
+      vertical: config.vertical,
+      budget: answers.budget || '',
+      area: Array.isArray(answers.area) ? answers.area.join(', ') : (answers.area || '')
+    });
+
+    try {
+      await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          vertical: config.vertical,
+          answers,
+          recommendation: lastRecommendation,
+          contact: { name, email, phone },
+          submittedAt: new Date().toISOString()
+        })
+      });
+    } catch (e) {
+      console.error('lead submit failed', e);
+    }
+
+    leadForm.style.display = 'none';
+    document.getElementById('confirm-text').textContent = 'Thanks, ' + name.split(' ')[0] + ' — noted. A specialist will be in touch.';
+    confirmEl.classList.add('show');
+  });
+
+  renderQuiz();
 }
