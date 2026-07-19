@@ -3,13 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dubai property guide 2026 — mydubaiguide.biz</title>
+<title>Dubai property match — mydubaiguide.biz</title>
+<meta name="description" content="Answer 6 questions and get a personalised Dubai property recommendation with live Bayut listings and DLD transaction data.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/styles.css">
-
-<!-- Google tag (gtag.js) -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-H2C79G3W9F"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -17,79 +15,503 @@
   gtag('js', new Date());
   gtag('config', 'G-H2C79G3W9F');
 </script>
-  
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: #060d18;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  color: #fff;
+}
+.bg-glow {
+  position: fixed;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 600px;
+  background: radial-gradient(ellipse, rgba(0,201,167,0.06) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+nav {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 4rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.wordmark {
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+.wordmark .teal { color: #00c9a7; }
+.wordmark .muted { color: rgba(255,255,255,0.3); }
+.nav-right { display: flex; align-items: center; gap: 1.5rem; }
+.nav-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.4);
+  text-decoration: none;
+  transition: color .15s;
+}
+.nav-link:hover { color: #fff; }
+.nav-link.active { color: #00c9a7; }
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 3rem 2rem 5rem;
+}
+.page-header { margin-bottom: 2.5rem; }
+.page-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0,201,167,0.08);
+  border: 1px solid rgba(0,201,167,0.15);
+  border-radius: 100px;
+  padding: 4px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #00c9a7;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.page-header h1 {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.page-header p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.4);
+}
+.quiz-card {
+  background: #0b1424;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 20px;
+  padding: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+/* Progress */
+.progress {
+  height: 2px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  margin-bottom: 2.5rem;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00c9a7, #00e5c7);
+  width: 0%;
+  transition: width .4s cubic-bezier(.4,0,.2,1);
+  box-shadow: 0 0 10px rgba(0,201,167,0.4);
+}
+/* Questions */
+.question { margin-bottom: 2rem; }
+.question label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 12px;
+}
+.options { display: flex; flex-wrap: wrap; gap: 8px; }
+.opt {
+  padding: 10px 20px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.55);
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.opt:hover {
+  border-color: rgba(0,201,167,0.4);
+  color: #fff;
+  background: rgba(0,201,167,0.06);
+}
+.opt.selected {
+  background: #00c9a7;
+  border-color: #00c9a7;
+  color: #000;
+  font-weight: 700;
+  box-shadow: 0 0 16px rgba(0,201,167,0.3);
+}
+/* CTA Button */
+.cta-btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 100px;
+  border: none;
+  background: #00c9a7;
+  color: #000;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .2s ease;
+  letter-spacing: 0.02em;
+  box-shadow: 0 0 24px rgba(0,201,167,0.25);
+}
+.cta-btn:hover:not(:disabled) {
+  background: #00e5c7;
+  box-shadow: 0 0 32px rgba(0,201,167,0.4);
+  transform: translateY(-1px);
+}
+.cta-btn:disabled { opacity: 0.2; cursor: not-allowed; box-shadow: none; transform: none; }
+/* Result */
+.result {
+  background: #0b1424;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 20px;
+  padding: 2.5rem;
+  display: none;
+  margin-bottom: 1.5rem;
+}
+.result.show { display: block; }
+.result-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #00c9a7;
+  margin-bottom: 12px;
+}
+.result-text {
+  font-size: 16px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+/* Action links */
+.action-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.action-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all .15s;
+  border: 1px solid rgba(0,201,167,0.2);
+  background: rgba(0,201,167,0.06);
+  color: #00c9a7;
+}
+.action-link:hover {
+  background: rgba(0,201,167,0.12);
+  border-color: rgba(0,201,167,0.4);
+}
+/* Lead form */
+.leadform h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.leadform .hint {
+  font-size: 13px;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 1.25rem;
+}
+.field { margin-bottom: 10px; }
+.field input {
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #fff;
+  transition: border-color .15s;
+}
+.field input::placeholder { color: rgba(255,255,255,0.25); }
+.field input:focus {
+  outline: none;
+  border-color: #00c9a7;
+  box-shadow: 0 0 0 3px rgba(0,201,167,0.08);
+}
+.confirm { display: none; text-align: center; padding: 1.5rem 0; }
+.confirm.show { display: block; }
+.confirm .check {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #00c9a7;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  font-size: 20px;
+  font-weight: 700;
+  box-shadow: 0 0 20px rgba(0,201,167,0.3);
+}
+.confirm p { color: rgba(255,255,255,0.5); font-size: 14px; }
+/* Loading */
+.loading { display: flex; gap: 6px; align-items: center; color: rgba(255,255,255,0.4); font-size: 14px; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: #00c9a7; animation: pulse 1.2s infinite ease-in-out; }
+.dot:nth-child(2) { animation-delay: .2s; }
+.dot:nth-child(3) { animation-delay: .4s; }
+@keyframes pulse { 0%,80%,100%{opacity:.2;transform:scale(.8)} 40%{opacity:1;transform:scale(1)} }
+/* Guides */
+.guides-section { margin-top: 2rem; }
+.guides-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+  margin-bottom: 1rem;
+}
+.guide-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.guide-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.02);
+  text-decoration: none;
+  transition: all .15s;
+}
+.guide-link:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.1);
+}
+.guide-link-title { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.6); }
+.guide-link-arrow { font-size: 13px; color: rgba(255,255,255,0.2); }
+@media (max-width: 768px) {
+  nav { padding: 1.25rem 1.5rem; }
+  .page { padding: 2rem 1.25rem 4rem; }
+  .quiz-card { padding: 1.5rem; }
+  .result { padding: 1.5rem; }
+  .guide-row { grid-template-columns: 1fr; }
+}
+</style>
 </head>
 <body>
-<div class="wrap">
+<div class="bg-glow"></div>
 
-  <header>
-  <a href="/" style="text-decoration:none;display:flex;align-items:center;">
-    <img src="/logo.png" alt="mydubaiguide.biz" style="height:100px;width:auto;">
-  </a>
-  </header>
+<nav>
+  <a href="/" class="wordmark">my<span class="teal">dubai</span>guide<span class="muted">.biz</span></a>
+  <div class="nav-right">
+    <a href="/property/" class="nav-link active">Property</a>
+    <a href="/business/" class="nav-link">Business</a>
+  </div>
+</nav>
 
-  <div class="hero">
-    <h1>Dubai property guide</h1>
-    <p>Everything you need to buy, invest, or get your Golden Visa through property in Dubai.</p>
+<div class="page">
+  <div class="page-header">
+    <div class="page-tag">🏠 Property match</div>
+    <h1>Find your ideal Dubai property</h1>
+    <p>Answer 6 questions · Get a personalised AI recommendation · Browse live Bayut listings</p>
   </div>
 
-  <div class="progress"><div class="progress-fill" id="progress-fill"></div></div>
-  <div id="quiz"></div>
-  <button class="cta" id="cta" disabled>Get my match</button>
+  <div class="quiz-card">
+    <div class="progress"><div class="progress-fill" id="progress-fill"></div></div>
+    <div id="quiz"></div>
+    <button class="cta-btn" id="cta" disabled>Get my match →</button>
+  </div>
 
   <div class="result" id="result">
-    <div class="eyebrow">Your match</div>
-    <div id="result-body"></div>
+    <div class="result-eyebrow">✦ Your match</div>
+    <div class="result-text" id="result-body"></div>
+    <div class="action-links" id="action-links"></div>
     <div class="leadform">
-      <h3>Request an introduction</h3>
-      <p class="hint">A specialist matched to your answers will follow up directly.</p>
+      <h3>Connect with a property specialist</h3>
+      <p class="hint">A Dubai property specialist will follow up with personalised advice.</p>
       <form id="lead-form">
         <div class="field"><input type="text" id="lf-name" placeholder="Full name" required></div>
-        <div class="field"><input type="email" id="lf-email" placeholder="Email" required></div>
+        <div class="field"><input type="email" id="lf-email" placeholder="Email address" required></div>
         <div class="field"><input type="tel" id="lf-phone" placeholder="Phone or WhatsApp" required></div>
-        <button type="submit" class="cta">Request introduction</button>
+        <button type="submit" class="cta-btn">Request introduction →</button>
       </form>
       <div class="confirm" id="confirm">
-        <div class="check">&#10003;</div>
-        <p id="confirm-text">Thanks — noted. A specialist will be in touch.</p>
+        <div class="check">✓</div>
+        <p id="confirm-text">Noted — a specialist will be in touch shortly.</p>
       </div>
     </div>
   </div>
 
-  <div style="margin-top:3rem;">
-    <h2 style="font-size:20px;margin-bottom:1rem;">Property guides</h2>
-    <div class="cards">
-      <a class="card" href="/property/guides/best-communities-under-2m/">
-        <h2>Best areas under AED 2 million</h2>
-        <p>JVC, Dubai South, Dubailand, Al Furjan and more — where your budget goes furthest</p>
+  <div class="guides-section">
+    <div class="guides-label">Property guides</div>
+    <div class="guide-row">
+      <a class="guide-link" href="/property/guides/best-communities-under-2m/">
+        <span class="guide-link-title">Best areas under AED 2 million</span>
+        <span class="guide-link-arrow">→</span>
       </a>
-      <a class="card" href="/property/guides/emaar-vs-damac-vs-sobha/">
-        <h2>Emaar vs Damac vs Sobha</h2>
-        <p>How to choose between Dubai's three biggest developers</p>
+      <a class="guide-link" href="/property/guides/emaar-vs-damac-vs-sobha/">
+        <span class="guide-link-title">Emaar vs Damac vs Sobha</span>
+        <span class="guide-link-arrow">→</span>
       </a>
-      <a class="card" href="/property/guides/off-plan-vs-ready/">
-        <h2>Off-plan vs ready property</h2>
-        <p>Which route fits your budget, timeline and risk appetite</p>
+      <a class="guide-link" href="/property/guides/off-plan-vs-ready/">
+        <span class="guide-link-title">Off-plan vs ready property</span>
+        <span class="guide-link-arrow">→</span>
       </a>
-      <a class="card" href="/property/guides/golden-visa-via-property/">
-        <h2>Golden Visa through property</h2>
-        <p>The AED 2M threshold, 2026 rule changes, and how to qualify</p>
+      <a class="guide-link" href="/property/guides/golden-visa-via-property/">
+        <span class="guide-link-title">Golden Visa through property</span>
+        <span class="guide-link-arrow">→</span>
       </a>
-      <a class="card" href="/property/guides/mortgage-eligibility-expats/">
-        <h2>Mortgage eligibility for expats</h2>
-        <p>LTV limits, down payments, and the true upfront cash you need</p>
+      <a class="guide-link" href="/property/guides/mortgage-eligibility-expats/">
+        <span class="guide-link-title">Mortgage eligibility for expats</span>
+        <span class="guide-link-arrow">→</span>
       </a>
     </div>
   </div>
-
-  <footer>
-    <p class="note"><a href="/">← Back to mydubaiguide.biz</a></p>
-  </footer>
-
 </div>
 
-<script src="/assets/quiz.js"></script>
 <script>
+function initQuiz(config) {
+  let answers = {};
+  let lastRecommendation = '';
+  const quizEl = document.getElementById('quiz');
+  const ctaEl = document.getElementById('cta');
+  const progressFill = document.getElementById('progress-fill');
+  const resultEl = document.getElementById('result');
+  const resultBody = document.getElementById('result-body');
+  const actionLinks = document.getElementById('action-links');
+  const leadForm = document.getElementById('lead-form');
+  const confirmEl = document.getElementById('confirm');
+
+  function renderQuiz() {
+    quizEl.innerHTML = '';
+    config.questions.forEach(q => {
+      const qDiv = document.createElement('div');
+      qDiv.className = 'question';
+      const label = document.createElement('label');
+      label.textContent = q.label + (q.multi ? ' — select all that apply' : '');
+      qDiv.appendChild(label);
+      const opts = document.createElement('div');
+      opts.className = 'options';
+      q.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'opt';
+        btn.type = 'button';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(q.id, opt, btn, qDiv, q.multi);
+        opts.appendChild(btn);
+      });
+      qDiv.appendChild(opts);
+      quizEl.appendChild(qDiv);
+    });
+    updateProgress();
+  }
+
+  function selectOption(qId, value, btn, qDiv, multi) {
+    if (multi) {
+      btn.classList.toggle('selected');
+      if (!Array.isArray(answers[qId])) answers[qId] = [];
+      if (answers[qId].includes(value)) answers[qId] = answers[qId].filter(v => v !== value);
+      else answers[qId].push(value);
+      if (answers[qId].length === 0) delete answers[qId];
+    } else {
+      qDiv.querySelectorAll('.opt').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      answers[qId] = value;
+    }
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const total = config.questions.length;
+    const done = Object.keys(answers).length;
+    progressFill.style.width = Math.round((done / total) * 100) + '%';
+    ctaEl.disabled = done < total;
+  }
+
+  function trackEvent(name, params) {
+    if (typeof gtag !== 'undefined') gtag('event', name, params);
+  }
+
+  ctaEl.addEventListener('click', async () => {
+    trackEvent('quiz_completed', { vertical: config.vertical, budget: answers.budget || '', type: answers.type || '', area: Array.isArray(answers.area) ? answers.area.join(', ') : (answers.area || '') });
+    ctaEl.disabled = true;
+    resultEl.classList.add('show');
+    resultBody.innerHTML = '<div class="loading"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span style="margin-left:4px">Finding your match</span></div>';
+    actionLinks.innerHTML = '';
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    try {
+      const response = await fetch('/api/match', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ vertical: config.vertical, answers })
+      });
+      const data = await response.json();
+      lastRecommendation = data.recommendation || 'Could not generate a match right now.';
+      resultBody.innerHTML = lastRecommendation;
+
+      actionLinks.innerHTML = '';
+      if (data.bayutListingsUrl) {
+        actionLinks.innerHTML += `<a href="${data.bayutListingsUrl}" target="_blank" rel="noopener" class="action-link">Browse matching listings on Bayut →</a>`;
+      }
+      if (data.bayutInsightsUrl) {
+        actionLinks.innerHTML += `<a href="${data.bayutInsightsUrl}" target="_blank" rel="noopener" class="action-link">Area transaction data (DLD) →</a>`;
+      }
+      actionLinks.innerHTML += `<a href="/property/guides/mortgage-eligibility-expats/" class="action-link">Mortgage guide →</a>`;
+
+    } catch (e) {
+      lastRecommendation = 'Could not reach the matching engine — try again.';
+      resultBody.innerHTML = lastRecommendation;
+    }
+    ctaEl.disabled = false;
+  });
+
+  leadForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const name = document.getElementById('lf-name').value.trim();
+    const email = document.getElementById('lf-email').value.trim();
+    const phone = document.getElementById('lf-phone').value.trim();
+    if (!name || !email || !phone) return;
+    trackEvent('lead_submitted', { vertical: config.vertical, budget: answers.budget || '' });
+    try {
+      await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ vertical: config.vertical, answers, recommendation: lastRecommendation, contact: { name, email, phone }, submittedAt: new Date().toISOString() })
+      });
+    } catch (e) {}
+    leadForm.style.display = 'none';
+    document.getElementById('confirm-text').textContent = `Thanks, ${name.split(' ')[0]} — a specialist will be in touch shortly.`;
+    confirmEl.classList.add('show');
+  });
+
+  renderQuiz();
+}
+
 initQuiz({
   vertical: 'property',
   questions: [
@@ -98,7 +520,7 @@ initQuiz({
     { id:'type', label:'What type?', options:['Apartment','Villa or townhouse','Either'] },
     { id:'completion', label:'Off-plan or ready to move in?', options:['Off-plan','Ready to move in','Either'] },
     { id:'area', label:'Preferred area?', multi:true, options:['Downtown or Business Bay','Dubai Marina or JBR','Dubai Hills or Arabian Ranches','JVC or Dubai South','Dubailand','Jebel Ali','Al Furjan','No preference'] },
-    { id:'priority', label:'What matters most?', options:['Lowest price','Rental yield','Good schools nearby','Golden visa eligibility','Beach or waterfront',] }
+    { id:'priority', label:'What matters most?', options:['Lowest price','Rental yield','Good schools nearby','Golden visa eligibility','Beach or waterfront'] }
   ]
 });
 </script>
