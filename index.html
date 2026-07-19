@@ -17,280 +17,469 @@
 </script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
   font-family: 'Inter', -apple-system, sans-serif;
-  background: #070e1a;
-  min-height: 100vh;
-  overflow-x: hidden;
+  background: #060d18;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
-.bg {
-  position: fixed;
+
+/* ── HERO SECTION ── */
+.hero-section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/skyline-bg.jpg');
+  background-size: cover;
+  background-position: center center;
+  z-index: 0;
+}
+
+.hero-bg-overlay {
+  position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0,40,80,0.8) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(0,201,167,0.05) 0%, transparent 50%),
-    #070e1a;
-  z-index: 0;
-}
-.grid {
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-  background-size: 60px 60px;
-  z-index: 0;
-}
-.page {
-  position: relative;
+    linear-gradient(180deg,
+      rgba(6,13,24,0.85) 0%,
+      rgba(6,13,24,0.5) 35%,
+      rgba(6,13,24,0.6) 65%,
+      rgba(6,13,24,0.95) 100%
+    );
   z-index: 1;
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 0 1.5rem 5rem;
 }
+
+/* ── NAV ── */
 nav {
+  position: relative;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.5rem 0 2.5rem;
+  padding: 1.75rem 4rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
 }
+
 .wordmark {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 800;
   color: #fff;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   text-decoration: none;
 }
-.wordmark span { color: #00c9a7; }
-.wordmark small { color: rgba(255,255,255,0.3); font-weight: 700; }
-.free-badge {
+.wordmark .teal { color: #00c9a7; }
+.wordmark .muted { color: rgba(255,255,255,0.35); }
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.nav-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  transition: color .15s;
+}
+.nav-link:hover { color: #fff; }
+.nav-free {
   background: rgba(0,201,167,0.1);
   border: 1px solid rgba(0,201,167,0.25);
   border-radius: 100px;
-  padding: 6px 16px;
+  padding: 7px 18px;
   font-size: 12px;
   font-weight: 700;
   color: #00c9a7;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-.hero { margin-bottom: 1.75rem; }
-.hero h1 {
-  font-size: clamp(32px, 6vw, 46px);
+
+/* ── HERO CONTENT ── */
+.hero-content {
+  position: relative;
+  z-index: 5;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5rem 2rem 3rem;
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0,201,167,0.08);
+  border: 1px solid rgba(0,201,167,0.2);
+  border-radius: 100px;
+  padding: 6px 18px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #00c9a7;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 1.75rem;
+}
+.hero-tag-dot {
+  width: 5px;
+  height: 5px;
+  background: #00c9a7;
+  border-radius: 50%;
+  animation: blink 2s infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+.hero-h1 {
+  font-size: clamp(42px, 5vw, 72px);
   font-weight: 800;
-  line-height: 1.08;
+  line-height: 1.07;
   letter-spacing: -0.03em;
   color: #fff;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  max-width: 900px;
 }
-.hero h1 .accent {
+.hero-h1 .accent {
   background: linear-gradient(135deg, #00c9a7, #00e5c7);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
 .hero-sub {
-  font-size: 15px;
-  color: rgba(255,255,255,0.45);
-  line-height: 1.65;
-  max-width: 480px;
-  margin-bottom: .6rem;
+  font-size: 18px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.6;
+  max-width: 560px;
+  margin-bottom: .75rem;
 }
 .hero-cta-line {
-  font-size: 13px;
+  font-size: 14px;
   color: rgba(0,201,167,0.75);
   font-weight: 600;
+  margin-bottom: 3rem;
 }
-.skyline-strip {
-  border-radius: 16px;
-  overflow: hidden;
-  margin-bottom: 1.25rem;
-  border: 1px solid rgba(255,255,255,0.07);
-  position: relative;
-  height: 120px;
-}
-.skyline-strip img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 60%;
-  display: block;
-}
-.skyline-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(7,14,26,0.75) 0%,
-    rgba(7,14,26,0.4) 30%,
-    rgba(7,14,26,0.4) 70%,
-    rgba(7,14,26,0.75) 100%
-  );
-}
-.skyline-bottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 40px;
-  background: linear-gradient(transparent, #070e1a);
-}
-.stats-row {
-  position: absolute;
-  inset: 0;
+
+/* ── STATS BAR ── */
+.stats-bar {
   display: flex;
   align-items: center;
-  padding: 0 1.5rem;
+  justify-content: center;
+  gap: 0;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 620px;
 }
-.stat-item { flex: 1; text-align: center; }
-.stat-divider {
-  width: 1px;
-  height: 32px;
-  background: rgba(255,255,255,0.1);
-  flex-shrink: 0;
+.stat-block {
+  flex: 1;
+  padding: 1.1rem 1.5rem;
+  text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.06);
 }
+.stat-block:last-child { border-right: none; }
 .stat-num {
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 800;
   color: #fff;
   letter-spacing: -0.02em;
 }
 .stat-num span { color: #00c9a7; }
 .stat-lbl {
-  font-size: 10px;
-  color: rgba(255,255,255,0.38);
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
   margin-top: 2px;
   font-weight: 500;
 }
-.choices { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
-.choice-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.25rem 1.35rem;
-  border-radius: 14px;
-  background: rgba(7,14,26,0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  text-decoration: none;
-  transition: transform .18s ease, box-shadow .18s ease;
+
+/* ── CARDS SECTION ── */
+.cards-section {
+  background: #060d18;
+  padding: 4rem;
+  position: relative;
+  z-index: 5;
 }
-.choice-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 36px rgba(0,0,0,0.4);
-}
-.choice-card.property { border: 1px solid rgba(0,201,167,0.15); }
-.choice-card.business { border: 1px solid rgba(79,126,248,0.15); }
-.choice-tag {
-  font-size: 10px;
+
+.cards-label {
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  margin-bottom: 5px;
+  color: rgba(255,255,255,0.25);
+  text-align: center;
+  margin-bottom: 2rem;
 }
-.property .choice-tag { color: #00c9a7; }
-.business .choice-tag { color: #4f7ef8; }
-.choice-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 3px; }
-.choice-desc { font-size: 12px; color: rgba(255,255,255,0.35); }
-.choice-arrow {
-  width: 32px;
-  height: 32px;
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  max-width: 1100px;
+  margin: 0 auto 1rem;
+}
+
+.card-main {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 2rem 1.75rem;
+  border-radius: 18px;
+  background: #0d1826;
+  text-decoration: none;
+  transition: transform .2s ease, box-shadow .2s ease;
+  position: relative;
+  overflow: hidden;
+  min-height: 200px;
+}
+.card-main::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .2s;
+  border-radius: 18px;
+}
+.card-main.property {
+  border: 1px solid rgba(0,201,167,0.15);
+}
+.card-main.property::before {
+  background: linear-gradient(135deg, rgba(0,201,167,0.05), transparent);
+}
+.card-main.business {
+  border: 1px solid rgba(79,126,248,0.15);
+}
+.card-main.business::before {
+  background: linear-gradient(135deg, rgba(79,126,248,0.05), transparent);
+}
+.card-main:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+}
+.card-main:hover::before { opacity: 1; }
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: auto;
+}
+.card-tag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: .75rem;
+}
+.property .card-tag { color: #00c9a7; }
+.business .card-tag { color: #4f7ef8; }
+
+.card-arrow {
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  font-size: 16px;
   flex-shrink: 0;
-  margin-left: 14px;
-  transition: transform .18s;
+  transition: transform .2s;
 }
-.choice-card:hover .choice-arrow { transform: translateX(3px); }
-.property .choice-arrow { background: rgba(0,201,167,0.1); color: #00c9a7; }
-.business .choice-arrow { background: rgba(79,126,248,0.1); color: #4f7ef8; }
-.coming-soon { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 2rem; }
+.card-main:hover .card-arrow { transform: translate(3px, -3px); }
+.property .card-arrow { background: rgba(0,201,167,0.1); color: #00c9a7; }
+.business .card-arrow { background: rgba(79,126,248,0.1); color: #4f7ef8; }
+
+.card-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.02em;
+  margin-bottom: .5rem;
+  line-height: 1.2;
+}
+.card-desc {
+  font-size: 13px;
+  color: rgba(255,255,255,0.35);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.card-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.pill {
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.property .pill {
+  background: rgba(0,201,167,0.08);
+  color: rgba(0,201,167,0.7);
+  border: 1px solid rgba(0,201,167,0.12);
+}
+.business .pill {
+  background: rgba(79,126,248,0.08);
+  color: rgba(79,126,248,0.7);
+  border: 1px solid rgba(79,126,248,0.12);
+}
+
+/* Coming soon row */
+.cs-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  max-width: 1100px;
+  margin: 0 auto 3rem;
+}
 .cs-card {
-  padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.04);
-  background: rgba(255,255,255,0.015);
+  padding: 1.25rem 1.5rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.02);
   opacity: 0.35;
 }
 .cs-label {
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: rgba(255,255,255,0.2);
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 }
-.cs-title { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.4); }
-.bottom { text-align: center; }
-.bottom span { font-size: 11px; color: rgba(255,255,255,0.18); font-weight: 500; }
+.cs-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.4);
+}
+
+.footer-line {
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255,255,255,0.15);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  padding-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  nav { padding: 1.25rem 1.5rem; }
+  .hero-h1 { font-size: 36px; }
+  .hero-sub { font-size: 15px; }
+  .cards-section { padding: 2.5rem 1.5rem; }
+  .cards-grid { grid-template-columns: 1fr; }
+  .cs-row { grid-template-columns: 1fr 1fr; gap: .5rem; }
+  .card-title { font-size: 18px; }
+  .stat-num { font-size: 15px; }
+}
 </style>
 </head>
 <body>
 
-<div class="bg"></div>
-<div class="grid"></div>
+<!-- HERO SECTION with full skyline background -->
+<section class="hero-section">
+  <div class="hero-bg"></div>
+  <div class="hero-bg-overlay"></div>
 
-<div class="page">
   <nav>
-    <a href="/" class="wordmark">my<span>dubai</span>guide<small>.biz</small></a>
-    <div class="free-badge">Free</div>
+    <a href="/" class="wordmark">my<span class="teal">dubai</span>guide<span class="muted">.biz</span></a>
+    <div class="nav-right">
+      <a href="/property/" class="nav-link">Property</a>
+      <a href="/business/" class="nav-link">Business</a>
+      <div class="nav-free">Free</div>
+    </div>
   </nav>
 
-  <div class="hero">
-    <h1>Stop spending weeks<br>researching Dubai.<br><span class="accent">Get your answer in 2 min.</span></h1>
+  <div class="hero-content">
+    <div class="hero-tag">
+      <div class="hero-tag-dot"></div>
+      AI-powered · No sign-up needed
+    </div>
+
+    <h1 class="hero-h1">
+      Stop spending weeks<br>researching Dubai.<br>
+      <span class="accent">Get your answer in 2 minutes.</span>
+    </h1>
+
     <p class="hero-sub">Property areas, business costs, visa rules — we've done the research. Answer a few questions and get your personalised match.</p>
     <p class="hero-cta-line">→ Direct links to listings, application forms and more</p>
-  </div>
 
-  <div class="skyline-strip">
-    <img src="/skyline-bg.jpg" alt="Dubai skyline">
-    <div class="skyline-overlay"></div>
-    <div class="skyline-bottom"></div>
-    <div class="stats-row">
-      <div class="stat-item">
+    <div class="stats-bar">
+      <div class="stat-block">
         <div class="stat-num">Weeks → <span>2 min</span></div>
         <div class="stat-lbl">Research time saved</div>
       </div>
-      <div class="stat-divider"></div>
-      <div class="stat-item">
+      <div class="stat-block">
         <div class="stat-num">Live <span>data</span></div>
         <div class="stat-lbl">Bayut + DLD linked</div>
       </div>
-      <div class="stat-divider"></div>
-      <div class="stat-item">
+      <div class="stat-block">
         <div class="stat-num">13<span>+</span></div>
         <div class="stat-lbl">Expert guides</div>
       </div>
+      <div class="stat-block">
+        <div class="stat-num">100<span>%</span></div>
+        <div class="stat-lbl">Free to use</div>
+      </div>
     </div>
   </div>
+</section>
 
-  <div class="choices">
-    <a class="choice-card property" href="/property/">
-      <div>
-        <div class="choice-tag">🏠 Property</div>
-        <div class="choice-title">Find the right area to buy</div>
-        <div class="choice-desc">Compare communities · Live Bayut listings · DLD transaction data</div>
+<!-- CARDS SECTION -->
+<section class="cards-section">
+  <p class="cards-label">What do you need help with?</p>
+
+  <div class="cards-grid">
+    <a class="card-main property" href="/property/">
+      <div class="card-top">
+        <div>
+          <div class="card-tag">🏠 Property</div>
+          <div class="card-title">Find the right<br>area to buy</div>
+        </div>
+        <div class="card-arrow">→</div>
       </div>
-      <div class="choice-arrow">→</div>
+      <div class="card-desc">Compare communities, check what units actually sold for on DLD, and browse live listings on Bayut — all matched to your budget and goals.</div>
+      <div class="card-pills">
+        <span class="pill">Compare communities</span>
+        <span class="pill">Live Bayut listings</span>
+        <span class="pill">DLD transaction data</span>
+        <span class="pill">Golden Visa</span>
+      </div>
     </a>
-    <a class="choice-card business" href="/business/">
-      <div>
-        <div class="choice-tag">💼 Business</div>
-        <div class="choice-title">Find the right setup for your business</div>
-        <div class="choice-desc">Free zone vs mainland · 2026 costs · License application links</div>
+
+    <a class="card-main business" href="/business/">
+      <div class="card-top">
+        <div>
+          <div class="card-tag">💼 Business</div>
+          <div class="card-title">Find the right<br>setup for your business</div>
+        </div>
+        <div class="card-arrow">→</div>
       </div>
-      <div class="choice-arrow">→</div>
+      <div class="card-desc">Free zone or mainland? We'll tell you exactly which structure fits your business, what it costs in 2026, and link you to the right application.</div>
+      <div class="card-pills">
+        <span class="pill">Free zone vs mainland</span>
+        <span class="pill">Real 2026 costs</span>
+        <span class="pill">Visa options</span>
+        <span class="pill">License links</span>
+      </div>
     </a>
   </div>
 
-  <div class="coming-soon">
+  <div class="cs-row">
     <div class="cs-card">
       <div class="cs-label">Coming soon</div>
-      <div class="cs-title">Find a job</div>
+      <div class="cs-title">Find a job in Dubai</div>
     </div>
     <div class="cs-card">
       <div class="cs-label">Coming soon</div>
@@ -298,8 +487,8 @@ nav {
     </div>
   </div>
 
-  <div class="bottom"><span>• Powered by AI •</span></div>
-</div>
+  <p class="footer-line">• Powered by AI •</p>
+</section>
 
 </body>
 </html>
