@@ -374,14 +374,64 @@ nav {
 }
 
 @media (max-width: 768px) {
-  nav { padding: 1.25rem 1.5rem; }
-  .hero-h1 { font-size: 36px; }
-  .hero-sub { font-size: 15px; }
-  .cards-section { padding: 2.5rem 1.5rem; }
-  .cards-grid { grid-template-columns: 1fr; }
-  .cs-row { grid-template-columns: 1fr 1fr; gap: .5rem; }
-  .card-title { font-size: 18px; }
-  .stat-num { font-size: 15px; }
+  nav {
+    padding: 1.25rem 1.5rem;
+  }
+  .nav-right .nav-link {
+    display: none;
+  }
+  .hero-content {
+    padding: 3rem 1.5rem 2rem;
+  }
+  .hero-h1 {
+    font-size: 32px;
+  }
+  .hero-sub {
+    font-size: 14px;
+    max-width: 100%;
+  }
+  .hero-cta-line {
+    font-size: 12px;
+  }
+  .stats-bar {
+    flex-wrap: wrap;
+    max-width: 100%;
+  }
+  .stat-block {
+    flex: 1 1 45%;
+    padding: .875rem 1rem;
+  }
+  .stat-block:nth-child(2) {
+    border-right: none;
+  }
+  .stat-num {
+    font-size: 14px;
+  }
+  .cards-section {
+    padding: 2.5rem 1.25rem;
+  }
+  .cards-grid {
+    grid-template-columns: 1fr;
+    gap: .75rem;
+  }
+  .card-main {
+    padding: 1.5rem;
+    min-height: unset;
+  }
+  .card-title {
+    font-size: 18px;
+  }
+  .card-desc {
+    font-size: 13px;
+    margin-bottom: 1rem;
+  }
+  .cs-row {
+    grid-template-columns: 1fr 1fr;
+    gap: .5rem;
+  }
+  .cs-card {
+    padding: 1rem;
+  }
 }
 </style>
 </head>
