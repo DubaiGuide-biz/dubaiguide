@@ -3,13 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>dubaiguide.biz — your AI guide to Dubai</title>
+<title>mydubaiguide.biz — Your AI guide to Dubai</title>
+<meta name="description" content="Stop spending weeks researching Dubai. Get a personalised property or business match in 2 minutes — with live listings and direct action links.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/styles.css">
- 
-  <!-- Google tag (gtag.js) -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-H2C79G3W9F"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -17,41 +16,320 @@
   gtag('js', new Date());
   gtag('config', 'G-H2C79G3W9F');
 </script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  background: #080c14;
+}
+
+/* Background image with overlay */
+.bg {
+  position: fixed;
+  inset: 0;
+  background-image: url('/skyline-bg.jpg');
+  background-size: cover;
+  background-position: center 30%;
+  z-index: 0;
+}
+.bg-overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(8,12,20,0.70) 0%,
+    rgba(8,12,20,0.55) 30%,
+    rgba(8,12,20,0.80) 65%,
+    rgba(8,12,20,0.97) 100%
+  );
+  z-index: 1;
+}
+
+.page {
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 1.5rem 5rem;
+}
+
+/* Nav */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 0 2.5rem;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+.nav-logo img {
+  height: 36px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
+}
+.nav-free {
+  background: rgba(0,201,167,0.1);
+  border: 1px solid rgba(0,201,167,0.22);
+  border-radius: 100px;
+  padding: 5px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #00c9a7;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.hero h1 {
+  font-size: clamp(32px, 6vw, 46px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+.hero h1 .accent {
+  background: linear-gradient(135deg, #00c9a7, #00e5c7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub {
+  font-size: 15px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.65;
+  max-width: 420px;
+  margin: 0 auto .75rem;
+}
+.hero-cta-line {
+  font-size: 13px;
+  color: rgba(0,201,167,0.75);
+  font-weight: 500;
+}
+
+/* Stats strip */
+.stats {
+  display: flex;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.02);
+}
+.stat {
+  flex: 1;
+  padding: 13px 8px;
+  text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.05);
+}
+.stat:last-child { border-right: none; }
+.stat-num {
+  font-size: 17px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+.stat-num span { color: #00c9a7; }
+.stat-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.27);
+  margin-top: 2px;
+  font-weight: 500;
+}
+
+/* Choice cards */
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.choice-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.35rem;
+  border-radius: 14px;
+  background: rgba(8,14,24,0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  text-decoration: none;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.choice-card.property {
+  border: 1px solid rgba(0,201,167,0.15);
+}
+.choice-card.business {
+  border: 1px solid rgba(79,126,248,0.15);
+}
+.choice-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+.choice-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.choice-card.property .choice-tag { color: #00c9a7; }
+.choice-card.business .choice-tag { color: #4f7ef8; }
+.choice-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 3px;
+}
+.choice-desc {
+  font-size: 12px;
+  color: rgba(255,255,255,0.35);
+}
+.choice-arrow {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-left: 12px;
+  transition: transform .2s;
+}
+.choice-card:hover .choice-arrow { transform: translateX(3px); }
+.choice-card.property .choice-arrow { background: rgba(0,201,167,0.1); color: #00c9a7; }
+.choice-card.business .choice-arrow { background: rgba(79,126,248,0.1); color: #4f7ef8; }
+
+/* Coming soon */
+.coming-soon {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 2rem;
+}
+.cs-card {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.015);
+  opacity: 0.35;
+}
+.cs-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+  margin-bottom: 3px;
+}
+.cs-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.4);
+}
+
+/* Footer line */
+.bottom-badge {
+  text-align: center;
+}
+.bottom-badge span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.18);
+  font-weight: 500;
+}
+.dot { width: 3px; height: 3px; background: #00c9a7; border-radius: 50%; }
+</style>
 </head>
 <body>
-<div class="wrap">
 
-  <header>
-  <a href="/" style="text-decoration:none;display:flex;align-items:center;">
-    <img src="/logo.png" alt="mydubaiguide.biz" style="height:100px;width:auto;">
-  </a>
-  </header>
+<div class="bg"></div>
+<div class="bg-overlay"></div>
+
+<div class="page">
+  <nav>
+    <a href="/" class="nav-logo">
+      <img src="/logo.png" alt="mydubaiguide.biz">
+    </a>
+    <div class="nav-free">Free</div>
+  </nav>
 
   <div class="hero">
-    <h1>Your AI guide to Dubai</h1>
-    <p>Tell us what you need and get matched with the right specialist in minutes.</p>
+    <h1>Stop spending weeks<br>researching Dubai.<br><span class="accent">Get your answer in 2 minutes.</span></h1>
+    <p class="hero-sub">Property areas, business costs, visa rules — we've done the research. Answer a few questions and get a personalised match.</p>
+    <p class="hero-cta-line">Don't stop at research — get direct links to listings, application forms and more.</p>
   </div>
 
-  <div class="cards">
-    <a class="card" href="/property/">
-      <h2>Buy or invest in property</h2>
-      <p>Areas, budget, golden visa eligibility</p>
-    </a>
-    <a class="card" href="/business/">
-      <h2>Start a business</h2>
-      <p>Free zone vs mainland, cost, visas</p>
-    </a>
-    <div class="card soon">
-      <h2>Find a job</h2>
-      <p>Coming soon</p>
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">Weeks → <span>2 min</span></div>
+      <div class="stat-label">Research time saved</div>
     </div>
-    <div class="card soon">
-      <h2>Sports &amp; activities</h2>
-      <p>Coming soon</p>
+    <div class="stat">
+      <div class="stat-num">Live <span>data</span></div>
+      <div class="stat-label">Bayut + DLD linked</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">13<span>+</span></div>
+      <div class="stat-label">Expert guides</div>
     </div>
   </div>
 
+  <div class="choices">
+    <a class="choice-card property" href="/property/">
+      <div>
+        <div class="choice-tag">🏠 Property</div>
+        <div class="choice-title">Find the right area to buy</div>
+        <div class="choice-desc">Compare communities · Live Bayut listings · DLD transaction data</div>
+      </div>
+      <div class="choice-arrow">→</div>
+    </a>
+
+    <a class="choice-card business" href="/business/">
+      <div>
+        <div class="choice-tag">💼 Business</div>
+        <div class="choice-title">Find the right setup for your business</div>
+        <div class="choice-desc">Free zone vs mainland · 2026 costs · License application links</div>
+      </div>
+      <div class="choice-arrow">→</div>
+    </a>
+  </div>
+
+  <div class="coming-soon">
+    <div class="cs-card">
+      <div class="cs-label">Coming soon</div>
+      <div class="cs-title">Find a job</div>
+    </div>
+    <div class="cs-card">
+      <div class="cs-label">Coming soon</div>
+      <div class="cs-title">Sports &amp; activities</div>
+    </div>
+  </div>
+
+  <div class="bottom-badge">
+    <span>
+      <div class="dot"></div>
+      Powered by AI
+      <div class="dot"></div>
+    </span>
+  </div>
 </div>
+
 </body>
 </html>
