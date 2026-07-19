@@ -9,28 +9,29 @@ export default async function handler(req, res) {
 
     const today = new Date().toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
 
+    // ── PROPERTY MAPS ──────────────────────────────────────────────
     const areaSlugMap = {
-      'Downtown Dubai':        { listing: 'downtown-dubai',                   transactions: 'downtown-dubai' },
-      'Business Bay':          { listing: 'business-bay',                     transactions: 'business-bay' },
-      'Dubai Marina':          { listing: 'dubai-marina',                     transactions: 'dubai-marina' },
-      'JBR':                   { listing: 'jumeirah-beach-residence-jbr',     transactions: 'jumeirah-beach-residence-jbr' },
-      'Dubai Hills Estate':    { listing: 'dubai-hills-estate',               transactions: 'dubai-hills-estate' },
-      'Arabian Ranches':       { listing: 'arabian-ranches',                  transactions: 'arabian-ranches' },
-      'JVC':                   { listing: 'jumeirah-village-circle',          transactions: 'jumeirah-village-circle' },
-      'Dubai South':           { listing: 'dubai-south',                      transactions: 'dubai-south' },
-      'Dubailand':             { listing: 'dubailand',                        transactions: 'dubailand' },
-      'Jebel Ali':             { listing: 'jebel-ali',                        transactions: 'jebel-ali' },
-      'Al Furjan':             { listing: 'al-furjan',                        transactions: 'al-furjan' },
-      'Town Square':           { listing: 'town-square',                      transactions: 'town-square' },
-      'Mudon':                 { listing: 'mudon',                            transactions: 'mudon' },
-      'Dubai Creek Harbour':   { listing: 'dubai-creek-harbour',              transactions: 'dubai-creek-harbour' },
+      'Downtown Dubai':      { listing: 'downtown-dubai',              tx: 'downtown-dubai' },
+      'Business Bay':        { listing: 'business-bay',                tx: 'business-bay' },
+      'Dubai Marina':        { listing: 'dubai-marina',                tx: 'dubai-marina' },
+      'JBR':                 { listing: 'jumeirah-beach-residence-jbr', tx: 'jumeirah-beach-residence-jbr' },
+      'Dubai Hills Estate':  { listing: 'dubai-hills-estate',          tx: 'dubai-hills-estate' },
+      'Arabian Ranches':     { listing: 'arabian-ranches',             tx: 'arabian-ranches' },
+      'JVC':                 { listing: 'jumeirah-village-circle',     tx: 'jumeirah-village-circle' },
+      'Dubai South':         { listing: 'dubai-south',                 tx: 'dubai-south' },
+      'Dubailand':           { listing: 'dubailand',                   tx: 'dubailand' },
+      'Jebel Ali':           { listing: 'jebel-ali',                   tx: 'jebel-ali' },
+      'Al Furjan':           { listing: 'al-furjan',                   tx: 'al-furjan' },
+      'Town Square':         { listing: 'town-square',                 tx: 'town-square' },
+      'Mudon':               { listing: 'mudon',                       tx: 'mudon' },
+      'Dubai Creek Harbour': { listing: 'dubai-creek-harbour',         tx: 'dubai-creek-harbour' },
     };
 
     const budgetMap = {
-      'Under AED 1M':  { min: 0,        max: 1000000  },
-      'AED 1–2M':      { min: 1000000,  max: 2000000  },
-      'AED 2–5M':      { min: 2000000,  max: 5000000  },
-      'AED 5M+':       { min: 5000000,  max: 30000000 }
+      'Under AED 1M': { min: 0,       max: 1000000  },
+      'AED 1–2M':     { min: 1000000, max: 2000000  },
+      'AED 2–5M':     { min: 2000000, max: 5000000  },
+      'AED 5M+':      { min: 5000000, max: 30000000 }
     };
 
     const typeSlugMap = {
@@ -39,42 +40,65 @@ export default async function handler(req, res) {
       'Either':             'property'
     };
 
+    // ── BUSINESS MAPS ──────────────────────────────────────────────
+    const freeZoneLinkMap = {
+      'IFZA':                  { name: 'IFZA', url: 'https://ifza.com/en/apply-now' },
+      'Meydan':                { name: 'Meydan Free Zone', url: 'https://meydanfz.ae/register' },
+      'Dubai South':           { name: 'Dubai South Free Zone', url: 'https://www.dubaisouth.ae/en/business/free-zone' },
+      'DMCC':                  { name: 'DMCC', url: 'https://www.dmcc.ae/join-dmcc' },
+      'Dubai Internet City':   { name: 'Dubai Internet City', url: 'https://www.dubaiinternetcity.com/start-your-business' },
+      'Dubai Silicon Oasis':   { name: 'Dubai Silicon Oasis', url: 'https://www.dsoa.ae/setting-up/' },
+      'SHAMS':                 { name: 'SHAMS (Sharjah)', url: 'https://www.shams.ae/start-a-business/' },
+      'RAKEZ':                 { name: 'RAKEZ', url: 'https://rakez.com/en/start-a-business' },
+      'Ajman Free Zone':       { name: 'Ajman Free Zone', url: 'https://www.afza.ae/starting-a-business' },
+      'Dubai CommerCity':      { name: 'Dubai CommerCity', url: 'https://www.dubaicommercity.ae/setup' },
+      'Dubai Airport Free Zone': { name: 'DAFZA', url: 'https://www.dafza.gov.ae/en/setting-up/' },
+      'Mainland':              { name: 'Dubai Mainland (DET)', url: 'https://www.invest.dubai.ae/en/setting-up' },
+    };
+
     const areaOptions = Object.keys(areaSlugMap).join(', ');
+    const freeZoneOptions = Object.keys(freeZoneLinkMap).join(', ');
 
     let prompt;
 
     if (vertical === 'property') {
       prompt = `You are a Dubai property expert. Today is ${today}. A buyer completed a quiz: ${JSON.stringify(answers)}.
 
-Current Dubai market reality — use this to validate their answers before responding:
-- Villas/townhouses minimum realistic budget: AED 1.8M (cheapest in JVC, Town Square, Dubai South). Under AED 1M — zero villas exist.
-- Villas AED 1–2M: very limited — Town Square 3-bed townhouse only realistic option, or JVC 2-bed townhouse.
+Current Dubai market reality:
+- Villas/townhouses minimum realistic budget: AED 1.8M. Under AED 1M — zero villas exist.
+- Villas AED 1–2M: very limited — Town Square 3-bed townhouse or JVC 2-bed townhouse only.
 - Villas AED 2–5M: Dubai Hills Estate, Arabian Ranches, Dubailand, Al Furjan, Mudon, Town Square.
-- Villas AED 5M+: Palm Jumeirah, Emirates Hills, Arabian Ranches 2, Dubai Hills Estate premium.
-- Apartments under AED 1M: JVC, Dubai South, Dubailand, International City only.
-- Apartments AED 1–2M: JVC, Dubai South, Al Furjan, Business Bay, Dubai Marina possible.
-- Apartments AED 2–5M: Dubai Marina, Downtown Dubai, Business Bay, Dubai Hills Estate, Palm Jumeirah.
+- Apartments under AED 1M: JVC, Dubai South, Dubailand only.
+- Apartments AED 1–2M: JVC, Dubai South, Al Furjan, Business Bay, Dubai Marina.
 - Business Bay, Downtown Dubai, Dubai Marina — apartments ONLY, no villas.
-- Off-plan: typically 10–20% cheaper than ready but requires 2–4 year wait.
+- If budget/type mismatch: say so directly and give realistic minimum needed.
+- If area has no matching property type: say so and suggest 2 correct areas.
 
-Validation rules:
-1. If their budget cannot buy their chosen property type anywhere in Dubai, say so directly, give the realistic minimum needed, and suggest the closest alternative that fits their budget.
-2. If their selected area has no properties matching their type (e.g. villas in Business Bay), say so and suggest 2 areas that do match.
-3. If budget and type are realistic, give a sharp 2-sentence recommendation referencing H2 2026 market conditions.
-4. Never invent properties that do not exist. Be honest even if the answer is that their budget needs to increase.
-
-Respond ONLY with a valid JSON object. No backticks, no markdown, no explanation outside the JSON:
+Respond ONLY with valid JSON, no backticks, no markdown:
 {
-  "recommendation": "2 sentences max. Direct and honest. If mismatch — say what the real minimum budget is and suggest alternatives. If realistic — give sharp H2 2026 market advice.",
-  "area": "Pick the single best matching area from this exact list: ${areaOptions}"
+  "recommendation": "2 sentences max. Honest, direct, expert. Reference H2 2026 market conditions.",
+  "area": "Pick ONE from: ${areaOptions}"
 }`;
 
     } else {
       prompt = `You are a Dubai business setup expert. Today is ${today}. Someone completed a quiz: ${JSON.stringify(answers)}.
 
-Respond ONLY with a valid JSON object. No backticks, no markdown, no explanation outside the JSON:
+Available free zones and mainland options: ${freeZoneOptions}
+
+Match their answers to the best option. Consider:
+- Consultancy/services with low budget → IFZA or Meydan (AED 12,500–13,000)
+- Tech startups → Dubai Internet City or Dubai Silicon Oasis
+- E-commerce → Dubai CommerCity or IFZA
+- Trading → DMCC or RAKEZ
+- Restaurant/F&B → Mainland (DET) — must be mainland
+- Mainland market access needed → Mainland (DET)
+- Lowest cost (okay with non-Dubai address) → SHAMS or RAKEZ
+- Multiple shareholders/larger setup → DMCC
+
+Respond ONLY with valid JSON, no backticks, no markdown:
 {
-  "recommendation": "2 sentences max. Name the specific free zone or mainland route. Include one real ${today} cost figure. Direct and honest."
+  "recommendation": "2 sentences max. Name the specific setup. Include one real ${today} cost figure. Direct and honest.",
+  "setup": "Pick ONE from: ${freeZoneOptions}"
 }`;
     }
 
@@ -93,7 +117,7 @@ Respond ONLY with a valid JSON object. No backticks, no markdown, no explanation
     });
 
     const data = await response.json();
-    const textBlock = (data.content || []).find((b) => b.type === 'text');
+    const textBlock = (data.content || []).find(b => b.type === 'text');
     const rawText = textBlock ? textBlock.text.trim() : '{}';
 
     let parsed = {};
@@ -101,38 +125,46 @@ Respond ONLY with a valid JSON object. No backticks, no markdown, no explanation
       const clean = rawText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
       parsed = JSON.parse(clean);
     } catch (e) {
-      parsed = {
-        recommendation: rawText
-          .replace(/```json\n?/g, '')
-          .replace(/```\n?/g, '')
-          .replace(/\*\*(.*?)\*\*/g, '$1')
-          .replace(/\*(.*?)\*/g, '$1')
-          .trim()
-      };
+      parsed = { recommendation: rawText.replace(/```json?\n?|```\n?|\*\*/g, '').trim() };
     }
 
     const recommendation = parsed.recommendation || 'Could not generate a match right now.';
 
+    // ── BUILD PROPERTY LINKS ────────────────────────────────────────
     let bayutListingsUrl = null;
     let bayutInsightsUrl = null;
 
     if (vertical === 'property') {
       const budget = budgetMap[answers.budget] || { min: 0, max: 5000000 };
       const typeSlug = typeSlugMap[answers.type] || 'property';
-
       const aiArea = parsed.area || null;
       const slugs = aiArea ? areaSlugMap[aiArea] : null;
       const areaPath = slugs ? `${slugs.listing}/` : '';
-      const transactionsPath = slugs ? `${slugs.transactions}/` : '';
-
+      const txPath = slugs ? `${slugs.tx}/` : '';
       bayutListingsUrl = `https://www.bayut.com/for-sale/${typeSlug}/dubai/${areaPath}?price_min=${budget.min}&price_max=${budget.max}`;
-      bayutInsightsUrl = `https://www.bayut.com/property-market-analysis/transactions/sale/property/dubai/${transactionsPath}`;
+      bayutInsightsUrl = `https://www.bayut.com/property-market-analysis/transactions/sale/property/dubai/${txPath}`;
+    }
+
+    // ── BUILD BUSINESS LINKS ────────────────────────────────────────
+    let businessLinks = null;
+
+    if (vertical === 'business') {
+      const setup = parsed.setup || null;
+      const fz = setup ? freeZoneLinkMap[setup] : null;
+
+      businessLinks = {
+        apply: fz ? { label: `Apply for ${fz.name} license →`, url: fz.url } : null,
+        nameCheck: { label: 'Check company name availability →', url: 'https://eservices.economy.gov.ae/nameReservation/index' },
+        ftaRegister: { label: 'Register for corporate tax (FTA) →', url: 'https://tax.gov.ae/en/default.aspx' },
+        visa: { label: 'Start your visa application →', url: 'https://gdrfad.gov.ae/en/services' }
+      };
     }
 
     res.status(200).json({
       recommendation,
       bayutListingsUrl,
       bayutInsightsUrl,
+      businessLinks,
       vertical
     });
 
@@ -141,6 +173,7 @@ Respond ONLY with a valid JSON object. No backticks, no markdown, no explanation
       recommendation: 'Fetch error: ' + err.message,
       bayutListingsUrl: null,
       bayutInsightsUrl: null,
+      businessLinks: null,
       vertical
     });
   }
