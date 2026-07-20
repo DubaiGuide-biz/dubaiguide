@@ -41,20 +41,12 @@ export default async function handler(req, res) {
     };
 
     // ── BUSINESS MAPS ──────────────────────────────────────────────
-    const freeZoneLinkMap = {
-      'IFZA':                  { name: 'IFZA', url: 'https://ifza.com/en/apply-now' },
-      'Meydan':                { name: 'Meydan Free Zone', url: 'https://meydanfz.ae/register' },
-      'Dubai South':           { name: 'Dubai South Free Zone', url: 'https://www.dubaisouth.ae/en/business/free-zone' },
-      'DMCC':                  { name: 'DMCC', url: 'https://www.dmcc.ae/join-dmcc' },
-      'Dubai Internet City':   { name: 'Dubai Internet City', url: 'https://www.dubaiinternetcity.com/start-your-business' },
-      'Dubai Silicon Oasis':   { name: 'Dubai Silicon Oasis', url: 'https://www.dsoa.ae/setting-up/' },
-      'SHAMS':                 { name: 'SHAMS (Sharjah)', url: 'https://www.shams.ae/start-a-business/' },
-      'RAKEZ':                 { name: 'RAKEZ', url: 'https://rakez.com/en/start-a-business' },
-      'Ajman Free Zone':       { name: 'Ajman Free Zone', url: 'https://www.afza.ae/starting-a-business' },
-      'Dubai CommerCity':      { name: 'Dubai CommerCity', url: 'https://www.dubaicommercity.ae/setup' },
-      'Dubai Airport Free Zone': { name: 'DAFZA', url: 'https://www.dafza.gov.ae/en/setting-up/' },
-      'Mainland':              { name: 'Dubai Mainland (DET)', url: 'https://www.invest.dubai.ae/en/setting-up' },
-    };
+    businessLinks = {
+  apply: fz ? { label: `Apply for ${fz.name} license →`, url: fz.url } : null,
+  nameCheck: { label: 'Check company name availability →', url: 'https://ded.ae/service_details/en/name_reservation' },
+  ftaRegister: { label: 'Register for corporate tax (FTA) →', url: 'https://tax.gov.ae/en/services/corporate.tax.registration.aspx' },
+  visa: { label: 'Start your visa application (GDRFA) →', url: 'https://gdrfad.gov.ae/en/services' }
+};
 
     const areaOptions = Object.keys(areaSlugMap).join(', ');
     const freeZoneOptions = Object.keys(freeZoneLinkMap).join(', ');
