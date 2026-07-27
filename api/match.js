@@ -9,29 +9,28 @@ export default async function handler(req, res) {
 
     const today = new Date().toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
 
-    // ── PROPERTY MAPS ──────────────────────────────────────────────
     const areaSlugMap = {
-      'Downtown Dubai':      { listing: 'downtown-dubai',              tx: 'downtown-dubai' },
-      'Business Bay':        { listing: 'business-bay',                tx: 'business-bay' },
-      'Dubai Marina':        { listing: 'dubai-marina',                tx: 'dubai-marina' },
+      'Downtown Dubai':      { listing: 'downtown-dubai',               tx: 'downtown-dubai' },
+      'Business Bay':        { listing: 'business-bay',                 tx: 'business-bay' },
+      'Dubai Marina':        { listing: 'dubai-marina',                 tx: 'dubai-marina' },
       'JBR':                 { listing: 'jumeirah-beach-residence-jbr', tx: 'jumeirah-beach-residence-jbr' },
-      'Dubai Hills Estate':  { listing: 'dubai-hills-estate',          tx: 'dubai-hills-estate' },
-      'Arabian Ranches':     { listing: 'arabian-ranches',             tx: 'arabian-ranches' },
-      'JVC':                 { listing: 'jumeirah-village-circle',     tx: 'jumeirah-village-circle' },
-      'Dubai South':         { listing: 'dubai-south',                 tx: 'dubai-south' },
-      'Dubailand':           { listing: 'dubailand',                   tx: 'dubailand' },
-      'Jebel Ali':           { listing: 'jebel-ali',                   tx: 'jebel-ali' },
-      'Al Furjan':           { listing: 'al-furjan',                   tx: 'al-furjan' },
-      'Town Square':         { listing: 'town-square',                 tx: 'town-square' },
-      'Mudon':               { listing: 'mudon',                       tx: 'mudon' },
-      'Dubai Creek Harbour': { listing: 'dubai-creek-harbour',         tx: 'dubai-creek-harbour' },
+      'Dubai Hills Estate':  { listing: 'dubai-hills-estate',           tx: 'dubai-hills-estate' },
+      'Arabian Ranches':     { listing: 'arabian-ranches',              tx: 'arabian-ranches' },
+      'JVC':                 { listing: 'jumeirah-village-circle',      tx: 'jumeirah-village-circle' },
+      'Dubai South':         { listing: 'dubai-south',                  tx: 'dubai-south' },
+      'Dubailand':           { listing: 'dubailand',                    tx: 'dubailand' },
+      'Jebel Ali':           { listing: 'jebel-ali',                    tx: 'jebel-ali' },
+      'Al Furjan':           { listing: 'al-furjan',                    tx: 'al-furjan' },
+      'Town Square':         { listing: 'town-square',                  tx: 'town-square' },
+      'Mudon':               { listing: 'mudon',                        tx: 'mudon' },
+      'Dubai Creek Harbour': { listing: 'dubai-creek-harbour',          tx: 'dubai-creek-harbour' },
     };
 
     const budgetMap = {
-      'Under AED 1M': { min: 0,       max: 1000000  },
-      'AED 1–2M':     { min: 1000000, max: 2000000  },
-      'AED 2–5M':     { min: 2000000, max: 5000000  },
-      'AED 5M+':      { min: 5000000, max: 30000000 }
+      'Under AED 1M': { min: 0,        max: 1000000  },
+      'AED 1–2M':     { min: 1000000,  max: 2000000  },
+      'AED 2–5M':     { min: 2000000,  max: 5000000  },
+      'AED 5M+':      { min: 5000000,  max: 30000000 }
     };
 
     const typeSlugMap = {
@@ -40,13 +39,20 @@ export default async function handler(req, res) {
       'Either':             'property'
     };
 
-    // ── BUSINESS MAPS ──────────────────────────────────────────────
-    businessLinks = {
-  apply: fz ? { label: `Apply for ${fz.name} license →`, url: fz.url } : null,
-  nameCheck: { label: 'Check company name availability →', url: 'https://ded.ae/service_details/en/name_reservation' },
-  ftaRegister: { label: 'Register for corporate tax (FTA) →', url: 'https://tax.gov.ae/en/services/corporate.tax.registration.aspx' },
-  visa: { label: 'Start your visa application (GDRFA) →', url: 'https://gdrfad.gov.ae/en/services' }
-};
+    const freeZoneLinkMap = {
+      'IFZA':                    { name: 'IFZA',                    url: 'https://ifza.com/en/set-up-your-business/' },
+      'Meydan':                  { name: 'Meydan Free Zone',        url: 'https://www.meydanfz.ae/' },
+      'Dubai South':             { name: 'Dubai South Free Zone',   url: 'https://www.dubaisouth.ae/en/business/free-zone' },
+      'DMCC':                    { name: 'DMCC',                    url: 'https://dmcc.ae/business/set-up-a-new-business' },
+      'Dubai Internet City':     { name: 'Dubai Internet City',     url: 'https://www.dubaiinternetcity.com/start-your-business' },
+      'Dubai Silicon Oasis':     { name: 'Dubai Silicon Oasis',     url: 'https://www.dsoa.ae/setting-up/' },
+      'SHAMS':                   { name: 'SHAMS (Sharjah)',          url: 'https://www.shams.ae/start-a-business/' },
+      'RAKEZ':                   { name: 'RAKEZ',                   url: 'https://rakez.com/en/start-a-business' },
+      'Ajman Free Zone':         { name: 'Ajman Free Zone',         url: 'https://www.afza.ae/starting-a-business' },
+      'Dubai CommerCity':        { name: 'Dubai CommerCity',        url: 'https://www.dubaicommercity.ae/setup' },
+      'Dubai Airport Free Zone': { name: 'DAFZA',                   url: 'https://www.dafza.gov.ae/en/setting-up/' },
+      'Mainland':                { name: 'Dubai DET (Mainland)',     url: 'https://ded.ae/service_details/en/initial_approval' },
+    };
 
     const areaOptions = Object.keys(areaSlugMap).join(', ');
     const freeZoneOptions = Object.keys(freeZoneLinkMap).join(', ');
@@ -58,10 +64,10 @@ export default async function handler(req, res) {
 
 Current Dubai market reality:
 - Villas/townhouses minimum realistic budget: AED 1.8M. Under AED 1M — zero villas exist.
-- Villas AED 1–2M: very limited — Town Square 3-bed townhouse or JVC 2-bed townhouse only.
-- Villas AED 2–5M: Dubai Hills Estate, Arabian Ranches, Dubailand, Al Furjan, Mudon, Town Square.
+- Villas AED 1-2M: very limited — Town Square 3-bed townhouse or JVC 2-bed townhouse only.
+- Villas AED 2-5M: Dubai Hills Estate, Arabian Ranches, Dubailand, Al Furjan, Mudon, Town Square.
 - Apartments under AED 1M: JVC, Dubai South, Dubailand only.
-- Apartments AED 1–2M: JVC, Dubai South, Al Furjan, Business Bay, Dubai Marina.
+- Apartments AED 1-2M: JVC, Dubai South, Al Furjan, Business Bay, Dubai Marina.
 - Business Bay, Downtown Dubai, Dubai Marina — apartments ONLY, no villas.
 - If budget/type mismatch: say so directly and give realistic minimum needed.
 - If area has no matching property type: say so and suggest 2 correct areas.
@@ -75,21 +81,21 @@ Respond ONLY with valid JSON, no backticks, no markdown:
     } else {
       prompt = `You are a Dubai business setup expert. Today is ${today}. Someone completed a quiz: ${JSON.stringify(answers)}.
 
-Available free zones and mainland options: ${freeZoneOptions}
+Available options: ${freeZoneOptions}
 
-Match their answers to the best option. Consider:
-- Consultancy/services with low budget → IFZA or Meydan (AED 12,500–13,000)
-- Tech startups → Dubai Internet City or Dubai Silicon Oasis
-- E-commerce → Dubai CommerCity or IFZA
-- Trading → DMCC or RAKEZ
-- Restaurant/F&B → Mainland (DET) — must be mainland
-- Mainland market access needed → Mainland (DET)
-- Lowest cost (okay with non-Dubai address) → SHAMS or RAKEZ
-- Multiple shareholders/larger setup → DMCC
+Match their answers to the best option:
+- Consultancy/services low budget: IFZA or Meydan
+- Tech startups: Dubai Internet City or Dubai Silicon Oasis
+- E-commerce: Dubai CommerCity or IFZA
+- Trading: DMCC or RAKEZ
+- Restaurant/F&B: Mainland
+- Mainland market access needed: Mainland
+- Lowest cost non-Dubai: SHAMS or RAKEZ
+- Multiple shareholders: DMCC
 
 Respond ONLY with valid JSON, no backticks, no markdown:
 {
-  "recommendation": "2 sentences max. Name the specific setup. Include one real ${today} cost figure. Direct and honest.",
+  "recommendation": "2 sentences max. Name specific setup. Include one real cost figure. Direct and honest.",
   "setup": "Pick ONE from: ${freeZoneOptions}"
 }`;
     }
@@ -122,7 +128,6 @@ Respond ONLY with valid JSON, no backticks, no markdown:
 
     const recommendation = parsed.recommendation || 'Could not generate a match right now.';
 
-    // ── BUILD PROPERTY LINKS ────────────────────────────────────────
     let bayutListingsUrl = null;
     let bayutInsightsUrl = null;
 
@@ -137,18 +142,16 @@ Respond ONLY with valid JSON, no backticks, no markdown:
       bayutInsightsUrl = `https://www.bayut.com/property-market-analysis/transactions/sale/property/dubai/${txPath}`;
     }
 
-    // ── BUILD BUSINESS LINKS ────────────────────────────────────────
     let businessLinks = null;
 
     if (vertical === 'business') {
       const setup = parsed.setup || null;
       const fz = setup ? freeZoneLinkMap[setup] : null;
-
       businessLinks = {
-        apply: fz ? { label: `Apply for ${fz.name} license →`, url: fz.url } : null,
-        nameCheck: { label: 'Check company name availability →', url: 'https://eservices.economy.gov.ae/nameReservation/index' },
-        ftaRegister: { label: 'Register for corporate tax (FTA) →', url: 'https://tax.gov.ae/en/default.aspx' },
-        visa: { label: 'Start your visa application →', url: 'https://gdrfad.gov.ae/en/services' }
+        apply: fz ? { label: `Apply for ${fz.name} license`, url: fz.url } : null,
+        nameCheck: { label: 'Check company name availability', url: 'https://ded.ae/service_details/en/name_reservation' },
+        ftaRegister: { label: 'Register for corporate tax (FTA)', url: 'https://tax.gov.ae/en/services/corporate.tax.registration.aspx' },
+        visa: { label: 'Start your visa application (GDRFA)', url: 'https://gdrfad.gov.ae/en/services' }
       };
     }
 
