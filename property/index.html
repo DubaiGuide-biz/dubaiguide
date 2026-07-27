@@ -473,7 +473,45 @@ function initQuiz(config) {
       const data = await response.json();
       lastRecommendation = data.recommendation || 'Could not generate a match right now.';
       resultBody.innerHTML = lastRecommendation;
-
+// Email capture
+      const prevCapture = document.getElementById('email-capture');
+      if (prevCapture) prevCapture.remove();
+      const emailCapture = document.createElement('div');
+      emailCapture.id = 'email-capture';
+      emailCapture.style.cssText = 'margin:1.25rem 0;padding:1.25rem 1.5rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;';
+      emailCapture.innerHTML = `
+        <p style="font-size:13px;color:rgba(255,255,255,0.45);margin-bottom:.75rem;">📩 Want this match saved? Enter your email and we'll send it to you.</p>
+        <form id="email-only-form" style="display:flex;gap:8px;flex-wrap:wrap;">
+          <input type="email" id="eo-email" placeholder="your@email.com" required
+            style="flex:1;min-width:180px;padding:10px 16px;border-radius:100px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);font-family:inherit;font-size:13px;color:#fff;outline:none;">
+          <button type="submit"
+            style="padding:10px 20px;border-radius:100px;border:none;background:#00c9a7;color:#000;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">
+            Send →
+          </button>
+        </form>
+        <div id="eo-confirm" style="display:none;font-size:13px;color:rgba(0,201,167,0.8);margin-top:.6rem;">✓ Sent — check your inbox</div>
+      `;
+      resultBody.after(emailCapture);
+      document.getElementById('email-only-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const email = document.getElementById('eo-email').value.trim();
+        if (!email) return;
+        try {
+          await fetch('/api/lead', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              vertical: config.vertical,
+              answers,
+              recommendation: lastRecommendation,
+              contact: { name: 'Email capture only', email, phone: 'n/a' },
+              submittedAt: new Date().toISOString()
+            })
+          });
+        } catch(err) {}
+        this.style.display = 'none';
+        document.getElementById('eo-confirm').style.display = 'block';
+      });
       actionLinks.innerHTML = '';
       if (data.bayutListingsUrl) {
         actionLinks.innerHTML += `<a href="${data.bayutListingsUrl}" target="_blank" rel="noopener" class="action-link">Browse matching listings on Bayut →</a>`;
