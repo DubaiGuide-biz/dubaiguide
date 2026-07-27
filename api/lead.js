@@ -6,10 +6,13 @@ export default async function handler(req, res) {
 
   try {
     const { vertical, answers, recommendation, contact } = req.body;
+    const isEmailOnly = contact.name === 'Email capture only';
 
-    const emailBody = `
-New lead from mydubaiguide.biz
+    // ── Email TO YOU (always) ──────────────────────────────────────
+    const adminBody = `
+New ${isEmailOnly ? 'email capture' : 'lead'} from mydubaiguide.biz
 
+Type: ${isEmailOnly ? 'Email only (no phone)' : 'Full lead'}
 Vertical: ${vertical}
 Name: ${contact.name}
 Email: ${contact.email}
@@ -22,7 +25,7 @@ AI Recommendation:
 ${recommendation}
     `.trim();
 
-    const response = await fetch('https://api.resend.com/emails', {
+    await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -31,14 +34,55 @@ ${recommendation}
       body: JSON.stringify({
         from: 'leads@mydubaiguide.biz',
         to: 'tejas09999@gmail.com',
-        subject: 'New ' + vertical + ' lead — ' + contact.name,
-        text: emailBody
+        subject: isEmailOnly
+          ? `New email capture (${vertical}) — ${contact.email}`
+          : `New ${vertical} lead — ${contact.name}`,
+        text: adminBody
       })
     });
 
-    const resendResult = await response.json();
-    console.log('RESEND:', JSON.stringify(resendResult));
-    res.status(200).json({ ok: true, debug: resendResult });
+    // ── Email TO USER (only for email capture) ────────────────────
+    if (isEmailOnly) {
+      const verticalLabel = vertical === 'property' ? 'property' : 'business setup';
+      const userBody = `
+Hi there,
+
+Here's your Dubai ${verticalLabel} match from mydubaiguide.biz:
+
+${recommendation}
+
+${vertical === 'property' ? `Your answers:
+- Budget: ${answers.budget || 'Not specified'}
+- Purpose: ${answers.purpose || 'Not specified'}
+- Type: ${answers.type || 'Not specified'}
+- Area preference: ${Array.isArray(answers.area) ? answers.area.join(', ') : (answers.area || 'Not specified')}
+- Priority: ${answers.priority || 'Not specified'}` : `Your answers:
+- Business type: ${answers.industry || 'Not specified'}
+- Visas needed: ${answers.visas || 'Not specified'}
+- Setup budget: ${answers.budget || 'Not specified'}
+- Priority: ${answers.priority || 'Not specified'}`}
+
+Want to go further? Visit mydubaiguide.biz and request a specialist introduction — we'll connect you with the right person for your situation.
+
+mydubaiguide.biz
+      `.trim();
+
+      await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + process.env.RESEND_API_KEY
+        },
+        body: JSON.stringify({
+          from: 'match@mydubaiguide.biz',
+          to: contact.email,
+          subject: `Your Dubai ${verticalLabel} match`,
+          text: userBody
+        })
+      });
+    }
+
+    res.status(200).json({ ok: true });
 
   } catch (err) {
     console.log('LEAD ERROR:', err.message);
