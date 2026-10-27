@@ -22,7 +22,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #060d18; -we
 /* ── HERO ── */
 .hero-section { position: relative; width: 100%; min-height: 100vh; display: flex; flex-direction: column; }
 .hero-bg { position: absolute; inset: 0; background-image: url('/skyline-bg.jpg'); background-size: cover; background-position: center center; z-index: 0; }
-.hero-bg-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(6,13,24,0.82) 0%, rgba(6,13,24,0.48) 35%, rgba(6,13,24,0.6) 65%, rgba(6,13,24,0.97) 100%); z-index: 1; }
+.hero-bg-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(6,13,24,0.82) 0%, rgba(6,13,24,0.48) 30%, rgba(6,13,24,0.65) 65%, rgba(6,13,24,0.98) 100%); z-index: 1; }
 
 /* ── NAV ── */
 nav { position: relative; z-index: 10; display: flex; align-items: center; justify-content: space-between; padding: 1.75rem 4rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
@@ -35,111 +35,202 @@ nav { position: relative; z-index: 10; display: flex; align-items: center; justi
 .nav-free { background: rgba(0,201,167,0.1); border: 1px solid rgba(0,201,167,0.25); border-radius: 100px; padding: 7px 18px; font-size: 12px; font-weight: 700; color: #00c9a7; letter-spacing: 0.08em; text-transform: uppercase; }
 
 /* ── HERO CONTENT ── */
-.hero-content { position: relative; z-index: 5; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 4rem 2rem 3rem; }
+.hero-content { position: relative; z-index: 5; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 4rem 2rem 4rem; }
 .hero-tag { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,201,167,0.08); border: 1px solid rgba(0,201,167,0.2); border-radius: 100px; padding: 6px 18px; font-size: 12px; font-weight: 600; color: #00c9a7; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.5rem; }
 .hero-tag-dot { width: 5px; height: 5px; background: #00c9a7; border-radius: 50%; animation: blink 2s infinite; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
 .hero-h1 { font-size: clamp(38px, 5vw, 66px); font-weight: 800; line-height: 1.08; letter-spacing: -0.03em; color: #fff; margin-bottom: 1rem; max-width: 860px; }
 .hero-h1 .accent { background: linear-gradient(135deg, #00c9a7, #00e5c7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.hero-sub { font-size: 17px; color: rgba(255,255,255,0.6); line-height: 1.6; max-width: 580px; margin-bottom: 3rem; }
+.hero-sub { font-size: 17px; color: rgba(255,255,255,0.6); line-height: 1.6; max-width: 560px; margin-bottom: 2.5rem; }
 
-/* ── PATH SELECTOR ── */
-.path-selector { display: flex; gap: 1rem; width: 100%; max-width: 760px; }
+/* ── STATS (in hero) ── */
+.hero-stats { display: flex; gap: 2.5rem; margin-bottom: 3rem; }
+.hero-stat { text-align: center; }
+.hero-stat-num { font-size: 20px; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+.hero-stat-num span { color: #00c9a7; }
+.hero-stat-lbl { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 2px; font-weight: 500; }
+
+/* ── PATH CARDS ── */
+.path-question { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.4); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 1rem; }
+
+.path-selector { display: flex; gap: 1rem; width: 100%; max-width: 800px; }
+
 .path-btn {
-  flex: 1; padding: 1.5rem 2rem; border-radius: 18px; border: 1.5px solid rgba(255,255,255,0.1);
-  background: rgba(255,255,255,0.04); cursor: pointer; transition: all .2s ease;
-  text-align: left; display: flex; align-items: center; justify-content: space-between;
-  backdrop-filter: blur(12px);
+  flex: 1;
+  padding: 0;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all .2s ease;
+  text-align: left;
+  background: none;
+  border: none;
+  overflow: hidden;
+  position: relative;
 }
-.path-btn:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.07); transform: translateY(-2px); }
-.path-btn.active.tourist { border-color: #f5b731; background: rgba(245,183,49,0.08); }
-.path-btn.active.expat { border-color: #00c9a7; background: rgba(0,201,167,0.08); }
-.path-emoji { font-size: 28px; margin-bottom: 8px; display: block; }
-.path-title { font-size: 18px; font-weight: 800; color: #fff; letter-spacing: -0.01em; display: block; margin-bottom: 4px; }
-.path-sub { font-size: 13px; color: rgba(255,255,255,0.4); display: block; }
-.path-arrow { font-size: 20px; color: rgba(255,255,255,0.25); transition: all .2s; }
-.path-btn.active .path-arrow { color: #00c9a7; transform: rotate(90deg); }
-.path-btn.active.tourist .path-arrow { color: #f5b731; }
+
+.path-btn-inner {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.5rem 1.75rem;
+  border-radius: 20px;
+  border: 1.5px solid rgba(255,255,255,0.12);
+  background: rgba(6,13,24,0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: all .2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.path-btn-inner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .2s;
+}
+
+.path-btn.tourist .path-btn-inner::before { background: linear-gradient(135deg, rgba(245,183,49,0.12), transparent 60%); }
+.path-btn.expat .path-btn-inner::before { background: linear-gradient(135deg, rgba(0,201,167,0.12), transparent 60%); }
+
+.path-btn:hover .path-btn-inner { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,0,0,0.5); }
+.path-btn:hover .path-btn-inner::before { opacity: 1; }
+.path-btn.tourist:hover .path-btn-inner { border-color: rgba(245,183,49,0.5); }
+.path-btn.expat:hover .path-btn-inner { border-color: rgba(0,201,167,0.5); }
+
+.path-btn.active.tourist .path-btn-inner { border-color: #f5b731; background: rgba(245,183,49,0.1); box-shadow: 0 0 0 1px #f5b731; }
+.path-btn.active.tourist .path-btn-inner::before { opacity: 1; }
+.path-btn.active.expat .path-btn-inner { border-color: #00c9a7; background: rgba(0,201,167,0.1); box-shadow: 0 0 0 1px #00c9a7; }
+.path-btn.active.expat .path-btn-inner::before { opacity: 1; }
+
+.path-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+.path-btn.tourist .path-icon { background: rgba(245,183,49,0.12); }
+.path-btn.expat .path-icon { background: rgba(0,201,167,0.1); }
+.path-btn.active.tourist .path-icon { background: rgba(245,183,49,0.2); }
+.path-btn.active.expat .path-icon { background: rgba(0,201,167,0.15); }
+
+.path-text { position: relative; z-index: 1; text-align: left; }
+.path-title { font-size: 17px; font-weight: 800; color: #fff; letter-spacing: -0.01em; display: block; margin-bottom: 3px; }
+.path-sub { font-size: 13px; color: rgba(255,255,255,0.4); display: block; line-height: 1.4; }
+.path-btn.active.tourist .path-title { color: #f5b731; }
+.path-btn.active.expat .path-title { color: #00c9a7; }
+
+.path-chevron {
+  margin-left: auto;
+  font-size: 18px;
+  color: rgba(255,255,255,0.2);
+  position: relative;
+  z-index: 1;
+  transition: all .2s;
+  flex-shrink: 0;
+}
+.path-btn.active .path-chevron { transform: rotate(180deg); }
+.path-btn.active.tourist .path-chevron { color: #f5b731; }
+.path-btn.active.expat .path-chevron { color: #00c9a7; }
 
 /* ── MAIN SECTION ── */
-.main-section { background: #060d18; padding: 4rem; position: relative; z-index: 5; }
+.main-section { background: #060d18; padding: 3.5rem 4rem; position: relative; z-index: 5; }
 .section-inner { max-width: 1100px; margin: 0 auto; }
 
 /* ── CATEGORY PANELS ── */
 .panel { display: none; }
-.panel.active { display: block; }
+.panel.active { display: block; animation: fadeIn .25s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
 .panel-header { margin-bottom: 2rem; }
-.panel-label { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: .5rem; }
-.panel-title { font-size: 28px; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+.panel-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: .5rem; }
+.panel-title { font-size: 26px; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
 
-.cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+.cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
 
 .cat-card {
-  display: flex; flex-direction: column; padding: 1.75rem; border-radius: 16px;
-  background: #0d1826; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease;
-  position: relative; overflow: hidden; min-height: 180px;
-  border: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem;
+  border-radius: 18px;
+  background: #0d1826;
+  text-decoration: none;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s;
+  position: relative;
+  overflow: hidden;
+  min-height: 190px;
 }
-.cat-card::before { content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity .2s; border-radius: 16px; }
-.cat-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+.cat-card::before { content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity .2s; border-radius: 18px; }
+.cat-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
 .cat-card:hover::before { opacity: 1; }
 
-/* Tourist — gold theme */
-.tourist-card { border-color: rgba(245,183,49,0.1); }
-.tourist-card::before { background: linear-gradient(135deg, rgba(245,183,49,0.05), transparent); }
-.tourist-card .cat-tag { color: #f5b731; }
-.tourist-card .cat-arrow { background: rgba(245,183,49,0.1); color: #f5b731; }
+.tourist-card { border: 1px solid rgba(245,183,49,0.1); }
+.tourist-card::before { background: linear-gradient(135deg, rgba(245,183,49,0.06), transparent); }
+.tourist-card:hover { border-color: rgba(245,183,49,0.35); }
 
-/* Expat — teal theme */
-.expat-card { border-color: rgba(0,201,167,0.1); }
-.expat-card::before { background: linear-gradient(135deg, rgba(0,201,167,0.05), transparent); }
-.expat-card .cat-tag { color: #00c9a7; }
-.expat-card .cat-arrow { background: rgba(0,201,167,0.1); color: #00c9a7; }
+.expat-card { border: 1px solid rgba(0,201,167,0.1); }
+.expat-card::before { background: linear-gradient(135deg, rgba(0,201,167,0.06), transparent); }
+.expat-card:hover { border-color: rgba(0,201,167,0.35); }
 
-.cat-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: auto; }
-.cat-emoji { font-size: 22px; margin-bottom: 8px; display: block; }
-.cat-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: .5rem; display: block; }
-.cat-title { font-size: 17px; font-weight: 700; color: #fff; line-height: 1.25; margin-bottom: .4rem; }
-.cat-desc { font-size: 12px; color: rgba(255,255,255,0.35); line-height: 1.5; }
-.cat-arrow { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; transition: transform .2s; }
+.cat-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: .75rem; }
+
+.cat-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0; position: relative; z-index: 1;
+}
+.tourist-card .cat-icon { background: rgba(245,183,49,0.1); }
+.expat-card .cat-icon { background: rgba(0,201,167,0.08); }
+
+.cat-arrow {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; flex-shrink: 0; transition: transform .2s;
+  position: relative; z-index: 1;
+}
+.tourist-card .cat-arrow { background: rgba(245,183,49,0.08); color: rgba(245,183,49,0.6); }
+.expat-card .cat-arrow { background: rgba(0,201,167,0.08); color: rgba(0,201,167,0.6); }
 .cat-card:hover .cat-arrow { transform: translate(2px, -2px); }
 
-/* Coming soon card */
-.cat-card.soon { opacity: 0.35; pointer-events: none; }
-.cat-card.soon .cat-tag::after { content: ' · Coming soon'; opacity: 0.6; }
+.cat-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: .5rem; display: block; position: relative; z-index: 1; }
+.tourist-card .cat-tag { color: rgba(245,183,49,0.7); }
+.expat-card .cat-tag { color: rgba(0,201,167,0.7); }
 
-/* ── STATS BAR ── */
-.stats-bar { display: flex; border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; overflow: hidden; background: rgba(255,255,255,0.02); max-width: 1100px; margin: 0 auto 3rem; }
-.stat-block { flex: 1; padding: 1.1rem 1.5rem; text-align: center; border-right: 1px solid rgba(255,255,255,0.05); }
-.stat-block:last-child { border-right: none; }
-.stat-num { font-size: 18px; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
-.stat-num span { color: #00c9a7; }
-.stat-lbl { font-size: 11px; color: rgba(255,255,255,0.28); margin-top: 2px; font-weight: 500; }
+.cat-title { font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: .4rem; position: relative; z-index: 1; }
+.cat-desc { font-size: 12px; color: rgba(255,255,255,0.35); line-height: 1.55; position: relative; z-index: 1; }
 
-/* ── DEFAULT STATE (no selection) ── */
-.default-state { text-align: center; padding: 3rem 0; }
-.default-state p { font-size: 15px; color: rgba(255,255,255,0.25); }
+.cat-card.soon { opacity: 0.38; pointer-events: none; }
 
 /* ── FOOTER ── */
-.footer-line { text-align: center; font-size: 12px; color: rgba(255,255,255,0.15); font-weight: 500; letter-spacing: 0.05em; padding: 1rem 0 2rem; }
-.footer-line a { color: rgba(255,255,255,0.25); text-decoration: none; margin: 0 12px; }
+.footer-line { text-align: center; font-size: 12px; color: rgba(255,255,255,0.15); font-weight: 500; letter-spacing: 0.05em; padding: 2rem 0 1rem; }
+.footer-line a { color: rgba(255,255,255,0.25); text-decoration: none; margin: 0 12px; transition: color .15s; }
 .footer-line a:hover { color: rgba(255,255,255,0.5); }
 
 /* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .cat-grid { grid-template-columns: 1fr 1fr; }
+}
 @media (max-width: 768px) {
   nav { padding: 1.25rem 1.5rem; }
   .nav-right .nav-link { display: none; }
   .hero-h1 { font-size: 34px; }
   .hero-sub { font-size: 15px; }
-  .path-selector { flex-direction: column; }
+  .hero-stats { gap: 1.5rem; }
+  .hero-stat-num { font-size: 16px; }
+  .path-selector { flex-direction: column; gap: .75rem; }
+  .path-btn-inner { padding: 1.25rem 1.5rem; }
+  .path-icon { width: 44px; height: 44px; font-size: 20px; }
   .main-section { padding: 2.5rem 1.25rem; }
   .cat-grid { grid-template-columns: 1fr 1fr; gap: .75rem; }
-  .cat-card { padding: 1.25rem; min-height: 150px; }
+  .cat-card { padding: 1.25rem; min-height: 160px; }
   .cat-title { font-size: 14px; }
-  .stats-bar { flex-wrap: wrap; }
-  .stat-block { flex: 1 1 45%; }
-  .stat-block:nth-child(2) { border-right: none; }
 }
 @media (max-width: 480px) {
   .cat-grid { grid-template-columns: 1fr; }
@@ -165,224 +256,185 @@ nav { position: relative; z-index: 10; display: flex; align-items: center; justi
       <div class="hero-tag-dot"></div>
       AI-powered · No sign-up needed
     </div>
+
     <h1 class="hero-h1">
       Everything you need<br>to know about Dubai.<br>
       <span class="accent">All in one place.</span>
     </h1>
+
     <p class="hero-sub">Whether you're visiting for a week or building your life here — get instant, personalised guidance with direct links to take action.</p>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">2 <span>min</span></div>
+        <div class="hero-stat-lbl">Average match time</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">100<span>%</span></div>
+        <div class="hero-stat-lbl">Free to use</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">Live <span>data</span></div>
+        <div class="hero-stat-lbl">Bayut + DLD linked</div>
+      </div>
+    </div>
+
+    <p class="path-question">What brings you to Dubai?</p>
 
     <div class="path-selector">
       <button class="path-btn tourist" onclick="selectPath('tourist')">
-        <div>
-          <span class="path-emoji">🧳</span>
-          <span class="path-title">I'm visiting Dubai</span>
-          <span class="path-sub">Tourist · Short stay · Holiday</span>
+        <div class="path-btn-inner">
+          <div class="path-icon">🧳</div>
+          <div class="path-text">
+            <span class="path-title">I'm visiting Dubai</span>
+            <span class="path-sub">Tourist · Short stay · Holiday</span>
+          </div>
+          <div class="path-chevron">↓</div>
         </div>
-        <span class="path-arrow">↓</span>
       </button>
+
       <button class="path-btn expat" onclick="selectPath('expat')">
-        <div>
-          <span class="path-emoji">🏙️</span>
-          <span class="path-title">I live in or am moving to Dubai</span>
-          <span class="path-sub">Resident · Expat · Long-term</span>
+        <div class="path-btn-inner">
+          <div class="path-icon">🏙️</div>
+          <div class="path-text">
+            <span class="path-title">I live in or am moving to Dubai</span>
+            <span class="path-sub">Resident · Expat · Long-term</span>
+          </div>
+          <div class="path-chevron">↓</div>
         </div>
-        <span class="path-arrow">↓</span>
       </button>
     </div>
   </div>
 </section>
 
-<section class="main-section">
+<section class="main-section" id="main-section" style="display:none;">
   <div class="section-inner">
-
-    <!-- STATS BAR -->
-    <div class="stats-bar" style="margin-bottom:2.5rem;">
-      <div class="stat-block">
-        <div class="stat-num">2 <span>min</span></div>
-        <div class="stat-lbl">Average match time</div>
-      </div>
-      <div class="stat-block">
-        <div class="stat-num">Live <span>data</span></div>
-        <div class="stat-lbl">Bayut + DLD linked</div>
-      </div>
-      <div class="stat-block">
-        <div class="stat-num">4 <span>verticals</span></div>
-        <div class="stat-lbl">Property, Business, Cards & more</div>
-      </div>
-      <div class="stat-block">
-        <div class="stat-num">100<span>%</span></div>
-        <div class="stat-lbl">Free to use</div>
-      </div>
-    </div>
-
-    <!-- DEFAULT STATE -->
-    <div class="default-state" id="default-state">
-      <p>↑ Choose your path above to get started</p>
-    </div>
 
     <!-- TOURIST PANEL -->
     <div class="panel" id="panel-tourist">
       <div class="panel-header">
-        <div class="panel-label">🧳 Visiting Dubai</div>
+        <div class="panel-eyebrow">🧳 Visiting Dubai</div>
         <div class="panel-title">What do you need help with?</div>
       </div>
       <div class="cat-grid">
-
-        <a class="cat-card tourist-card" href="#">
+        <a class="cat-card tourist-card soon" href="#">
           <div class="cat-top">
-            <div>
-              <span class="cat-emoji">🎡</span>
-              <span class="cat-tag">Things to do</span>
-            </div>
+            <div class="cat-icon">🎡</div>
             <div class="cat-arrow">→</div>
           </div>
+          <span class="cat-tag">Things to do</span>
           <div class="cat-title">Experiences & activities</div>
           <div class="cat-desc">Attractions, desert safaris, water parks, day trips and hidden gems</div>
         </a>
-
-        <a class="cat-card tourist-card" href="#">
+        <a class="cat-card tourist-card soon" href="#">
           <div class="cat-top">
-            <div>
-              <span class="cat-emoji">🍽️</span>
-              <span class="cat-tag">Dining & nightlife</span>
-            </div>
+            <div class="cat-icon">🍽️</div>
             <div class="cat-arrow">→</div>
           </div>
+          <span class="cat-tag">Dining & nightlife</span>
           <div class="cat-title">Where to eat & drink</div>
           <div class="cat-desc">Best restaurants, rooftop bars, beach clubs and Friday brunches</div>
         </a>
-
-        <a class="cat-card tourist-card" href="#">
+        <a class="cat-card tourist-card soon" href="#">
           <div class="cat-top">
-            <div>
-              <span class="cat-emoji">🏨</span>
-              <span class="cat-tag">Where to stay</span>
-            </div>
+            <div class="cat-icon">🏨</div>
             <div class="cat-arrow">→</div>
           </div>
+          <span class="cat-tag">Where to stay</span>
           <div class="cat-title">Hotels & accommodation</div>
-          <div class="cat-desc">Best areas to stay, budget vs luxury, beach vs city — matched to your trip style</div>
+          <div class="cat-desc">Best areas to stay, budget vs luxury, beach vs city</div>
         </a>
-
-        <a class="cat-card tourist-card" href="#">
+        <a class="cat-card tourist-card soon" href="#">
           <div class="cat-top">
-            <div>
-              <span class="cat-emoji">🚗</span>
-              <span class="cat-tag">Getting around</span>
-            </div>
+            <div class="cat-icon">🚗</div>
             <div class="cat-arrow">→</div>
           </div>
-          <div class="cat-title">Transport & getting around</div>
+          <span class="cat-tag">Getting around</span>
+          <div class="cat-title">Transport guide</div>
           <div class="cat-desc">Metro, taxis, Careem, car rental — what to use and when</div>
         </a>
-
-        <a class="cat-card tourist-card" href="#">
+        <a class="cat-card tourist-card soon" href="#">
           <div class="cat-top">
-            <div>
-              <span class="cat-emoji">💰</span>
-              <span class="cat-tag">Trip budget</span>
-            </div>
+            <div class="cat-icon">💰</div>
             <div class="cat-arrow">→</div>
           </div>
+          <span class="cat-tag">Trip budget</span>
           <div class="cat-title">How much will it cost?</div>
           <div class="cat-desc">Realistic daily budgets, hidden costs and money-saving tips</div>
         </a>
-
-        <a class="cat-card tourist-card" href="#">
+        <a class="cat-card tourist-card soon" href="#">
           <div class="cat-top">
-            <div>
-              <span class="cat-emoji">☀️</span>
-              <span class="cat-tag">When to visit</span>
-            </div>
+            <div class="cat-icon">☀️</div>
             <div class="cat-arrow">→</div>
           </div>
+          <span class="cat-tag">When to visit</span>
           <div class="cat-title">Best time to visit Dubai</div>
           <div class="cat-desc">Month-by-month guide to weather, events and pricing</div>
         </a>
-
       </div>
     </div>
 
     <!-- EXPAT PANEL -->
     <div class="panel" id="panel-expat">
       <div class="panel-header">
-        <div class="panel-label">🏙️ Moving to Dubai</div>
+        <div class="panel-eyebrow">🏙️ Living in or moving to Dubai</div>
         <div class="panel-title">What do you need help with?</div>
       </div>
       <div class="cat-grid">
-
-        <a class="cat-card expat-card" href="#">
+        <a class="cat-card expat-card soon" href="#">
           <div class="cat-top">
-            <div>
-              <span class="cat-emoji">🏘️</span>
-              <span class="cat-tag">Where to live</span>
-            </div>
+            <div class="cat-icon">🏘️</div>
             <div class="cat-arrow">→</div>
           </div>
+          <span class="cat-tag">Where to live</span>
           <div class="cat-title">Find the right neighbourhood</div>
-          <div class="cat-desc">Compare communities, rents, commute times and lifestyle by area</div>
+          <div class="cat-desc">Compare communities, rents, commute times and lifestyle</div>
         </a>
-
         <a class="cat-card expat-card" href="/property/">
           <div class="cat-top">
-            <div>
-              <span class="cat-emoji">🏠</span>
-              <span class="cat-tag">Property</span>
-            </div>
+            <div class="cat-icon">🏠</div>
             <div class="cat-arrow">→</div>
           </div>
+          <span class="cat-tag">Property</span>
           <div class="cat-title">Buy or invest in property</div>
           <div class="cat-desc">AI-matched communities, live Bayut listings, DLD transactions, Golden Visa</div>
         </a>
-
         <a class="cat-card expat-card" href="/business/">
           <div class="cat-top">
-            <div>
-              <span class="cat-emoji">💼</span>
-              <span class="cat-tag">Business setup</span>
-            </div>
+            <div class="cat-icon">💼</div>
             <div class="cat-arrow">→</div>
           </div>
+          <span class="cat-tag">Business setup</span>
           <div class="cat-title">Start a business in Dubai</div>
           <div class="cat-desc">Free zone vs mainland, real 2026 costs, license application links</div>
         </a>
-
         <a class="cat-card expat-card" href="/credit-cards/">
           <div class="cat-top">
-            <div>
-              <span class="cat-emoji">💳</span>
-              <span class="cat-tag">Credit cards</span>
-            </div>
+            <div class="cat-icon">💳</div>
             <div class="cat-arrow">→</div>
           </div>
+          <span class="cat-tag">Credit cards</span>
           <div class="cat-title">Find your best UAE credit card</div>
           <div class="cat-desc">Matched to your salary tier — cashback, miles, Islamic and elite cards</div>
         </a>
-
-        <a class="cat-card expat-card" href="#">
+        <a class="cat-card expat-card soon" href="#">
           <div class="cat-top">
-            <div>
-              <span class="cat-emoji">📊</span>
-              <span class="cat-tag">Cost of living</span>
-            </div>
+            <div class="cat-icon">📊</div>
             <div class="cat-arrow">→</div>
           </div>
+          <span class="cat-tag">Cost of living</span>
           <div class="cat-title">What does life in Dubai cost?</div>
-          <div class="cat-desc">Rent, groceries, transport, dining — realistic monthly breakdowns by lifestyle</div>
+          <div class="cat-desc">Rent, groceries, transport, dining — realistic monthly breakdowns</div>
         </a>
-
-        <a class="cat-card expat-card" href="#">
+        <a class="cat-card expat-card soon" href="#">
           <div class="cat-top">
-            <div>
-              <span class="cat-emoji">🏥</span>
-              <span class="cat-tag">Healthcare</span>
-            </div>
+            <div class="cat-icon">🏥</div>
             <div class="cat-arrow">→</div>
           </div>
+          <span class="cat-tag">Healthcare</span>
           <div class="cat-title">Healthcare & insurance</div>
-          <div class="cat-desc">Best hospitals, mandatory insurance, private vs public and how it works</div>
+          <div class="cat-desc">Best hospitals, mandatory insurance, private vs public</div>
         </a>
-
       </div>
     </div>
 
@@ -398,26 +450,15 @@ nav { position: relative; z-index: 10; display: flex; align-items: center; justi
 
 <script>
 function selectPath(path) {
-  // Update buttons
   document.querySelectorAll('.path-btn').forEach(btn => btn.classList.remove('active'));
   document.querySelector('.path-btn.' + path).classList.add('active');
-
-  // Hide default state
-  document.getElementById('default-state').style.display = 'none';
-
-  // Show correct panel
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.getElementById('panel-' + path).classList.add('active');
-
-  // Smooth scroll to panel
-  document.querySelector('.main-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-  // Track in GA4
-  if (typeof gtag !== 'undefined') {
-    gtag('event', 'path_selected', { path: path });
-  }
+  const mainSection = document.getElementById('main-section');
+  mainSection.style.display = 'block';
+  setTimeout(() => mainSection.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+  if (typeof gtag !== 'undefined') gtag('event', 'path_selected', { path: path });
 }
 </script>
-
 </body>
 </html>
