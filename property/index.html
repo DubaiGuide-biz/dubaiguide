@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dubai property match — mydubaiguide.biz</title>
-<meta name="description" content="Answer 6 questions and get a personalised Dubai property recommendation with live Bayut listings and DLD transaction data.">
+<title>mydubaiguide.biz — Your complete guide to Dubai</title>
+<meta name="description" content="Everything you need to know about Dubai — whether you're visiting or making it home. AI-powered guides, live data and direct action links.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,567 +17,407 @@
 </script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'Inter', -apple-system, sans-serif;
-  background: #060d18;
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-  color: #fff;
-}
-.bg-glow {
-  position: fixed;
-  top: -200px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 900px;
-  height: 600px;
-  background: radial-gradient(ellipse, rgba(0,201,167,0.06) 0%, transparent 65%);
-  pointer-events: none;
-  z-index: 0;
-}
-nav {
-  position: relative;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.5rem 4rem;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.wordmark {
-  font-size: 22px;
-  font-weight: 800;
-  color: #fff;
-  letter-spacing: -0.02em;
-  text-decoration: none;
-}
+body { font-family: 'Inter', -apple-system, sans-serif; background: #060d18; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+
+/* ── HERO ── */
+.hero-section { position: relative; width: 100%; min-height: 100vh; display: flex; flex-direction: column; }
+.hero-bg { position: absolute; inset: 0; background-image: url('/skyline-bg.jpg'); background-size: cover; background-position: center center; z-index: 0; }
+.hero-bg-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(6,13,24,0.82) 0%, rgba(6,13,24,0.48) 35%, rgba(6,13,24,0.6) 65%, rgba(6,13,24,0.97) 100%); z-index: 1; }
+
+/* ── NAV ── */
+nav { position: relative; z-index: 10; display: flex; align-items: center; justify-content: space-between; padding: 1.75rem 4rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.wordmark { font-size: 24px; font-weight: 800; color: #fff; letter-spacing: -0.02em; text-decoration: none; }
 .wordmark .teal { color: #00c9a7; }
-.wordmark .muted { color: rgba(255,255,255,0.3); }
+.wordmark .muted { color: rgba(255,255,255,0.35); }
 .nav-right { display: flex; align-items: center; gap: 1.5rem; }
-.nav-link {
-  font-size: 14px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.4);
-  text-decoration: none;
-  transition: color .15s;
-}
+.nav-link { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.5); text-decoration: none; transition: color .15s; }
 .nav-link:hover { color: #fff; }
-.nav-link.active { color: #00c9a7; }
-.page {
-  position: relative;
-  z-index: 1;
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 3rem 2rem 5rem;
+.nav-free { background: rgba(0,201,167,0.1); border: 1px solid rgba(0,201,167,0.25); border-radius: 100px; padding: 7px 18px; font-size: 12px; font-weight: 700; color: #00c9a7; letter-spacing: 0.08em; text-transform: uppercase; }
+
+/* ── HERO CONTENT ── */
+.hero-content { position: relative; z-index: 5; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 4rem 2rem 3rem; }
+.hero-tag { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,201,167,0.08); border: 1px solid rgba(0,201,167,0.2); border-radius: 100px; padding: 6px 18px; font-size: 12px; font-weight: 600; color: #00c9a7; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.5rem; }
+.hero-tag-dot { width: 5px; height: 5px; background: #00c9a7; border-radius: 50%; animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+.hero-h1 { font-size: clamp(38px, 5vw, 66px); font-weight: 800; line-height: 1.08; letter-spacing: -0.03em; color: #fff; margin-bottom: 1rem; max-width: 860px; }
+.hero-h1 .accent { background: linear-gradient(135deg, #00c9a7, #00e5c7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.hero-sub { font-size: 17px; color: rgba(255,255,255,0.6); line-height: 1.6; max-width: 580px; margin-bottom: 3rem; }
+
+/* ── PATH SELECTOR ── */
+.path-selector { display: flex; gap: 1rem; width: 100%; max-width: 760px; }
+.path-btn {
+  flex: 1; padding: 1.5rem 2rem; border-radius: 18px; border: 1.5px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04); cursor: pointer; transition: all .2s ease;
+  text-align: left; display: flex; align-items: center; justify-content: space-between;
+  backdrop-filter: blur(12px);
 }
-.page-header { margin-bottom: 2.5rem; }
-.page-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(0,201,167,0.08);
-  border: 1px solid rgba(0,201,167,0.15);
-  border-radius: 100px;
-  padding: 4px 14px;
-  font-size: 11px;
-  font-weight: 700;
-  color: #00c9a7;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-bottom: 1rem;
+.path-btn:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.07); transform: translateY(-2px); }
+.path-btn.active.tourist { border-color: #f5b731; background: rgba(245,183,49,0.08); }
+.path-btn.active.expat { border-color: #00c9a7; background: rgba(0,201,167,0.08); }
+.path-emoji { font-size: 28px; margin-bottom: 8px; display: block; }
+.path-title { font-size: 18px; font-weight: 800; color: #fff; letter-spacing: -0.01em; display: block; margin-bottom: 4px; }
+.path-sub { font-size: 13px; color: rgba(255,255,255,0.4); display: block; }
+.path-arrow { font-size: 20px; color: rgba(255,255,255,0.25); transition: all .2s; }
+.path-btn.active .path-arrow { color: #00c9a7; transform: rotate(90deg); }
+.path-btn.active.tourist .path-arrow { color: #f5b731; }
+
+/* ── MAIN SECTION ── */
+.main-section { background: #060d18; padding: 4rem; position: relative; z-index: 5; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+
+/* ── CATEGORY PANELS ── */
+.panel { display: none; }
+.panel.active { display: block; }
+
+.panel-header { margin-bottom: 2rem; }
+.panel-label { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: .5rem; }
+.panel-title { font-size: 28px; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+
+.cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+
+.cat-card {
+  display: flex; flex-direction: column; padding: 1.75rem; border-radius: 16px;
+  background: #0d1826; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease;
+  position: relative; overflow: hidden; min-height: 180px;
+  border: 1px solid rgba(255,255,255,0.06);
 }
-.page-header h1 {
-  font-size: 32px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: #fff;
-  margin-bottom: 8px;
-}
-.page-header p {
-  font-size: 15px;
-  color: rgba(255,255,255,0.4);
-}
-.quiz-card {
-  background: #0b1424;
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 20px;
-  padding: 2.5rem;
-  margin-bottom: 1.5rem;
-}
-/* Progress */
-.progress {
-  height: 2px;
-  background: rgba(255,255,255,0.06);
-  border-radius: 2px;
-  margin-bottom: 2.5rem;
-  overflow: hidden;
-}
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #00c9a7, #00e5c7);
-  width: 0%;
-  transition: width .4s cubic-bezier(.4,0,.2,1);
-  box-shadow: 0 0 10px rgba(0,201,167,0.4);
-}
-/* Questions */
-.question { margin-bottom: 2rem; }
-.question label {
-  display: block;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
-  margin-bottom: 12px;
-}
-.options { display: flex; flex-wrap: wrap; gap: 8px; }
-.opt {
-  padding: 10px 20px;
-  border-radius: 100px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.03);
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.55);
-  cursor: pointer;
-  transition: all .15s ease;
-}
-.opt:hover {
-  border-color: rgba(0,201,167,0.4);
-  color: #fff;
-  background: rgba(0,201,167,0.06);
-}
-.opt.selected {
-  background: #00c9a7;
-  border-color: #00c9a7;
-  color: #000;
-  font-weight: 700;
-  box-shadow: 0 0 16px rgba(0,201,167,0.3);
-}
-/* CTA Button */
-.cta-btn {
-  width: 100%;
-  padding: 15px;
-  border-radius: 100px;
-  border: none;
-  background: #00c9a7;
-  color: #000;
-  font-family: 'Inter', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all .2s ease;
-  letter-spacing: 0.02em;
-  box-shadow: 0 0 24px rgba(0,201,167,0.25);
-}
-.cta-btn:hover:not(:disabled) {
-  background: #00e5c7;
-  box-shadow: 0 0 32px rgba(0,201,167,0.4);
-  transform: translateY(-1px);
-}
-.cta-btn:disabled { opacity: 0.2; cursor: not-allowed; box-shadow: none; transform: none; }
-/* Result */
-.result {
-  background: #0b1424;
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 20px;
-  padding: 2.5rem;
-  display: none;
-  margin-bottom: 1.5rem;
-}
-.result.show { display: block; }
-.result-eyebrow {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #00c9a7;
-  margin-bottom: 12px;
-}
-.result-text {
-  font-size: 16px;
-  color: rgba(255,255,255,0.85);
-  line-height: 1.7;
-  margin-bottom: 1.5rem;
-}
-/* Action links */
-.action-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 2rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.action-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 9px 16px;
-  border-radius: 100px;
-  font-size: 13px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all .15s;
-  border: 1px solid rgba(0,201,167,0.2);
-  background: rgba(0,201,167,0.06);
-  color: #00c9a7;
-}
-.action-link:hover {
-  background: rgba(0,201,167,0.12);
-  border-color: rgba(0,201,167,0.4);
-}
-/* Lead form */
-.leadform h3 {
-  font-size: 16px;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 4px;
-}
-.leadform .hint {
-  font-size: 13px;
-  color: rgba(255,255,255,0.35);
-  margin-bottom: 1.25rem;
-}
-.field { margin-bottom: 10px; }
-.field input {
-  width: 100%;
-  padding: 13px 16px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.04);
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  color: #fff;
-  transition: border-color .15s;
-}
-.field input::placeholder { color: rgba(255,255,255,0.25); }
-.field input:focus {
-  outline: none;
-  border-color: #00c9a7;
-  box-shadow: 0 0 0 3px rgba(0,201,167,0.08);
-}
-.confirm { display: none; text-align: center; padding: 1.5rem 0; }
-.confirm.show { display: block; }
-.confirm .check {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: #00c9a7;
-  color: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 12px;
-  font-size: 20px;
-  font-weight: 700;
-  box-shadow: 0 0 20px rgba(0,201,167,0.3);
-}
-.confirm p { color: rgba(255,255,255,0.5); font-size: 14px; }
-/* Loading */
-.loading { display: flex; gap: 6px; align-items: center; color: rgba(255,255,255,0.4); font-size: 14px; }
-.dot { width: 5px; height: 5px; border-radius: 50%; background: #00c9a7; animation: pulse 1.2s infinite ease-in-out; }
-.dot:nth-child(2) { animation-delay: .2s; }
-.dot:nth-child(3) { animation-delay: .4s; }
-@keyframes pulse { 0%,80%,100%{opacity:.2;transform:scale(.8)} 40%{opacity:1;transform:scale(1)} }
-/* Guides */
-.guides-section { margin-top: 2rem; }
-.guides-label {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.2);
-  margin-bottom: 1rem;
-}
-.guide-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-.guide-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.25rem;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.05);
-  background: rgba(255,255,255,0.02);
-  text-decoration: none;
-  transition: all .15s;
-}
-.guide-link:hover {
-  background: rgba(255,255,255,0.04);
-  border-color: rgba(255,255,255,0.1);
-}
-.guide-link-title { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.6); }
-.guide-link-arrow { font-size: 13px; color: rgba(255,255,255,0.2); }
+.cat-card::before { content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity .2s; border-radius: 16px; }
+.cat-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+.cat-card:hover::before { opacity: 1; }
+
+/* Tourist — gold theme */
+.tourist-card { border-color: rgba(245,183,49,0.1); }
+.tourist-card::before { background: linear-gradient(135deg, rgba(245,183,49,0.05), transparent); }
+.tourist-card .cat-tag { color: #f5b731; }
+.tourist-card .cat-arrow { background: rgba(245,183,49,0.1); color: #f5b731; }
+
+/* Expat — teal theme */
+.expat-card { border-color: rgba(0,201,167,0.1); }
+.expat-card::before { background: linear-gradient(135deg, rgba(0,201,167,0.05), transparent); }
+.expat-card .cat-tag { color: #00c9a7; }
+.expat-card .cat-arrow { background: rgba(0,201,167,0.1); color: #00c9a7; }
+
+.cat-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: auto; }
+.cat-emoji { font-size: 22px; margin-bottom: 8px; display: block; }
+.cat-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: .5rem; display: block; }
+.cat-title { font-size: 17px; font-weight: 700; color: #fff; line-height: 1.25; margin-bottom: .4rem; }
+.cat-desc { font-size: 12px; color: rgba(255,255,255,0.35); line-height: 1.5; }
+.cat-arrow { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; transition: transform .2s; }
+.cat-card:hover .cat-arrow { transform: translate(2px, -2px); }
+
+/* Coming soon card */
+.cat-card.soon { opacity: 0.35; pointer-events: none; }
+.cat-card.soon .cat-tag::after { content: ' · Coming soon'; opacity: 0.6; }
+
+/* ── STATS BAR ── */
+.stats-bar { display: flex; border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; overflow: hidden; background: rgba(255,255,255,0.02); max-width: 1100px; margin: 0 auto 3rem; }
+.stat-block { flex: 1; padding: 1.1rem 1.5rem; text-align: center; border-right: 1px solid rgba(255,255,255,0.05); }
+.stat-block:last-child { border-right: none; }
+.stat-num { font-size: 18px; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+.stat-num span { color: #00c9a7; }
+.stat-lbl { font-size: 11px; color: rgba(255,255,255,0.28); margin-top: 2px; font-weight: 500; }
+
+/* ── DEFAULT STATE (no selection) ── */
+.default-state { text-align: center; padding: 3rem 0; }
+.default-state p { font-size: 15px; color: rgba(255,255,255,0.25); }
+
+/* ── FOOTER ── */
+.footer-line { text-align: center; font-size: 12px; color: rgba(255,255,255,0.15); font-weight: 500; letter-spacing: 0.05em; padding: 1rem 0 2rem; }
+.footer-line a { color: rgba(255,255,255,0.25); text-decoration: none; margin: 0 12px; }
+.footer-line a:hover { color: rgba(255,255,255,0.5); }
+
+/* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   nav { padding: 1.25rem 1.5rem; }
-  .page { padding: 2rem 1.25rem 4rem; }
-  .quiz-card { padding: 1.5rem; }
-  .result { padding: 1.5rem; }
-  .guide-row { grid-template-columns: 1fr; }
+  .nav-right .nav-link { display: none; }
+  .hero-h1 { font-size: 34px; }
+  .hero-sub { font-size: 15px; }
+  .path-selector { flex-direction: column; }
+  .main-section { padding: 2.5rem 1.25rem; }
+  .cat-grid { grid-template-columns: 1fr 1fr; gap: .75rem; }
+  .cat-card { padding: 1.25rem; min-height: 150px; }
+  .cat-title { font-size: 14px; }
+  .stats-bar { flex-wrap: wrap; }
+  .stat-block { flex: 1 1 45%; }
+  .stat-block:nth-child(2) { border-right: none; }
+}
+@media (max-width: 480px) {
+  .cat-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
-<div class="bg-glow"></div>
 
-<nav>
-  <a href="/" class="wordmark">my<span class="teal">dubai</span>guide<span class="muted">.biz</span></a>
-  <div class="nav-right">
-    <a href="/property/" class="nav-link active">Property</a>
-    <a href="/business/" class="nav-link">Business</a>
-    <a href="/credit-cards/" class="nav-link">Credit Cards</a>
-    <a href="/about/" class="nav-link">About</a>
-  </div>
-</nav>
+<section class="hero-section">
+  <div class="hero-bg"></div>
+  <div class="hero-bg-overlay"></div>
 
-<div class="page">
-  <div class="page-header">
-    <div class="page-tag">🏠 Property match</div>
-    <h1>Find your ideal Dubai property</h1>
-    <p>Answer 6 questions · Get a personalised AI recommendation · Browse live Bayut listings</p>
-  </div>
+  <nav>
+    <a href="/" class="wordmark">my<span class="teal">dubai</span>guide<span class="muted">.biz</span></a>
+    <div class="nav-right">
+      <a href="/about/" class="nav-link">About</a>
+      <div class="nav-free">Free</div>
+    </div>
+  </nav>
 
-  <div class="quiz-card">
-    <div class="progress"><div class="progress-fill" id="progress-fill"></div></div>
-    <div id="quiz"></div>
-    <button class="cta-btn" id="cta" disabled>Get my match →</button>
-  </div>
+  <div class="hero-content">
+    <div class="hero-tag">
+      <div class="hero-tag-dot"></div>
+      AI-powered · No sign-up needed
+    </div>
+    <h1 class="hero-h1">
+      Everything you need<br>to know about Dubai.<br>
+      <span class="accent">All in one place.</span>
+    </h1>
+    <p class="hero-sub">Whether you're visiting for a week or building your life here — get instant, personalised guidance with direct links to take action.</p>
 
-  <div class="result" id="result">
-    <div class="result-eyebrow">✦ Your match</div>
-    <div class="result-text" id="result-body"></div>
-    <div class="action-links" id="action-links"></div>
-    <div class="leadform">
-      <h3>Connect with a property specialist</h3>
-      <p class="hint">A Dubai property specialist will follow up with personalised advice.</p>
-      <form id="lead-form">
-        <div class="field"><input type="text" id="lf-name" placeholder="Full name" required></div>
-        <div class="field"><input type="email" id="lf-email" placeholder="Email address" required></div>
-        <div class="field"><input type="tel" id="lf-phone" placeholder="Phone or WhatsApp" required></div>
-        <div style="display:flex;align-items:flex-start;gap:10px;margin:4px 0 12px;">
-          <input type="checkbox" id="lf-consent" required style="margin-top:3px;width:16px;height:16px;flex-shrink:0;accent-color:#00c9a7;cursor:pointer;">
-          <label for="lf-consent" style="font-size:12px;color:rgba(255,255,255,0.4);line-height:1.5;cursor:pointer;">
-            I agree to my details being shared with relevant specialists. I have read and accept the <a href="/privacy-policy/" style="color:#00c9a7;text-decoration:none;" target="_blank">Privacy Policy</a>.
-          </label>
+    <div class="path-selector">
+      <button class="path-btn tourist" onclick="selectPath('tourist')">
+        <div>
+          <span class="path-emoji">🧳</span>
+          <span class="path-title">I'm visiting Dubai</span>
+          <span class="path-sub">Tourist · Short stay · Holiday</span>
         </div>
-        <button type="submit" class="cta-btn">Request introduction →</button>
-      </form>
-      <div class="confirm" id="confirm">
-        <div class="check">✓</div>
-        <p id="confirm-text">Noted — a specialist will be in touch shortly.</p>
+        <span class="path-arrow">↓</span>
+      </button>
+      <button class="path-btn expat" onclick="selectPath('expat')">
+        <div>
+          <span class="path-emoji">🏙️</span>
+          <span class="path-title">I live in or am moving to Dubai</span>
+          <span class="path-sub">Resident · Expat · Long-term</span>
+        </div>
+        <span class="path-arrow">↓</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="main-section">
+  <div class="section-inner">
+
+    <!-- STATS BAR -->
+    <div class="stats-bar" style="margin-bottom:2.5rem;">
+      <div class="stat-block">
+        <div class="stat-num">2 <span>min</span></div>
+        <div class="stat-lbl">Average match time</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-num">Live <span>data</span></div>
+        <div class="stat-lbl">Bayut + DLD linked</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-num">4 <span>verticals</span></div>
+        <div class="stat-lbl">Property, Business, Cards & more</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-num">100<span>%</span></div>
+        <div class="stat-lbl">Free to use</div>
       </div>
     </div>
-  </div>
 
-  <div class="guides-section">
-    <div class="guides-label">Property guides</div>
-    <div class="guide-row">
-      <a class="guide-link" href="/property/guides/best-communities-under-2m/">
-        <span class="guide-link-title">Best areas under AED 2 million</span>
-        <span class="guide-link-arrow">→</span>
-      </a>
-      <a class="guide-link" href="/property/guides/emaar-vs-damac-vs-sobha/">
-        <span class="guide-link-title">Emaar vs Damac vs Sobha</span>
-        <span class="guide-link-arrow">→</span>
-      </a>
-      <a class="guide-link" href="/property/guides/off-plan-vs-ready/">
-        <span class="guide-link-title">Off-plan vs ready property</span>
-        <span class="guide-link-arrow">→</span>
-      </a>
-      <a class="guide-link" href="/property/guides/golden-visa-via-property/">
-        <span class="guide-link-title">Golden Visa through property</span>
-        <span class="guide-link-arrow">→</span>
-      </a>
-      <a class="guide-link" href="/property/guides/mortgage-eligibility-expats/">
-        <span class="guide-link-title">Mortgage eligibility for expats</span>
-        <span class="guide-link-arrow">→</span>
-      </a>
+    <!-- DEFAULT STATE -->
+    <div class="default-state" id="default-state">
+      <p>↑ Choose your path above to get started</p>
     </div>
+
+    <!-- TOURIST PANEL -->
+    <div class="panel" id="panel-tourist">
+      <div class="panel-header">
+        <div class="panel-label">🧳 Visiting Dubai</div>
+        <div class="panel-title">What do you need help with?</div>
+      </div>
+      <div class="cat-grid">
+
+        <a class="cat-card tourist-card" href="#">
+          <div class="cat-top">
+            <div>
+              <span class="cat-emoji">🎡</span>
+              <span class="cat-tag">Things to do</span>
+            </div>
+            <div class="cat-arrow">→</div>
+          </div>
+          <div class="cat-title">Experiences & activities</div>
+          <div class="cat-desc">Attractions, desert safaris, water parks, day trips and hidden gems</div>
+        </a>
+
+        <a class="cat-card tourist-card" href="#">
+          <div class="cat-top">
+            <div>
+              <span class="cat-emoji">🍽️</span>
+              <span class="cat-tag">Dining & nightlife</span>
+            </div>
+            <div class="cat-arrow">→</div>
+          </div>
+          <div class="cat-title">Where to eat & drink</div>
+          <div class="cat-desc">Best restaurants, rooftop bars, beach clubs and Friday brunches</div>
+        </a>
+
+        <a class="cat-card tourist-card" href="#">
+          <div class="cat-top">
+            <div>
+              <span class="cat-emoji">🏨</span>
+              <span class="cat-tag">Where to stay</span>
+            </div>
+            <div class="cat-arrow">→</div>
+          </div>
+          <div class="cat-title">Hotels & accommodation</div>
+          <div class="cat-desc">Best areas to stay, budget vs luxury, beach vs city — matched to your trip style</div>
+        </a>
+
+        <a class="cat-card tourist-card" href="#">
+          <div class="cat-top">
+            <div>
+              <span class="cat-emoji">🚗</span>
+              <span class="cat-tag">Getting around</span>
+            </div>
+            <div class="cat-arrow">→</div>
+          </div>
+          <div class="cat-title">Transport & getting around</div>
+          <div class="cat-desc">Metro, taxis, Careem, car rental — what to use and when</div>
+        </a>
+
+        <a class="cat-card tourist-card" href="#">
+          <div class="cat-top">
+            <div>
+              <span class="cat-emoji">💰</span>
+              <span class="cat-tag">Trip budget</span>
+            </div>
+            <div class="cat-arrow">→</div>
+          </div>
+          <div class="cat-title">How much will it cost?</div>
+          <div class="cat-desc">Realistic daily budgets, hidden costs and money-saving tips</div>
+        </a>
+
+        <a class="cat-card tourist-card" href="#">
+          <div class="cat-top">
+            <div>
+              <span class="cat-emoji">☀️</span>
+              <span class="cat-tag">When to visit</span>
+            </div>
+            <div class="cat-arrow">→</div>
+          </div>
+          <div class="cat-title">Best time to visit Dubai</div>
+          <div class="cat-desc">Month-by-month guide to weather, events and pricing</div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- EXPAT PANEL -->
+    <div class="panel" id="panel-expat">
+      <div class="panel-header">
+        <div class="panel-label">🏙️ Moving to Dubai</div>
+        <div class="panel-title">What do you need help with?</div>
+      </div>
+      <div class="cat-grid">
+
+        <a class="cat-card expat-card" href="#">
+          <div class="cat-top">
+            <div>
+              <span class="cat-emoji">🏘️</span>
+              <span class="cat-tag">Where to live</span>
+            </div>
+            <div class="cat-arrow">→</div>
+          </div>
+          <div class="cat-title">Find the right neighbourhood</div>
+          <div class="cat-desc">Compare communities, rents, commute times and lifestyle by area</div>
+        </a>
+
+        <a class="cat-card expat-card" href="/property/">
+          <div class="cat-top">
+            <div>
+              <span class="cat-emoji">🏠</span>
+              <span class="cat-tag">Property</span>
+            </div>
+            <div class="cat-arrow">→</div>
+          </div>
+          <div class="cat-title">Buy or invest in property</div>
+          <div class="cat-desc">AI-matched communities, live Bayut listings, DLD transactions, Golden Visa</div>
+        </a>
+
+        <a class="cat-card expat-card" href="/business/">
+          <div class="cat-top">
+            <div>
+              <span class="cat-emoji">💼</span>
+              <span class="cat-tag">Business setup</span>
+            </div>
+            <div class="cat-arrow">→</div>
+          </div>
+          <div class="cat-title">Start a business in Dubai</div>
+          <div class="cat-desc">Free zone vs mainland, real 2026 costs, license application links</div>
+        </a>
+
+        <a class="cat-card expat-card" href="/credit-cards/">
+          <div class="cat-top">
+            <div>
+              <span class="cat-emoji">💳</span>
+              <span class="cat-tag">Credit cards</span>
+            </div>
+            <div class="cat-arrow">→</div>
+          </div>
+          <div class="cat-title">Find your best UAE credit card</div>
+          <div class="cat-desc">Matched to your salary tier — cashback, miles, Islamic and elite cards</div>
+        </a>
+
+        <a class="cat-card expat-card" href="#">
+          <div class="cat-top">
+            <div>
+              <span class="cat-emoji">📊</span>
+              <span class="cat-tag">Cost of living</span>
+            </div>
+            <div class="cat-arrow">→</div>
+          </div>
+          <div class="cat-title">What does life in Dubai cost?</div>
+          <div class="cat-desc">Rent, groceries, transport, dining — realistic monthly breakdowns by lifestyle</div>
+        </a>
+
+        <a class="cat-card expat-card" href="#">
+          <div class="cat-top">
+            <div>
+              <span class="cat-emoji">🏥</span>
+              <span class="cat-tag">Healthcare</span>
+            </div>
+            <div class="cat-arrow">→</div>
+          </div>
+          <div class="cat-title">Healthcare & insurance</div>
+          <div class="cat-desc">Best hospitals, mandatory insurance, private vs public and how it works</div>
+        </a>
+
+      </div>
+    </div>
+
+    <p class="footer-line">
+      • Powered by AI •
+      <a href="/about/">About</a>
+      <a href="/privacy-policy/">Privacy Policy</a>
+      <a href="mailto:hello@mydubaiguide.biz">Contact</a>
+    </p>
+
   </div>
-</div>
+</section>
 
 <script>
-function initQuiz(config) {
-  let answers = {};
-  let lastRecommendation = '';
-  const quizEl = document.getElementById('quiz');
-  const ctaEl = document.getElementById('cta');
-  const progressFill = document.getElementById('progress-fill');
-  const resultEl = document.getElementById('result');
-  const resultBody = document.getElementById('result-body');
-  const actionLinks = document.getElementById('action-links');
-  const leadForm = document.getElementById('lead-form');
-  const confirmEl = document.getElementById('confirm');
+function selectPath(path) {
+  // Update buttons
+  document.querySelectorAll('.path-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelector('.path-btn.' + path).classList.add('active');
 
-  function renderQuiz() {
-    quizEl.innerHTML = '';
-    config.questions.forEach(q => {
-      const qDiv = document.createElement('div');
-      qDiv.className = 'question';
-      const label = document.createElement('label');
-      label.textContent = q.label + (q.multi ? ' — select all that apply' : '');
-      qDiv.appendChild(label);
-      const opts = document.createElement('div');
-      opts.className = 'options';
-      q.options.forEach(opt => {
-        const btn = document.createElement('button');
-        btn.className = 'opt';
-        btn.type = 'button';
-        btn.textContent = opt;
-        btn.onclick = () => selectOption(q.id, opt, btn, qDiv, q.multi);
-        opts.appendChild(btn);
-      });
-      qDiv.appendChild(opts);
-      quizEl.appendChild(qDiv);
-    });
-    updateProgress();
+  // Hide default state
+  document.getElementById('default-state').style.display = 'none';
+
+  // Show correct panel
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + path).classList.add('active');
+
+  // Smooth scroll to panel
+  document.querySelector('.main-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // Track in GA4
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'path_selected', { path: path });
   }
-
-  function selectOption(qId, value, btn, qDiv, multi) {
-    if (multi) {
-      btn.classList.toggle('selected');
-      if (!Array.isArray(answers[qId])) answers[qId] = [];
-      if (answers[qId].includes(value)) answers[qId] = answers[qId].filter(v => v !== value);
-      else answers[qId].push(value);
-      if (answers[qId].length === 0) delete answers[qId];
-    } else {
-      qDiv.querySelectorAll('.opt').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      answers[qId] = value;
-    }
-    updateProgress();
-  }
-
-  function updateProgress() {
-    const total = config.questions.length;
-    const done = Object.keys(answers).length;
-    progressFill.style.width = Math.round((done / total) * 100) + '%';
-    ctaEl.disabled = done < total;
-  }
-
-  function trackEvent(name, params) {
-    if (typeof gtag !== 'undefined') gtag('event', name, params);
-  }
-
-  ctaEl.addEventListener('click', async () => {
-    trackEvent('quiz_completed', { vertical: config.vertical, budget: answers.budget || '', type: answers.type || '', area: Array.isArray(answers.area) ? answers.area.join(', ') : (answers.area || '') });
-    ctaEl.disabled = true;
-    resultEl.classList.add('show');
-    resultBody.innerHTML = '<div class="loading"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span style="margin-left:4px">Finding your match</span></div>';
-    actionLinks.innerHTML = '';
-    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-    try {
-      const response = await fetch('/api/match', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ vertical: config.vertical, answers })
-      });
-      const data = await response.json();
-      lastRecommendation = data.recommendation || 'Could not generate a match right now.';
-      resultBody.innerHTML = lastRecommendation;
-// Email capture
-      const prevCapture = document.getElementById('email-capture');
-      if (prevCapture) prevCapture.remove();
-      const emailCapture = document.createElement('div');
-      emailCapture.id = 'email-capture';
-      emailCapture.style.cssText = 'margin:1.25rem 0;padding:1.25rem 1.5rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;';
-      emailCapture.innerHTML = `
-        <p style="font-size:13px;color:rgba(255,255,255,0.45);margin-bottom:.75rem;">📩 Want this match saved? Enter your email and we'll send it to you.</p>
-        <form id="email-only-form" style="display:flex;gap:8px;flex-wrap:wrap;">
-          <input type="email" id="eo-email" placeholder="your@email.com" required
-            style="flex:1;min-width:180px;padding:10px 16px;border-radius:100px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);font-family:inherit;font-size:13px;color:#fff;outline:none;">
-          <button type="submit"
-            style="padding:10px 20px;border-radius:100px;border:none;background:#00c9a7;color:#000;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">
-            Send →
-          </button>
-        </form>
-        <div id="eo-confirm" style="display:none;font-size:13px;color:rgba(0,201,167,0.8);margin-top:.6rem;">✓ Sent — check your inbox</div>
-      `;
-      resultBody.after(emailCapture);
-      document.getElementById('email-only-form').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const email = document.getElementById('eo-email').value.trim();
-        if (!email) return;
-        try {
-          await fetch('/api/lead', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              vertical: config.vertical,
-              answers,
-              recommendation: lastRecommendation,
-              contact: { name: 'Email capture only', email, phone: 'n/a' },
-              submittedAt: new Date().toISOString()
-            })
-          });
-        } catch(err) {}
-        this.style.display = 'none';
-        document.getElementById('eo-confirm').style.display = 'block';
-      });
-      actionLinks.innerHTML = '';
-      if (data.bayutListingsUrl) {
-        actionLinks.innerHTML += `<a href="${data.bayutListingsUrl}" target="_blank" rel="noopener" class="action-link">Browse matching listings on Bayut →</a>`;
-      }
-      if (data.bayutInsightsUrl) {
-        actionLinks.innerHTML += `<a href="${data.bayutInsightsUrl}" target="_blank" rel="noopener" class="action-link">Area transaction data (DLD) →</a>`;
-      }
-      actionLinks.innerHTML += `<a href="/property/guides/mortgage-eligibility-expats/" class="action-link">Mortgage guide →</a>`;
-
-    } catch (e) {
-      lastRecommendation = 'Could not reach the matching engine — try again.';
-      resultBody.innerHTML = lastRecommendation;
-    }
-    ctaEl.disabled = false;
-  });
-
-  leadForm.addEventListener('submit', async e => {
-    e.preventDefault();
-    const name = document.getElementById('lf-name').value.trim();
-    const email = document.getElementById('lf-email').value.trim();
-    const phone = document.getElementById('lf-phone').value.trim();
-    if (!name || !email || !phone) return;
-    trackEvent('lead_submitted', { vertical: config.vertical, budget: answers.budget || '' });
-    try {
-      await fetch('/api/lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ vertical: config.vertical, answers, recommendation: lastRecommendation, contact: { name, email, phone }, submittedAt: new Date().toISOString() })
-      });
-    } catch (e) {}
-    leadForm.style.display = 'none';
-    document.getElementById('confirm-text').textContent = `Thanks, ${name.split(' ')[0]} — a specialist will be in touch shortly.`;
-    confirmEl.classList.add('show');
-  });
-
-  renderQuiz();
 }
-
-initQuiz({
-  vertical: 'property',
-  questions: [
-    { id:'budget', label:"What's your budget?", options:['Under AED 1M','AED 1–2M','AED 2–5M','AED 5M+'] },
-    { id:'purpose', label:"What's the property for?", options:['Living in it','Pure investment','Both'] },
-    { id:'type', label:'What type?', options:['Apartment','Villa or townhouse','Either'] },
-    { id:'completion', label:'Off-plan or ready to move in?', options:['Off-plan','Ready to move in','Either'] },
-    { id:'area', label:'Preferred area?', multi:true, options:['Downtown or Business Bay','Dubai Marina or JBR','Dubai Hills or Arabian Ranches','JVC or Dubai South','Dubailand','Jebel Ali','Al Furjan','No preference'] },
-    { id:'priority', label:'What matters most?', options:['Lowest price','Rental yield','Good schools nearby','Golden visa eligibility','Beach or waterfront'] }
-  ]
-});
 </script>
-
-<div style="margin-top:3rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.05);text-align:center;position:relative;z-index:1;">
-  <p style="font-size:12px;color:rgba(255,255,255,0.2);">
-    <a href="/about/" style="color:rgba(255,255,255,0.3);text-decoration:none;margin:0 12px;">About</a>
-    <a href="/privacy-policy/" style="color:rgba(255,255,255,0.3);text-decoration:none;margin:0 12px;">Privacy Policy</a>
-    <a href="mailto:hello@mydubaiguide.biz" style="color:rgba(255,255,255,0.3);text-decoration:none;margin:0 12px;">Contact</a>
-  </p>
-</div>
 
 </body>
 </html>
