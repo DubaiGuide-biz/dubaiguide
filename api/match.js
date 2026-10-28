@@ -80,7 +80,7 @@ export default async function handler(req, res) {
       prompt = `You are a Dubai property expert. Today is ${today}. A buyer completed a quiz: ${JSON.stringify(answers)}.
 
 Current Dubai market reality:
-- Villas/townhouses minimum realistic budget: AED 1.8M. Under AED 1M — zero villas exist.
+- Villas/townhouses minimum realistic budget: AED 1.8M. Under AED 1M zero villas exist.
 - Villas AED 1-2M: very limited — Town Square 3-bed townhouse or JVC 2-bed townhouse only.
 - Villas AED 2-5M: Dubai Hills Estate, Arabian Ranches, Dubailand, Al Furjan, Mudon, Town Square.
 - Villas AED 5M+: Palm Jumeirah, Emirates Hills, Arabian Ranches 2, Dubai Hills Estate premium.
@@ -89,12 +89,51 @@ Current Dubai market reality:
 - Apartments AED 2-5M: Dubai Marina, Downtown Dubai, Business Bay, Dubai Hills Estate, Palm Jumeirah.
 - Business Bay, Downtown Dubai, Dubai Marina — apartments ONLY, no villas.
 - If budget/type mismatch: say so directly, give realistic minimum needed, suggest alternative.
-- If area has no matching property type: say so and suggest 2 correct areas.
+
+Respond ONLY with valid JSON, no backticks, no markdown:
+{"recommendation": "2 sentences max. Honest, direct. Reference H2 2026 market.", "area": "Pick ONE from: ${areaOptions}"}`;
+
+    } else if (vertical === 'itinerary') {
+      const days = answers.days || '3 days';
+      const interests = Array.isArray(answers.interests) ? answers.interests.join(', ') : (answers.interests || 'mix');
+      const group = answers.group || 'couple';
+      const budget = answers.budget || 'mid-range';
+      const dayCount = days === '2 days' ? 2 : days === '3 days' ? 3 : days === '4-5 days' ? 5 : days === '1 week' ? 7 : 14;
+
+      prompt = `You are an expert Dubai travel guide. Today is ${today}. A visitor is planning a trip: ${dayCount} days, interests: ${interests}, travelling as: ${group}, budget: ${budget}.
+
+Build a detailed day-by-day Dubai itinerary with exactly ${dayCount} days.
+
+Rules:
+- Name real, specific Dubai venues only — no generic suggestions
+- Morning / afternoon / evening structure for each day
+- Match budget: ${budget}
+- Match group: ${group}
+- Match interests: ${interests}
+
+Venue guidance by interest:
+- Culture & history: Al Fahidi Historic District, Dubai Museum, Gold Souk, Spice Souk, Jumeirah Mosque, Etihad Museum, Al Seef
+- Beaches & water: JBR Beach, Kite Beach, La Mer, Atlantis Aquaventure, Ain Dubai, Palm Jumeirah boardwalk
+- Luxury & fine dining: Nobu at Atlantis, Zuma DIFC, Nusr-Et, Pierchic, Ossiano, Atmosphere Burj Khalifa, Burj Al Arab Afternoon Tea
+- Adventure & outdoor: Skydive Dubai, Desert Safari with Al Maha, Hatta Mountain biking, Dubai Frame, XLine zipline, OliOli
+- Shopping: Dubai Mall, Mall of the Emirates, Gold Souk, Spice Souk, Outlet Village, Boxpark, La Mer, City Walk
+- Nightlife & bars: White Dubai, Soho Garden, Zero Gravity, FIVE Palm, Industrial Avenue, Iris DIFC, rooftop bars at DIFC
+- Family & kids: Dubai Aquarium, IMG Worlds of Adventure, Legoland, Kidzania, Wild Wadi, Dubai Frame, Dubai Parks & Resorts
+- Hidden gems & local: Al Quoz galleries, Alserkal Avenue, Satwa neighbourhood, Ripe Market, Last Exit Al Qudra, Expo City
+
+Budget guidance:
+- Budget (under AED 300/day): Metro, Ravi Restaurant, public beaches, free attractions (Burj Khalifa viewing area exterior, Dubai Frame exterior), street food
+- Mid-range (AED 300-700/day): Ubers, casual dining, paid attractions, one nicer restaurant per day
+- Premium (AED 700-1500/day): taxis, smart casual dining, premium experiences, one luxury dinner
+- Luxury (AED 1500+/day): private transfers, fine dining every evening, VIP experiences, premium hotels assumed
 
 Respond ONLY with valid JSON, no backticks, no markdown:
 {
-  "recommendation": "2 sentences max. Honest, direct, expert. Reference H2 2026 market conditions.",
-  "area": "Pick ONE from: ${areaOptions}"
+  "intro": "One vivid sentence setting the scene for this specific trip.",
+  "days": [
+    {"label": "Day 1", "theme": "Short evocative theme", "plan": "Morning: [specific plan]. Afternoon: [specific plan]. Evening: [specific plan]. Tip: [one practical tip]."}
+  ],
+  "recommendation": "Full itinerary as plain text fallback"
 }`;
 
     } else if (vertical === 'credit-cards') {
@@ -102,84 +141,32 @@ Respond ONLY with valid JSON, no backticks, no markdown:
 
 UAE credit card market by salary tier:
 
-BELOW AED 5K: No unsecured cards. Secured card route only — Mashreq Neo Secured, CBD Secured, NBF Secured. After 6-12 months converts to standard card.
+BELOW AED 5K: No unsecured cards. Secured card route only — Mashreq Neo Secured, CBD Secured, NBF Secured.
 
-AED 5K-12K (Standard):
-- Mashreq Cashback Visa: FREE for life, no salary transfer, 5% dining/international, 2% everywhere. Best all-rounder.
-- Wio Credit Card: 2% flat cashback, fully digital, no salary transfer. Best digital card.
-- RAKBANK Red: Dining and shopping cashback, AED 5k min, AED 300 fee (waivable).
-- Liv Cashback+ (Emirates NBD): 2% cashback, free, AED 5k min.
-- ADIB Cashback (Islamic): Free, 1% cashback, AED 5k min. Best Islamic option here.
-- Emirates Islamic (Islamic): AED 5k min, Shariah-compliant cashback.
-- Emirates NBD Skywards Blue: 0.5 miles/AED 1, AED 5k min. Entry Emirates miles card.
-- ADCB SimplyLife: Credit building, AED 5k min.
+AED 5K-12K: Mashreq Cashback Visa (FREE for life, 5% dining/international, 2% everywhere), Wio (2% flat, digital, free), RAKBANK Red (dining cashback), Liv Cashback+ (2%, free), ADIB Cashback (Islamic, free), Emirates Islamic (Islamic), Emirates NBD Skywards Blue (0.5 miles/AED).
 
-AED 12K-25K (Mid-premium):
-- HSBC Live+: 10% dining cashback, Zomato Gold, AED 12,500 min, FREE year 1 then AED 314. Best dining card in UAE.
-- Mashreq Solitaire: Zero FX fees, lounge, AED 15k min, AED 800 fee.
-- RAKBANK World Elite: Lounge access, AED 15k min.
-- ADCB Traveller: 2x miles, lounge, AED 15k min, AED 700 fee.
-- Emirates NBD Skywards Signature: 1.5 miles/AED 1, instant Skywards Silver, unlimited lounge, AED 20k min, AED 900 fee. Best Emirates card at mid-tier.
-- Amex Platinum: Unlimited Priority Pass, concierge, hotel benefits, AED 21,250 min, AED 2,300 fee.
-- ADIB Gold (Islamic): AED 15k min, Shariah-compliant premium.
+AED 12K-25K: HSBC Live+ (10% dining, AED 12,500 min, free yr1 then AED 314), Mashreq Solitaire (zero FX, lounge, AED 15k), ADCB Traveller (2x miles, AED 15k), Emirates NBD Skywards Signature (1.5 miles/AED, instant Silver, AED 20k, AED 900 fee), Amex Platinum (unlimited Priority Pass, AED 21,250 min).
 
-AED 25K-40K (Premium):
-- Emirates NBD Skywards Infinite: 3.5 miles/USD, Skywards Gold fast-track, AED 4,200 fee, AED 35k min. Best Emirates card.
-- ADCB Etihad Guest Infinite: 3 Etihad miles/USD, 60k welcome miles, 4 upgrades, AED 40k min. Best Etihad card.
-- FAB Etihad Guest Infinite: 3 Etihad miles/USD, 60k welcome miles, AED 40k min, AED 800 fee.
-- Citibank Prestige: Premium travel, concierge, AED 36,750 min.
-- FAB Elite: 4% cashback, zero FX fees, lounge, AED 35k min, AED 1,200 fee.
+AED 25K-40K: Emirates NBD Skywards Infinite (3.5 miles/USD, Gold fast-track, AED 35k, AED 4,200 fee), ADCB Etihad Guest Infinite (3 miles/USD, 60k welcome miles, AED 40k), Citibank Prestige (premium travel, AED 36,750 min).
 
-AED 40K-60K (Super premium):
-- Citi Ultima: 5 miles/USD international, 2.5 local, 30k bonus miles/year, AED 36,750 min, AED 3,000 fee. Best miles rate in UAE.
-- FAB Elite: 20x rewards luxury spend, 50% off 100+ five-star restaurants, AED 50k min, AED 1,200 fee. Best lifestyle card.
-- Mashreq Solitaire Black: Zero FX fees, unlimited lounge, concierge, AED 50k min.
+AED 40K-60K: Citi Ultima (5 miles/USD, AED 36,750 min, AED 3,000 fee), FAB Elite (20x rewards, 50% off luxury dining, AED 50k, AED 1,200 fee).
 
-AED 60K+ (Elite/VVIP):
-- FAB Elite: Best widely available elite card.
-- Amex Centurion (Black): Invite-only, needs AED 500k+ annual Amex spend. Dedicated manager, bespoke concierge, airport terminal access. Mention if high spender.
-- Private banking cards (ENBD Reserve, FAB Private): Speak to private banking team directly — not applied for publicly.
+AED 60K+: FAB Elite (best widely available), Amex Centurion (invite only, AED 500k+ spend), Private banking cards (speak to bank directly).
 
-STRICT RULES:
-1. NEVER recommend a card below its salary minimum.
-2. Below AED 5k = secured card ONLY, no exceptions.
-3. Islamic benefit = ONLY recommend ADIB, Emirates Islamic, DIB, FAB Islamic.
-4. Emirates airline = Skywards cards only.
-5. Etihad airline = Etihad Guest cards only.
-6. Free cards only = Mashreq Cashback, Wio, Liv, ADIB only.
-7. Building credit = ADCB SimplyLife or secured route.
-8. Name exactly 2 cards. One key benefit each. Honest about fees.
-9. Max 3 sentences total.
+STRICT RULES: Never recommend card below salary minimum. Below AED 5k = secured only. Islamic = ADIB/Emirates Islamic/DIB only. Emirates flyer = Skywards. Etihad flyer = Etihad Guest. Free only = Mashreq Cashback/Wio/Liv. Name exactly 2 cards. Max 3 sentences.
 
-Respond ONLY with valid JSON, no backticks, no markdown:
-{
-  "recommendation": "3 sentences max. 2 cards named. Top benefit and fee for each. Honest.",
-  "cards": [
-    {"name": "Full card name", "bank": "Bank name", "applyUrl": "https://bank-application-url"},
-    {"name": "Full card name", "bank": "Bank name", "applyUrl": "https://bank-application-url"}
-  ]
-}`;
+Respond ONLY with valid JSON, no backticks:
+{"recommendation": "3 sentences. 2 cards named. Top benefit and fee each.", "cards": [{"name": "Full card name", "bank": "Bank name", "applyUrl": "https://url"}, {"name": "Full card name", "bank": "Bank name", "applyUrl": "https://url"}]}`;
 
     } else {
       prompt = `You are a Dubai business setup expert. Today is ${today}. Someone completed a quiz: ${JSON.stringify(answers)}.
 
-Available options: ${freeZoneOptions}
+Options: ${freeZoneOptions}
 
-Match their answers:
-- Consultancy/services low budget: IFZA or Meydan
-- Tech startups: Dubai Internet City or Dubai Silicon Oasis
-- E-commerce: Dubai CommerCity or IFZA
-- Trading: DMCC or RAKEZ
-- Restaurant/F&B: Mainland — no exceptions
-- Mainland market access: Mainland
-- Lowest cost non-Dubai: SHAMS or RAKEZ
-- Multiple shareholders: DMCC
+Match: Consultancy/low budget=IFZA or Meydan. Tech=Dubai Internet City or Dubai Silicon Oasis. E-commerce=Dubai CommerCity or IFZA. Trading=DMCC or RAKEZ. F&B=Mainland (no exceptions). Mainland access=Mainland. Lowest cost non-Dubai=SHAMS or RAKEZ. Multiple shareholders=DMCC.
 
-Respond ONLY with valid JSON, no backticks, no markdown:
-{
-  "recommendation": "2 sentences max. Name specific setup. Include one real cost figure. Direct and honest.",
-  "setup": "Pick ONE from: ${freeZoneOptions}"
-}`;
+Respond ONLY with valid JSON, no backticks:
+{"recommendation": "2 sentences. Specific setup. One real cost figure.", "setup": "ONE from: ${freeZoneOptions}"}`;
     }
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -191,7 +178,7 @@ Respond ONLY with valid JSON, no backticks, no markdown:
       },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 400,
+        max_tokens: vertical === 'itinerary' ? 2000 : 400,
         messages: [{ role: 'user', content: prompt }]
       })
     });
@@ -215,8 +202,7 @@ Respond ONLY with valid JSON, no backticks, no markdown:
     if (vertical === 'property') {
       const budget = budgetMap[answers.budget] || { min: 0, max: 5000000 };
       const typeSlug = typeSlugMap[answers.type] || 'property';
-      const aiArea = parsed.area || null;
-      const slugs = aiArea ? areaSlugMap[aiArea] : null;
+      const slugs = parsed.area ? areaSlugMap[parsed.area] : null;
       const areaPath = slugs ? `${slugs.listing}/` : '';
       const txPath = slugs ? `${slugs.tx}/` : '';
       bayutListingsUrl = `https://www.bayut.com/for-sale/${typeSlug}/dubai/${areaPath}?price_min=${budget.min}&price_max=${budget.max}`;
@@ -225,8 +211,7 @@ Respond ONLY with valid JSON, no backticks, no markdown:
 
     let businessLinks = null;
     if (vertical === 'business') {
-      const setup = parsed.setup || null;
-      const fz = setup ? freeZoneLinkMap[setup] : null;
+      const fz = parsed.setup ? freeZoneLinkMap[parsed.setup] : null;
       businessLinks = {
         apply: fz ? { label: `Apply for ${fz.name} license`, url: fz.url } : null,
         nameCheck: { label: 'Check company name availability', url: 'https://ded.ae/service_details/en/name_reservation' },
@@ -243,12 +228,21 @@ Respond ONLY with valid JSON, no backticks, no markdown:
       }));
     }
 
+    let itineraryDays = null;
+    let itineraryIntro = null;
+    if (vertical === 'itinerary' && parsed.days && Array.isArray(parsed.days)) {
+      itineraryDays = parsed.days;
+      itineraryIntro = parsed.intro || null;
+    }
+
     res.status(200).json({
       recommendation,
       bayutListingsUrl,
       bayutInsightsUrl,
       businessLinks,
       cardLinks,
+      itineraryDays,
+      itineraryIntro,
       vertical
     });
 
@@ -259,6 +253,8 @@ Respond ONLY with valid JSON, no backticks, no markdown:
       bayutInsightsUrl: null,
       businessLinks: null,
       cardLinks: null,
+      itineraryDays: null,
+      itineraryIntro: null,
       vertical: ''
     });
   }
