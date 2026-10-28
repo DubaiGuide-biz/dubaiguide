@@ -18,13 +18,9 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Inter', -apple-system, sans-serif; background: #060d18; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-
-/* ── HERO ── */
 .hero-section { position: relative; width: 100%; min-height: 100vh; display: flex; flex-direction: column; }
 .hero-bg { position: absolute; inset: 0; background-image: url('/skyline-bg.jpg'); background-size: cover; background-position: center center; z-index: 0; }
 .hero-bg-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(6,13,24,0.82) 0%, rgba(6,13,24,0.48) 30%, rgba(6,13,24,0.65) 65%, rgba(6,13,24,0.98) 100%); z-index: 1; }
-
-/* ── NAV ── */
 nav { position: relative; z-index: 10; display: flex; align-items: center; justify-content: space-between; padding: 1.75rem 4rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
 .wordmark { font-size: 24px; font-weight: 800; color: #fff; letter-spacing: -0.02em; text-decoration: none; }
 .wordmark .teal { color: #00c9a7; }
@@ -33,8 +29,6 @@ nav { position: relative; z-index: 10; display: flex; align-items: center; justi
 .nav-link { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.5); text-decoration: none; transition: color .15s; }
 .nav-link:hover { color: #fff; }
 .nav-free { background: rgba(0,201,167,0.1); border: 1px solid rgba(0,201,167,0.25); border-radius: 100px; padding: 7px 18px; font-size: 12px; font-weight: 700; color: #00c9a7; letter-spacing: 0.08em; text-transform: uppercase; }
-
-/* ── HERO CONTENT ── */
 .hero-content { position: relative; z-index: 5; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 4rem 2rem 4rem; }
 .hero-tag { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,201,167,0.08); border: 1px solid rgba(0,201,167,0.2); border-radius: 100px; padding: 6px 18px; font-size: 12px; font-weight: 600; color: #00c9a7; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.5rem; }
 .hero-tag-dot { width: 5px; height: 5px; background: #00c9a7; border-radius: 50%; animation: blink 2s infinite; }
@@ -42,181 +36,76 @@ nav { position: relative; z-index: 10; display: flex; align-items: center; justi
 .hero-h1 { font-size: clamp(38px, 5vw, 66px); font-weight: 800; line-height: 1.08; letter-spacing: -0.03em; color: #fff; margin-bottom: 1rem; max-width: 860px; }
 .hero-h1 .accent { background: linear-gradient(135deg, #00c9a7, #00e5c7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .hero-sub { font-size: 17px; color: rgba(255,255,255,0.6); line-height: 1.6; max-width: 560px; margin-bottom: 2.5rem; }
-
-/* ── STATS (in hero) ── */
 .hero-stats { display: flex; gap: 2.5rem; margin-bottom: 3rem; }
-.hero-stat { text-align: center; }
 .hero-stat-num { font-size: 20px; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
 .hero-stat-num span { color: #00c9a7; }
 .hero-stat-lbl { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 2px; font-weight: 500; }
-
-/* ── PATH CARDS ── */
 .path-question { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.4); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 1rem; }
-
 .path-selector { display: flex; gap: 1rem; width: 100%; max-width: 800px; }
-
-.path-btn {
-  flex: 1;
-  padding: 0;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all .2s ease;
-  text-align: left;
-  background: none;
-  border: none;
-  overflow: hidden;
-  position: relative;
-}
-
-.path-btn-inner {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  padding: 1.5rem 1.75rem;
-  border-radius: 20px;
-  border: 1.5px solid rgba(255,255,255,0.12);
-  background: rgba(6,13,24,0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  transition: all .2s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.path-btn-inner::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity .2s;
-}
-
+.path-btn { flex: 1; padding: 0; border-radius: 20px; cursor: pointer; transition: all .2s ease; text-align: left; background: none; border: none; overflow: hidden; }
+.path-btn-inner { display: flex; align-items: center; gap: 1.25rem; padding: 1.5rem 1.75rem; border-radius: 20px; border: 1.5px solid rgba(255,255,255,0.12); background: rgba(6,13,24,0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); transition: all .2s ease; position: relative; overflow: hidden; }
+.path-btn-inner::before { content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity .2s; }
 .path-btn.tourist .path-btn-inner::before { background: linear-gradient(135deg, rgba(245,183,49,0.12), transparent 60%); }
 .path-btn.expat .path-btn-inner::before { background: linear-gradient(135deg, rgba(0,201,167,0.12), transparent 60%); }
-
 .path-btn:hover .path-btn-inner { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,0,0,0.5); }
 .path-btn:hover .path-btn-inner::before { opacity: 1; }
 .path-btn.tourist:hover .path-btn-inner { border-color: rgba(245,183,49,0.5); }
 .path-btn.expat:hover .path-btn-inner { border-color: rgba(0,201,167,0.5); }
-
 .path-btn.active.tourist .path-btn-inner { border-color: #f5b731; background: rgba(245,183,49,0.1); box-shadow: 0 0 0 1px #f5b731; }
 .path-btn.active.tourist .path-btn-inner::before { opacity: 1; }
 .path-btn.active.expat .path-btn-inner { border-color: #00c9a7; background: rgba(0,201,167,0.1); box-shadow: 0 0 0 1px #00c9a7; }
 .path-btn.active.expat .path-btn-inner::before { opacity: 1; }
-
-.path-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 1;
-}
+.path-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; position: relative; z-index: 1; }
 .path-btn.tourist .path-icon { background: rgba(245,183,49,0.12); }
 .path-btn.expat .path-icon { background: rgba(0,201,167,0.1); }
 .path-btn.active.tourist .path-icon { background: rgba(245,183,49,0.2); }
 .path-btn.active.expat .path-icon { background: rgba(0,201,167,0.15); }
-
 .path-text { position: relative; z-index: 1; text-align: left; }
 .path-title { font-size: 17px; font-weight: 800; color: #fff; letter-spacing: -0.01em; display: block; margin-bottom: 3px; }
 .path-sub { font-size: 13px; color: rgba(255,255,255,0.4); display: block; line-height: 1.4; }
 .path-btn.active.tourist .path-title { color: #f5b731; }
 .path-btn.active.expat .path-title { color: #00c9a7; }
-
-.path-chevron {
-  margin-left: auto;
-  font-size: 18px;
-  color: rgba(255,255,255,0.2);
-  position: relative;
-  z-index: 1;
-  transition: all .2s;
-  flex-shrink: 0;
-}
+.path-chevron { margin-left: auto; font-size: 18px; color: rgba(255,255,255,0.2); position: relative; z-index: 1; transition: all .2s; flex-shrink: 0; }
 .path-btn.active .path-chevron { transform: rotate(180deg); }
 .path-btn.active.tourist .path-chevron { color: #f5b731; }
 .path-btn.active.expat .path-chevron { color: #00c9a7; }
-
-/* ── MAIN SECTION ── */
 .main-section { background: #060d18; padding: 3.5rem 4rem; position: relative; z-index: 5; }
 .section-inner { max-width: 1100px; margin: 0 auto; }
-
-/* ── CATEGORY PANELS ── */
 .panel { display: none; }
 .panel.active { display: block; animation: fadeIn .25s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
 .panel-header { margin-bottom: 2rem; }
 .panel-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: .5rem; }
 .panel-title { font-size: 26px; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
-
 .cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-
-.cat-card {
-  display: flex;
-  flex-direction: column;
-  padding: 1.75rem;
-  border-radius: 18px;
-  background: #0d1826;
-  text-decoration: none;
-  transition: transform .2s ease, box-shadow .2s ease, border-color .2s;
-  position: relative;
-  overflow: hidden;
-  min-height: 190px;
-}
+.cat-card { display: flex; flex-direction: column; padding: 1.75rem; border-radius: 18px; background: #0d1826; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease, border-color .2s; position: relative; overflow: hidden; min-height: 190px; }
 .cat-card::before { content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity .2s; border-radius: 18px; }
 .cat-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
 .cat-card:hover::before { opacity: 1; }
-
 .tourist-card { border: 1px solid rgba(245,183,49,0.1); }
 .tourist-card::before { background: linear-gradient(135deg, rgba(245,183,49,0.06), transparent); }
 .tourist-card:hover { border-color: rgba(245,183,49,0.35); }
-
 .expat-card { border: 1px solid rgba(0,201,167,0.1); }
 .expat-card::before { background: linear-gradient(135deg, rgba(0,201,167,0.06), transparent); }
 .expat-card:hover { border-color: rgba(0,201,167,0.35); }
-
 .cat-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: .75rem; }
-
-.cat-icon {
-  width: 40px; height: 40px; border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; flex-shrink: 0; position: relative; z-index: 1;
-}
+.cat-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; position: relative; z-index: 1; }
 .tourist-card .cat-icon { background: rgba(245,183,49,0.1); }
 .expat-card .cat-icon { background: rgba(0,201,167,0.08); }
-
-.cat-arrow {
-  width: 28px; height: 28px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; flex-shrink: 0; transition: transform .2s;
-  position: relative; z-index: 1;
-}
+.cat-arrow { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; transition: transform .2s; position: relative; z-index: 1; }
 .tourist-card .cat-arrow { background: rgba(245,183,49,0.08); color: rgba(245,183,49,0.6); }
 .expat-card .cat-arrow { background: rgba(0,201,167,0.08); color: rgba(0,201,167,0.6); }
 .cat-card:hover .cat-arrow { transform: translate(2px, -2px); }
-
 .cat-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: .5rem; display: block; position: relative; z-index: 1; }
 .tourist-card .cat-tag { color: rgba(245,183,49,0.7); }
 .expat-card .cat-tag { color: rgba(0,201,167,0.7); }
-
 .cat-title { font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: .4rem; position: relative; z-index: 1; }
 .cat-desc { font-size: 12px; color: rgba(255,255,255,0.35); line-height: 1.55; position: relative; z-index: 1; }
-
 .cat-card.soon { opacity: 0.38; pointer-events: none; }
-
-/* ── FOOTER ── */
 .footer-line { text-align: center; font-size: 12px; color: rgba(255,255,255,0.15); font-weight: 500; letter-spacing: 0.05em; padding: 2rem 0 1rem; }
 .footer-line a { color: rgba(255,255,255,0.25); text-decoration: none; margin: 0 12px; transition: color .15s; }
 .footer-line a:hover { color: rgba(255,255,255,0.5); }
-
-/* ── RESPONSIVE ── */
-@media (max-width: 900px) {
-  .cat-grid { grid-template-columns: 1fr 1fr; }
-}
+@media (max-width: 900px) { .cat-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 768px) {
   nav { padding: 1.25rem 1.5rem; }
   .nav-right .nav-link { display: none; }
@@ -232,17 +121,13 @@ nav { position: relative; z-index: 10; display: flex; align-items: center; justi
   .cat-card { padding: 1.25rem; min-height: 160px; }
   .cat-title { font-size: 14px; }
 }
-@media (max-width: 480px) {
-  .cat-grid { grid-template-columns: 1fr; }
-}
+@media (max-width: 480px) { .cat-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
-
 <section class="hero-section">
   <div class="hero-bg"></div>
   <div class="hero-bg-overlay"></div>
-
   <nav>
     <a href="/" class="wordmark">my<span class="teal">dubai</span>guide<span class="muted">.biz</span></a>
     <div class="nav-right">
@@ -250,56 +135,28 @@ nav { position: relative; z-index: 10; display: flex; align-items: center; justi
       <div class="nav-free">Free</div>
     </div>
   </nav>
-
   <div class="hero-content">
-    <div class="hero-tag">
-      <div class="hero-tag-dot"></div>
-      AI-powered · No sign-up needed
-    </div>
-
-    <h1 class="hero-h1">
-      Everything you need<br>to know about Dubai.<br>
-      <span class="accent">All in one place.</span>
-    </h1>
-
+    <div class="hero-tag"><div class="hero-tag-dot"></div>AI-powered · No sign-up needed</div>
+    <h1 class="hero-h1">Everything you need<br>to know about Dubai.<br><span class="accent">All in one place.</span></h1>
     <p class="hero-sub">Whether you're visiting for a week or building your life here — get instant, personalised guidance with direct links to take action.</p>
-
     <div class="hero-stats">
-      <div class="hero-stat">
-        <div class="hero-stat-num">2 <span>min</span></div>
-        <div class="hero-stat-lbl">Average match time</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">100<span>%</span></div>
-        <div class="hero-stat-lbl">Free to use</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">Live <span>data</span></div>
-        <div class="hero-stat-lbl">Bayut + DLD linked</div>
-      </div>
+      <div class="hero-stat"><div class="hero-stat-num">2 <span>min</span></div><div class="hero-stat-lbl">Average match time</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">100<span>%</span></div><div class="hero-stat-lbl">Free to use</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">Live <span>data</span></div><div class="hero-stat-lbl">Bayut + DLD linked</div></div>
     </div>
-
     <p class="path-question">What brings you to Dubai?</p>
-
     <div class="path-selector">
       <button class="path-btn tourist" onclick="selectPath('tourist')">
         <div class="path-btn-inner">
           <div class="path-icon">🧳</div>
-          <div class="path-text">
-            <span class="path-title">I'm visiting Dubai</span>
-            <span class="path-sub">Tourist · Short stay · Holiday</span>
-          </div>
+          <div class="path-text"><span class="path-title">I'm visiting Dubai</span><span class="path-sub">Tourist · Short stay · Holiday</span></div>
           <div class="path-chevron">↓</div>
         </div>
       </button>
-
       <button class="path-btn expat" onclick="selectPath('expat')">
         <div class="path-btn-inner">
           <div class="path-icon">🏙️</div>
-          <div class="path-text">
-            <span class="path-title">I live in or am moving to Dubai</span>
-            <span class="path-sub">Resident · Expat · Long-term</span>
-          </div>
+          <div class="path-text"><span class="path-title">I live in or am moving to Dubai</span><span class="path-sub">Resident · Expat · Long-term</span></div>
           <div class="path-chevron">↓</div>
         </div>
       </button>
@@ -310,63 +167,44 @@ nav { position: relative; z-index: 10; display: flex; align-items: center; justi
 <section class="main-section" id="main-section" style="display:none;">
   <div class="section-inner">
 
-    <!-- TOURIST PANEL -->
     <div class="panel" id="panel-tourist">
       <div class="panel-header">
         <div class="panel-eyebrow">🧳 Visiting Dubai</div>
         <div class="panel-title">What do you need help with?</div>
       </div>
       <div class="cat-grid">
-        <a class="cat-card tourist-card soon" href="#">
-          <div class="cat-top">
-            <div class="cat-icon">🎡</div>
-            <div class="cat-arrow">→</div>
-          </div>
-          <span class="cat-tag">Things to do</span>
-          <div class="cat-title">Experiences & activities</div>
-          <div class="cat-desc">Attractions, desert safaris, water parks, day trips and hidden gems</div>
+        <a class="cat-card tourist-card" href="/tourist/itinerary/">
+          <div class="cat-top"><div class="cat-icon">🗺️</div><div class="cat-arrow">→</div></div>
+          <span class="cat-tag">Itinerary builder</span>
+          <div class="cat-title">Build a detailed Dubai itinerary</div>
+          <div class="cat-desc">Day-by-day plan matched to your interests, budget and trip length</div>
         </a>
         <a class="cat-card tourist-card soon" href="#">
-          <div class="cat-top">
-            <div class="cat-icon">🍽️</div>
-            <div class="cat-arrow">→</div>
-          </div>
+          <div class="cat-top"><div class="cat-icon">🍽️</div><div class="cat-arrow">→</div></div>
           <span class="cat-tag">Dining & nightlife</span>
           <div class="cat-title">Where to eat & drink</div>
           <div class="cat-desc">Best restaurants, rooftop bars, beach clubs and Friday brunches</div>
         </a>
         <a class="cat-card tourist-card soon" href="#">
-          <div class="cat-top">
-            <div class="cat-icon">🏨</div>
-            <div class="cat-arrow">→</div>
-          </div>
+          <div class="cat-top"><div class="cat-icon">🏨</div><div class="cat-arrow">→</div></div>
           <span class="cat-tag">Where to stay</span>
           <div class="cat-title">Hotels & accommodation</div>
           <div class="cat-desc">Best areas to stay, budget vs luxury, beach vs city</div>
         </a>
         <a class="cat-card tourist-card soon" href="#">
-          <div class="cat-top">
-            <div class="cat-icon">🚗</div>
-            <div class="cat-arrow">→</div>
-          </div>
+          <div class="cat-top"><div class="cat-icon">🚗</div><div class="cat-arrow">→</div></div>
           <span class="cat-tag">Getting around</span>
           <div class="cat-title">Transport guide</div>
           <div class="cat-desc">Metro, taxis, Careem, car rental — what to use and when</div>
         </a>
         <a class="cat-card tourist-card soon" href="#">
-          <div class="cat-top">
-            <div class="cat-icon">💰</div>
-            <div class="cat-arrow">→</div>
-          </div>
+          <div class="cat-top"><div class="cat-icon">💰</div><div class="cat-arrow">→</div></div>
           <span class="cat-tag">Trip budget</span>
           <div class="cat-title">How much will it cost?</div>
           <div class="cat-desc">Realistic daily budgets, hidden costs and money-saving tips</div>
         </a>
         <a class="cat-card tourist-card soon" href="#">
-          <div class="cat-top">
-            <div class="cat-icon">☀️</div>
-            <div class="cat-arrow">→</div>
-          </div>
+          <div class="cat-top"><div class="cat-icon">☀️</div><div class="cat-arrow">→</div></div>
           <span class="cat-tag">When to visit</span>
           <div class="cat-title">Best time to visit Dubai</div>
           <div class="cat-desc">Month-by-month guide to weather, events and pricing</div>
@@ -374,7 +212,6 @@ nav { position: relative; z-index: 10; display: flex; align-items: center; justi
       </div>
     </div>
 
-    <!-- EXPAT PANEL -->
     <div class="panel" id="panel-expat">
       <div class="panel-header">
         <div class="panel-eyebrow">🏙️ Living in or moving to Dubai</div>
@@ -382,55 +219,37 @@ nav { position: relative; z-index: 10; display: flex; align-items: center; justi
       </div>
       <div class="cat-grid">
         <a class="cat-card expat-card soon" href="#">
-          <div class="cat-top">
-            <div class="cat-icon">🏘️</div>
-            <div class="cat-arrow">→</div>
-          </div>
+          <div class="cat-top"><div class="cat-icon">🏘️</div><div class="cat-arrow">→</div></div>
           <span class="cat-tag">Where to live</span>
           <div class="cat-title">Find the right neighbourhood</div>
           <div class="cat-desc">Compare communities, rents, commute times and lifestyle</div>
         </a>
         <a class="cat-card expat-card" href="/property/">
-          <div class="cat-top">
-            <div class="cat-icon">🏠</div>
-            <div class="cat-arrow">→</div>
-          </div>
+          <div class="cat-top"><div class="cat-icon">🏠</div><div class="cat-arrow">→</div></div>
           <span class="cat-tag">Property</span>
           <div class="cat-title">Buy or invest in property</div>
           <div class="cat-desc">AI-matched communities, live Bayut listings, DLD transactions, Golden Visa</div>
         </a>
         <a class="cat-card expat-card" href="/business/">
-          <div class="cat-top">
-            <div class="cat-icon">💼</div>
-            <div class="cat-arrow">→</div>
-          </div>
+          <div class="cat-top"><div class="cat-icon">💼</div><div class="cat-arrow">→</div></div>
           <span class="cat-tag">Business setup</span>
           <div class="cat-title">Start a business in Dubai</div>
           <div class="cat-desc">Free zone vs mainland, real 2026 costs, license application links</div>
         </a>
         <a class="cat-card expat-card" href="/credit-cards/">
-          <div class="cat-top">
-            <div class="cat-icon">💳</div>
-            <div class="cat-arrow">→</div>
-          </div>
+          <div class="cat-top"><div class="cat-icon">💳</div><div class="cat-arrow">→</div></div>
           <span class="cat-tag">Credit cards</span>
           <div class="cat-title">Find your best UAE credit card</div>
           <div class="cat-desc">Matched to your salary tier — cashback, miles, Islamic and elite cards</div>
         </a>
         <a class="cat-card expat-card soon" href="#">
-          <div class="cat-top">
-            <div class="cat-icon">📊</div>
-            <div class="cat-arrow">→</div>
-          </div>
+          <div class="cat-top"><div class="cat-icon">📊</div><div class="cat-arrow">→</div></div>
           <span class="cat-tag">Cost of living</span>
           <div class="cat-title">What does life in Dubai cost?</div>
           <div class="cat-desc">Rent, groceries, transport, dining — realistic monthly breakdowns</div>
         </a>
         <a class="cat-card expat-card soon" href="#">
-          <div class="cat-top">
-            <div class="cat-icon">🏥</div>
-            <div class="cat-arrow">→</div>
-          </div>
+          <div class="cat-top"><div class="cat-icon">🏥</div><div class="cat-arrow">→</div></div>
           <span class="cat-tag">Healthcare</span>
           <div class="cat-title">Healthcare & insurance</div>
           <div class="cat-desc">Best hospitals, mandatory insurance, private vs public</div>
@@ -438,13 +257,7 @@ nav { position: relative; z-index: 10; display: flex; align-items: center; justi
       </div>
     </div>
 
-    <p class="footer-line">
-      • Powered by AI •
-      <a href="/about/">About</a>
-      <a href="/privacy-policy/">Privacy Policy</a>
-      <a href="mailto:hello@mydubaiguide.biz">Contact</a>
-    </p>
-
+    <p class="footer-line">• Powered by AI • <a href="/about/">About</a><a href="/privacy-policy/">Privacy Policy</a><a href="mailto:hello@mydubaiguide.biz">Contact</a></p>
   </div>
 </section>
 
