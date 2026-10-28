@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build your Dubai itinerary — mydubaiguide.biz</title>
+<meta name="description" content="Answer 4 questions and get a personalised day-by-day Dubai itinerary with top activities, restaurants and tips matched to your trip style.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H2C79G3W9F"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H2C79G3W9F');
+</script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: #060d18; min-height: 100vh; -webkit-font-smoothing: antialiased; color: #fff; }
+.bg-glow { position: fixed; top: -200px; left: 50%; transform: translateX(-50%); width: 900px; height: 600px; background: radial-gradient(ellipse, rgba(245,183,49,0.05) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+nav { position: relative; z-index: 10; display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 4rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.wordmark { font-size: 22px; font-weight: 800; color: #fff; letter-spacing: -0.02em; text-decoration: none; }
+.wordmark .teal { color: #00c9a7; }
+.wordmark .muted { color: rgba(255,255,255,0.3); }
+.nav-right { display: flex; align-items: center; gap: 1.5rem; }
+.nav-link { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.4); text-decoration: none; transition: color .15s; }
+.nav-link:hover { color: #fff; }
+.page { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+.page-header { margin-bottom: 2.5rem; }
+.page-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(245,183,49,0.08); border: 1px solid rgba(245,183,49,0.15); border-radius: 100px; padding: 4px 14px; font-size: 11px; font-weight: 700; color: #f5b731; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem; }
+.page-header h1 { font-size: 32px; font-weight: 800; letter-spacing: -0.02em; color: #fff; margin-bottom: 8px; }
+.page-header p { font-size: 15px; color: rgba(255,255,255,0.4); }
+.quiz-card { background: #0b1424; border: 1px solid rgba(255,255,255,0.07); border-radius: 20px; padding: 2.5rem; margin-bottom: 1.5rem; }
+.progress { height: 2px; background: rgba(255,255,255,0.06); border-radius: 2px; margin-bottom: 2.5rem; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #f5b731, #ffd166); width: 0%; transition: width .4s cubic-bezier(.4,0,.2,1); box-shadow: 0 0 10px rgba(245,183,49,0.4); }
+.question { margin-bottom: 2rem; }
+.question label { display: block; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 12px; }
+.options { display: flex; flex-wrap: wrap; gap: 8px; }
+.opt { padding: 10px 20px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.03); font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.55); cursor: pointer; transition: all .15s ease; }
+.opt:hover { border-color: rgba(245,183,49,0.4); color: #fff; background: rgba(245,183,49,0.06); }
+.opt.selected { background: #f5b731; border-color: #f5b731; color: #000; font-weight: 700; box-shadow: 0 0 16px rgba(245,183,49,0.3); }
+.cta-btn { width: 100%; padding: 15px; border-radius: 100px; border: none; background: #f5b731; color: #000; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all .2s ease; letter-spacing: 0.02em; box-shadow: 0 0 24px rgba(245,183,49,0.25); }
+.cta-btn:hover:not(:disabled) { background: #ffd166; box-shadow: 0 0 32px rgba(245,183,49,0.4); transform: translateY(-1px); }
+.cta-btn:disabled { opacity: 0.2; cursor: not-allowed; box-shadow: none; transform: none; }
+
+/* Result */
+.result { background: #0b1424; border: 1px solid rgba(255,255,255,0.07); border-radius: 20px; padding: 2.5rem; display: none; margin-bottom: 1.5rem; }
+.result.show { display: block; }
+.result-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #f5b731; margin-bottom: 16px; }
+
+/* Day cards */
+.days-container { display: flex; flex-direction: column; gap: 1.25rem; margin-bottom: 2rem; }
+.day-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; overflow: hidden; }
+.day-header { display: flex; align-items: center; gap: 12px; padding: 1rem 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.day-badge { background: #f5b731; color: #000; font-size: 11px; font-weight: 800; letter-spacing: 0.06em; padding: 3px 10px; border-radius: 100px; text-transform: uppercase; white-space: nowrap; }
+.day-title { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.7); }
+.day-body { padding: 1.25rem; }
+.day-body p { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.75; }
+.day-body strong { color: #fff; }
+
+/* Action links */
+.action-links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.action-link { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: 100px; font-size: 13px; font-weight: 600; text-decoration: none; transition: all .15s; border: 1px solid rgba(245,183,49,0.2); background: rgba(245,183,49,0.06); color: #f5b731; }
+.action-link:hover { background: rgba(245,183,49,0.12); border-color: rgba(245,183,49,0.4); }
+.action-link.secondary { border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.5); }
+.action-link.secondary:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.8); }
+
+/* Loading */
+.loading { display: flex; gap: 6px; align-items: center; color: rgba(255,255,255,0.4); font-size: 14px; padding: 1rem 0; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: #f5b731; animation: pulse 1.2s infinite ease-in-out; }
+.dot:nth-child(2) { animation-delay: .2s; }
+.dot:nth-child(3) { animation-delay: .4s; }
+@keyframes pulse { 0%,80%,100%{opacity:.2;transform:scale(.8)} 40%{opacity:1;transform:scale(1)} }
+
+/* Email capture */
+.email-capture { margin: 1.25rem 0; padding: 1.25rem 1.5rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; }
+.email-capture p { font-size: 13px; color: rgba(255,255,255,0.45); margin-bottom: .75rem; }
+.email-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.email-row input { flex: 1; min-width: 180px; padding: 10px 16px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); font-family: inherit; font-size: 13px; color: #fff; outline: none; }
+.email-row input::placeholder { color: rgba(255,255,255,0.25); }
+.email-row input:focus { border-color: #f5b731; }
+.email-row button { padding: 10px 20px; border-radius: 100px; border: none; background: #f5b731; color: #000; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+.email-sent { font-size: 13px; color: rgba(245,183,49,0.8); margin-top: .6rem; display: none; }
+
+/* Leadform */
+.leadform { margin-top: 1.5rem; }
+.leadform h3 { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.leadform .hint { font-size: 13px; color: rgba(255,255,255,0.35); margin-bottom: 1.25rem; }
+.field { margin-bottom: 10px; }
+.field input { width: 100%; padding: 13px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.04); font-family: 'Inter', sans-serif; font-size: 14px; color: #fff; transition: border-color .15s; }
+.field input::placeholder { color: rgba(255,255,255,0.25); }
+.field input:focus { outline: none; border-color: #f5b731; box-shadow: 0 0 0 3px rgba(245,183,49,0.08); }
+.confirm { display: none; text-align: center; padding: 1.5rem 0; }
+.confirm.show { display: block; }
+.confirm .check { width: 44px; height: 44px; border-radius: 50%; background: #f5b731; color: #000; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 20px; font-weight: 700; }
+.confirm p { color: rgba(255,255,255,0.5); font-size: 14px; }
+
+.footer-links { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; }
+.footer-links a { font-size: 12px; color: rgba(255,255,255,0.25); text-decoration: none; margin: 0 12px; }
+.footer-links a:hover { color: rgba(255,255,255,0.5); }
+.disclaimer { font-size: 12px; color: rgba(255,255,255,0.2); margin-top: 1rem; line-height: 1.6; }
+
+@media (max-width: 768px) {
+  nav { padding: 1.25rem 1.5rem; }
+  .nav-right .nav-link { display: none; }
+  .page { padding: 2rem 1.25rem 4rem; }
+  .quiz-card { padding: 1.5rem; }
+  .result { padding: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+
+<nav>
+  <a href="/" class="wordmark">my<span class="teal">dubai</span>guide<span class="muted">.biz</span></a>
+  <div class="nav-right">
+    <a href="/" class="nav-link">← Back</a>
+    <a href="/about/" class="nav-link">About</a>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="page-header">
+    <div class="page-tag">🗺️ Itinerary builder</div>
+    <h1>Build your perfect Dubai itinerary</h1>
+    <p>Answer 4 questions · Get a detailed day-by-day plan · Personalised to your interests and trip style</p>
+  </div>
+
+  <div class="quiz-card">
+    <div class="progress"><div class="progress-fill" id="progress-fill"></div></div>
+    <div id="quiz"></div>
+    <button class="cta-btn" id="cta" disabled>Build my itinerary →</button>
+  </div>
+
+  <div class="result" id="result">
+    <div class="result-eyebrow">✦ Your personalised Dubai itinerary</div>
+    <div id="result-body"></div>
+
+    <div class="email-capture" id="email-capture" style="display:none;">
+      <p>📩 Save this itinerary — we'll send it to your email.</p>
+      <div class="email-row">
+        <input type="email" id="eo-email" placeholder="your@email.com">
+        <button onclick="sendItinerary()">Send →</button>
+      </div>
+      <p class="email-sent" id="eo-confirm">✓ Sent — check your inbox</p>
+    </div>
+
+    <div class="action-links" id="action-links"></div>
+
+    <div class="leadform">
+      <h3>Want a custom concierge plan?</h3>
+      <p class="hint">Leave your details and a Dubai travel expert will build a fully tailored itinerary for your trip.</p>
+      <form id="lead-form">
+        <div class="field"><input type="text" id="lf-name" placeholder="Full name" required></div>
+        <div class="field"><input type="email" id="lf-email" placeholder="Email address" required></div>
+        <div class="field"><input type="tel" id="lf-phone" placeholder="Phone or WhatsApp" required></div>
+        <div style="display:flex;align-items:flex-start;gap:10px;margin:4px 0 12px;">
+          <input type="checkbox" id="lf-consent" required style="margin-top:3px;width:16px;height:16px;flex-shrink:0;accent-color:#f5b731;cursor:pointer;">
+          <label for="lf-consent" style="font-size:12px;color:rgba(255,255,255,0.4);line-height:1.5;cursor:pointer;">
+            I agree to my details being shared with relevant specialists. I have read and accept the <a href="/privacy-policy/" style="color:#f5b731;text-decoration:none;" target="_blank">Privacy Policy</a>.
+          </label>
+        </div>
+        <button type="submit" class="cta-btn">Get my custom plan →</button>
+      </form>
+      <div class="confirm" id="confirm">
+        <div class="check">✓</div>
+        <p id="confirm-text">On its way — a travel expert will be in touch.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-links">
+    <a href="/about/">About</a>
+    <a href="/privacy-policy/">Privacy Policy</a>
+    <a href="mailto:hello@mydubaiguide.biz">Contact</a>
+  </div>
+</div>
+
+<script>
+const questions = [
+  {
+    id: 'days',
+    label: 'How long is your trip?',
+    multi: false,
+    options: ['2 days', '3 days', '4–5 days', '1 week', '2 weeks']
+  },
+  {
+    id: 'interests',
+    label: 'What are you into? — select all that apply',
+    multi: true,
+    options: ['Luxury & fine dining', 'Adventure & outdoor', 'Culture & history', 'Shopping & markets', 'Beaches & water', 'Family & kids', 'Nightlife & bars', 'Hidden gems & local']
+  },
+  {
+    id: 'group',
+    label: 'Who are you travelling with?',
+    multi: false,
+    options: ['Solo', 'Couple', 'Family with kids', 'Group of friends', 'Business trip']
+  },
+  {
+    id: 'budget',
+    label: 'What\'s your daily budget per person?',
+    multi: false,
+    options: ['Budget (under AED 300/day)', 'Mid-range (AED 300–700/day)', 'Premium (AED 700–1,500/day)', 'Luxury (AED 1,500+/day)']
+  }
+];
+
+let answers = {};
+let lastItinerary = '';
+
+const quizEl = document.getElementById('quiz');
+const ctaEl = document.getElementById('cta');
+const progressFill = document.getElementById('progress-fill');
+const resultEl = document.getElementById('result');
+const resultBody = document.getElementById('result-body');
+const actionLinksEl = document.getElementById('action-links');
+const leadForm = document.getElementById('lead-form');
+const confirmEl = document.getElementById('confirm');
+
+function renderQuiz() {
+  quizEl.innerHTML = '';
+  questions.forEach(q => {
+    const qDiv = document.createElement('div');
+    qDiv.className = 'question';
+    const label = document.createElement('label');
+    label.textContent = q.label;
+    qDiv.appendChild(label);
+    const opts = document.createElement('div');
+    opts.className = 'options';
+    q.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.type = 'button';
+      btn.textContent = opt;
+      btn.onclick = () => selectOption(q.id, opt, btn, qDiv, q.multi);
+      opts.appendChild(btn);
+    });
+    qDiv.appendChild(opts);
+    quizEl.appendChild(qDiv);
+  });
+  updateProgress();
+}
+
+function selectOption(qId, value, btn, qDiv, multi) {
+  if (multi) {
+    btn.classList.toggle('selected');
+    if (!Array.isArray(answers[qId])) answers[qId] = [];
+    if (answers[qId].includes(value)) answers[qId] = answers[qId].filter(v => v !== value);
+    else answers[qId].push(value);
+    if (answers[qId].length === 0) delete answers[qId];
+  } else {
+    qDiv.querySelectorAll('.opt').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    answers[qId] = value;
+  }
+  updateProgress();
+}
+
+function updateProgress() {
+  const required = ['days', 'interests', 'group', 'budget'];
+  const done = required.filter(k => answers[k] && (Array.isArray(answers[k]) ? answers[k].length > 0 : true)).length;
+  progressFill.style.width = Math.round((done / required.length) * 100) + '%';
+  ctaEl.disabled = done < required.length;
+}
+
+function trackEvent(name, params) {
+  if (typeof gtag !== 'undefined') gtag('event', name, params);
+}
+
+ctaEl.addEventListener('click', async () => {
+  trackEvent('itinerary_requested', {
+    days: answers.days || '',
+    group: answers.group || '',
+    budget: answers.budget || '',
+    interests: Array.isArray(answers.interests) ? answers.interests.join(', ') : ''
+  });
+
+  ctaEl.disabled = true;
+  resultEl.classList.add('show');
+  resultBody.innerHTML = '<div class="loading"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span style="margin-left:6px">Building your itinerary — this takes a few seconds</span></div>';
+  actionLinksEl.innerHTML = '';
+  document.getElementById('email-capture').style.display = 'none';
+  resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  try {
+    const response = await fetch('/api/match', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ vertical: 'itinerary', answers })
+    });
+    const data = await response.json();
+    lastItinerary = data.recommendation || '';
+
+    if (data.days && Array.isArray(data.days) && data.days.length > 0) {
+      let html = '';
+      if (data.intro) html += '<p style="font-size:15px;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:1.5rem;">' + data.intro + '</p>';
+      html += '<div class="days-container">';
+      data.days.forEach(day => {
+        html += '<div class="day-card">';
+        html += '<div class="day-header"><span class="day-badge">' + day.label + '</span><span class="day-title">' + day.theme + '</span></div>';
+        html += '<div class="day-body"><p>' + day.plan + '</p></div>';
+        html += '</div>';
+      });
+      html += '</div>';
+      resultBody.innerHTML = html;
+    } else {
+      resultBody.innerHTML = '<p style="font-size:15px;color:rgba(255,255,255,0.7);line-height:1.8;">' + lastItinerary + '</p>';
+    }
+
+    document.getElementById('email-capture').style.display = 'block';
+
+    // Action links
+    actionLinksEl.innerHTML = '';
+    const interests = Array.isArray(answers.interests) ? answers.interests : [];
+    if (interests.some(i => ['Adventure & outdoor', 'Beaches & water', 'Culture & history', 'Luxury & fine dining'].includes(i))) {
+      actionLinksEl.innerHTML += '<a href="https://www.viator.com/Dubai/d828-ttd" target="_blank" rel="noopener" class="action-link">Browse Dubai activities on Viator →</a>';
+    }
+    actionLinksEl.innerHTML += '<a href="https://www.getyourguide.com/dubai-l173/" target="_blank" rel="noopener" class="action-link">Find tours on GetYourGuide →</a>';
+    if (interests.includes('Luxury & fine dining') || interests.includes('Nightlife & bars')) {
+      actionLinksEl.innerHTML += '<a href="https://www.zomato.com/dubai" target="_blank" rel="noopener" class="action-link secondary">Explore restaurants on Zomato →</a>';
+    }
+    actionLinksEl.innerHTML += '<a href="/tourist/where-to-stay/" class="action-link secondary">Find hotels for your trip →</a>';
+
+  } catch (e) {
+    resultBody.innerHTML = '<p style="color:rgba(255,255,255,0.5);">Could not build your itinerary right now — try again.</p>';
+  }
+
+  ctaEl.disabled = false;
+});
+
+async function sendItinerary() {
+  const email = document.getElementById('eo-email').value.trim();
+  if (!email) return;
+  try {
+    await fetch('/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        vertical: 'itinerary',
+        answers,
+        recommendation: lastItinerary,
+        contact: { name: 'Email capture only', email, phone: 'n/a' },
+        submittedAt: new Date().toISOString()
+      })
+    });
+  } catch (e) {}
+  document.querySelector('.email-row').style.display = 'none';
+  document.getElementById('eo-confirm').style.display = 'block';
+  trackEvent('itinerary_email_saved', { vertical: 'itinerary' });
+}
+
+leadForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  const name = document.getElementById('lf-name').value.trim();
+  const email = document.getElementById('lf-email').value.trim();
+  const phone = document.getElementById('lf-phone').value.trim();
+  const consent = document.getElementById('lf-consent').checked;
+  if (!name || !email || !phone || !consent) return;
+  trackEvent('itinerary_lead_submitted', { days: answers.days || '', group: answers.group || '' });
+  try {
+    await fetch('/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ vertical: 'itinerary', answers, recommendation: lastItinerary, contact: { name, email, phone }, submittedAt: new Date().toISOString() })
+    });
+  } catch (e) {}
+  leadForm.style.display = 'none';
+  document.getElementById('confirm-text').textContent = 'Thanks, ' + name.split(' ')[0] + ' — a travel expert will be in touch.';
+  confirmEl.classList.add('show');
+});
+
+renderQuiz();
+</script>
+</body>
+</html>
