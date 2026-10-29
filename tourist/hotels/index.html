@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find the best hotel in Dubai for you — mydubaiguide.biz</title>
+<meta name="description" content="Answer 4 questions and get personalised Dubai hotel recommendations matched to your budget, location and stay style.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H2C79G3W9F"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H2C79G3W9F');
+</script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: #060d18; min-height: 100vh; -webkit-font-smoothing: antialiased; color: #fff; }
+.bg-glow { position: fixed; top: -200px; left: 50%; transform: translateX(-50%); width: 900px; height: 600px; background: radial-gradient(ellipse, rgba(245,183,49,0.05) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+nav { position: relative; z-index: 10; display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 4rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.wordmark { font-size: 22px; font-weight: 800; color: #fff; letter-spacing: -0.02em; text-decoration: none; }
+.wordmark .teal { color: #00c9a7; }
+.wordmark .muted { color: rgba(255,255,255,0.3); }
+.nav-right { display: flex; align-items: center; gap: 1.5rem; }
+.nav-link { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.4); text-decoration: none; transition: color .15s; }
+.nav-link:hover { color: #fff; }
+.page { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+.page-header { margin-bottom: 2.5rem; }
+.page-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(245,183,49,0.08); border: 1px solid rgba(245,183,49,0.15); border-radius: 100px; padding: 4px 14px; font-size: 11px; font-weight: 700; color: #f5b731; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem; }
+.page-header h1 { font-size: 32px; font-weight: 800; letter-spacing: -0.02em; color: #fff; margin-bottom: 8px; }
+.page-header p { font-size: 15px; color: rgba(255,255,255,0.4); }
+.quiz-card { background: #0b1424; border: 1px solid rgba(255,255,255,0.07); border-radius: 20px; padding: 2.5rem; margin-bottom: 1.5rem; }
+.progress { height: 2px; background: rgba(255,255,255,0.06); border-radius: 2px; margin-bottom: 2.5rem; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #f5b731, #ffd166); width: 0%; transition: width .4s cubic-bezier(.4,0,.2,1); box-shadow: 0 0 10px rgba(245,183,49,0.4); }
+.question { margin-bottom: 2rem; }
+.question label { display: block; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 12px; }
+.options { display: flex; flex-wrap: wrap; gap: 8px; }
+.opt { padding: 10px 20px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.03); font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.55); cursor: pointer; transition: all .15s ease; }
+.opt:hover { border-color: rgba(245,183,49,0.4); color: #fff; background: rgba(245,183,49,0.06); }
+.opt.selected { background: #f5b731; border-color: #f5b731; color: #000; font-weight: 700; box-shadow: 0 0 16px rgba(245,183,49,0.3); }
+.cta-btn { width: 100%; padding: 15px; border-radius: 100px; border: none; background: #f5b731; color: #000; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all .2s ease; letter-spacing: 0.02em; box-shadow: 0 0 24px rgba(245,183,49,0.25); }
+.cta-btn:hover:not(:disabled) { background: #ffd166; box-shadow: 0 0 32px rgba(245,183,49,0.4); transform: translateY(-1px); }
+.cta-btn:disabled { opacity: 0.2; cursor: not-allowed; box-shadow: none; transform: none; }
+.result { background: #0b1424; border: 1px solid rgba(255,255,255,0.07); border-radius: 20px; padding: 2.5rem; display: none; margin-bottom: 1.5rem; }
+.result.show { display: block; }
+.result-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #f5b731; margin-bottom: 12px; }
+
+/* Hotel cards */
+.hotels-grid { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.75rem; }
+.hotel-card { border-radius: 14px; border: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.02); overflow: hidden; }
+.hotel-header { display: flex; align-items: flex-start; justify-content: space-between; padding: 1.25rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); gap: 1rem; }
+.hotel-name { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+.hotel-area { font-size: 12px; color: rgba(255,255,255,0.4); font-weight: 500; }
+.hotel-badge { background: rgba(245,183,49,0.1); border: 1px solid rgba(245,183,49,0.2); color: #f5b731; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 100px; white-space: nowrap; flex-shrink: 0; }
+.hotel-body { padding: 1.25rem 1.5rem; }
+.hotel-desc { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.7; margin-bottom: 1rem; }
+.hotel-pros { display: flex; flex-wrap: wrap; gap: 6px; }
+.hotel-pro { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 100px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); color: rgba(255,255,255,0.45); }
+.hotel-book { display: block; margin: 1rem 1.5rem 1.25rem; padding: 10px 20px; border-radius: 100px; background: rgba(245,183,49,0.08); border: 1px solid rgba(245,183,49,0.2); color: #f5b731; font-size: 13px; font-weight: 700; text-decoration: none; text-align: center; transition: all .15s; }
+.hotel-book:hover { background: rgba(245,183,49,0.15); border-color: rgba(245,183,49,0.4); }
+
+/* Loading */
+.loading { display: flex; gap: 6px; align-items: center; color: rgba(255,255,255,0.4); font-size: 14px; padding: 1rem 0; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: #f5b731; animation: pulse 1.2s infinite ease-in-out; }
+.dot:nth-child(2) { animation-delay: .2s; }
+.dot:nth-child(3) { animation-delay: .4s; }
+@keyframes pulse { 0%,80%,100%{opacity:.2;transform:scale(.8)} 40%{opacity:1;transform:scale(1)} }
+
+/* Email capture */
+.email-capture { margin: 0 0 1.5rem; padding: 1.25rem 1.5rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; display: none; }
+.email-capture p { font-size: 13px; color: rgba(255,255,255,0.45); margin-bottom: .75rem; }
+.email-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.email-row input { flex: 1; min-width: 180px; padding: 10px 16px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); font-family: inherit; font-size: 13px; color: #fff; outline: none; }
+.email-row input::placeholder { color: rgba(255,255,255,0.25); }
+.email-row input:focus { border-color: #f5b731; }
+.email-row button { padding: 10px 20px; border-radius: 100px; border: none; background: #f5b731; color: #000; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+.email-sent { font-size: 13px; color: rgba(245,183,49,0.8); margin-top: .6rem; display: none; }
+
+/* Action links */
+.action-links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.action-link { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: 100px; font-size: 13px; font-weight: 600; text-decoration: none; transition: all .15s; border: 1px solid rgba(245,183,49,0.2); background: rgba(245,183,49,0.06); color: #f5b731; }
+.action-link:hover { background: rgba(245,183,49,0.12); border-color: rgba(245,183,49,0.4); }
+.action-link.secondary { border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.5); }
+.action-link.secondary:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.8); }
+
+/* Lead form */
+.leadform h3 { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.leadform .hint { font-size: 13px; color: rgba(255,255,255,0.35); margin-bottom: 1.25rem; }
+.field { margin-bottom: 10px; }
+.field input { width: 100%; padding: 13px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.04); font-family: 'Inter', sans-serif; font-size: 14px; color: #fff; }
+.field input::placeholder { color: rgba(255,255,255,0.25); }
+.field input:focus { outline: none; border-color: #f5b731; box-shadow: 0 0 0 3px rgba(245,183,49,0.08); }
+.confirm { display: none; text-align: center; padding: 1.5rem 0; }
+.confirm.show { display: block; }
+.confirm .check { width: 44px; height: 44px; border-radius: 50%; background: #f5b731; color: #000; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 20px; font-weight: 700; }
+.confirm p { color: rgba(255,255,255,0.5); font-size: 14px; }
+.footer-links { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; }
+.footer-links a { font-size: 12px; color: rgba(255,255,255,0.25); text-decoration: none; margin: 0 12px; }
+.footer-links a:hover { color: rgba(255,255,255,0.5); }
+@media (max-width: 768px) {
+  nav { padding: 1.25rem 1.5rem; }
+  .nav-right .nav-link { display: none; }
+  .page { padding: 2rem 1.25rem 4rem; }
+  .quiz-card { padding: 1.5rem; }
+  .result { padding: 1.5rem; }
+  .hotel-header { flex-direction: column; gap: .5rem; }
+}
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+<nav>
+  <a href="/" class="wordmark">my<span class="teal">dubai</span>guide<span class="muted">.biz</span></a>
+  <div class="nav-right">
+    <a href="/" class="nav-link">← Back</a>
+    <a href="/about/" class="nav-link">About</a>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="page-header">
+    <div class="page-tag">🏨 Hotel matcher</div>
+    <h1>Find your perfect Dubai hotel</h1>
+    <p>Answer 4 questions · Get matched to the right hotel · Book directly with the best rate</p>
+  </div>
+
+  <div class="quiz-card">
+    <div class="progress"><div class="progress-fill" id="progress-fill"></div></div>
+    <div id="quiz"></div>
+    <button class="cta-btn" id="cta" disabled>Find my hotel →</button>
+  </div>
+
+  <div class="result" id="result">
+    <div class="result-eyebrow">✦ Your hotel matches</div>
+    <div id="result-body"></div>
+
+    <div class="email-capture" id="email-capture">
+      <p>📩 Save these recommendations — we'll send them to your email.</p>
+      <div class="email-row">
+        <input type="email" id="eo-email" placeholder="your@email.com">
+        <button onclick="sendRecommendation()">Send →</button>
+      </div>
+      <p class="email-sent" id="eo-confirm">✓ Sent — check your inbox</p>
+    </div>
+
+    <div class="action-links" id="action-links"></div>
+
+    <div class="leadform">
+      <h3>Need help booking?</h3>
+      <p class="hint">Leave your details and a Dubai travel specialist will help you get the best rate and availability.</p>
+      <form id="lead-form">
+        <div class="field"><input type="text" id="lf-name" placeholder="Full name" required></div>
+        <div class="field"><input type="email" id="lf-email" placeholder="Email address" required></div>
+        <div class="field"><input type="tel" id="lf-phone" placeholder="Phone or WhatsApp" required></div>
+        <div style="display:flex;align-items:flex-start;gap:10px;margin:4px 0 12px;">
+          <input type="checkbox" id="lf-consent" required style="margin-top:3px;width:16px;height:16px;flex-shrink:0;accent-color:#f5b731;cursor:pointer;">
+          <label for="lf-consent" style="font-size:12px;color:rgba(255,255,255,0.4);line-height:1.5;cursor:pointer;">
+            I agree to my details being shared with relevant specialists. I have read and accept the <a href="/privacy-policy/" style="color:#f5b731;text-decoration:none;" target="_blank">Privacy Policy</a>.
+          </label>
+        </div>
+        <button type="submit" class="cta-btn">Request booking help →</button>
+      </form>
+      <div class="confirm" id="confirm">
+        <div class="check">✓</div>
+        <p id="confirm-text">On its way — a travel specialist will be in touch.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-links">
+    <a href="/about/">About</a>
+    <a href="/privacy-policy/">Privacy Policy</a>
+    <a href="mailto:hello@mydubaiguide.biz">Contact</a>
+  </div>
+</div>
+
+<script>
+const questions = [
+  { id:'budget', label:"What's your nightly budget per room?", multi:false, options:['Budget (under AED 400/night)','Mid-range (AED 400–900/night)','Premium (AED 900–2,000/night)','Luxury (AED 2,000+/night)'] },
+  { id:'location', label:'Where do you want to be based?', multi:false, options:['Dubai Marina / JBR (beach, walkable, lively)','Downtown Dubai (Burj Khalifa, malls, central)','Palm Jumeirah (iconic, resort feel, quieter)','DIFC / Business Bay (business, dining, rooftop scene)','Deira / Old Dubai (budget, authentic, historic)','No preference'] },
+  { id:'style', label:'What kind of stay?', multi:false, options:['Full resort experience (pools, beach, dining all-in)','Stylish base to explore from','Business-friendly (fast wifi, meeting facilities)','Family-focused (kids club, space, pools)','Boutique & design-led'] },
+  { id:'group', label:'Who are you travelling with?', multi:false, options:['Solo','Couple','Family with kids','Group of friends','Business trip'] }
+];
+
+let answers = {};
+let lastRecommendation = '';
+
+const quizEl = document.getElementById('quiz');
+const ctaEl = document.getElementById('cta');
+const progressFill = document.getElementById('progress-fill');
+const resultEl = document.getElementById('result');
+const resultBody = document.getElementById('result-body');
+const actionLinksEl = document.getElementById('action-links');
+const leadForm = document.getElementById('lead-form');
+const confirmEl = document.getElementById('confirm');
+
+function renderQuiz() {
+  quizEl.innerHTML = '';
+  questions.forEach(q => {
+    const qDiv = document.createElement('div');
+    qDiv.className = 'question';
+    const label = document.createElement('label');
+    label.textContent = q.label;
+    qDiv.appendChild(label);
+    const opts = document.createElement('div');
+    opts.className = 'options';
+    q.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.type = 'button';
+      btn.textContent = opt;
+      btn.onclick = () => selectOption(q.id, opt, btn, qDiv);
+      opts.appendChild(btn);
+    });
+    qDiv.appendChild(opts);
+    quizEl.appendChild(qDiv);
+  });
+  updateProgress();
+}
+
+function selectOption(qId, value, btn, qDiv) {
+  qDiv.querySelectorAll('.opt').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  answers[qId] = value;
+  updateProgress();
+}
+
+function updateProgress() {
+  const done = Object.keys(answers).length;
+  progressFill.style.width = Math.round((done / questions.length) * 100) + '%';
+  ctaEl.disabled = done < questions.length;
+}
+
+function renderHotels(hotels) {
+  if (!hotels || !Array.isArray(hotels) || hotels.length === 0) return false;
+  let html = '<div class="hotels-grid">';
+  hotels.forEach((h, i) => {
+    const bookingUrl = 'https://www.booking.com/searchresults.html?ss=' + encodeURIComponent(h.name + ' Dubai') + '&lang=en-gb';
+    html += '<div class="hotel-card">';
+    html += '<div class="hotel-header"><div><div class="hotel-name">' + h.name + '</div><div class="hotel-area">📍 ' + h.area + '</div></div><span class="hotel-badge">' + (i === 0 ? '⭐ Top pick' : 'Great option') + '</span></div>';
+    html += '<div class="hotel-body"><div class="hotel-desc">' + h.description + '</div>';
+    if (h.highlights && Array.isArray(h.highlights)) {
+      html += '<div class="hotel-pros">' + h.highlights.map(p => '<span class="hotel-pro">' + p + '</span>').join('') + '</div>';
+    }
+    html += '</div>';
+    html += '<a href="' + bookingUrl + '" target="_blank" rel="noopener" class="hotel-book">Check availability on Booking.com →</a>';
+    html += '</div>';
+  });
+  html += '</div>';
+  resultBody.innerHTML = html;
+  return true;
+}
+
+function trackEvent(name, params) {
+  if (typeof gtag !== 'undefined') gtag('event', name, params);
+}
+
+ctaEl.addEventListener('click', async () => {
+  trackEvent('hotel_match_requested', { budget: answers.budget || '', location: answers.location || '', style: answers.style || '' });
+  ctaEl.disabled = true;
+  resultEl.classList.add('show');
+  resultBody.innerHTML = '<div class="loading"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span style="margin-left:6px">Finding your hotel matches</span></div>';
+  actionLinksEl.innerHTML = '';
+  document.getElementById('email-capture').style.display = 'none';
+  resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  try {
+    const response = await fetch('/api/match', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ vertical: 'hotels', answers })
+    });
+    const data = await response.json();
+    lastRecommendation = data.recommendation || '';
+
+    const rendered = data.hotels && Array.isArray(data.hotels) ? renderHotels(data.hotels) : false;
+    if (!rendered) {
+      resultBody.innerHTML = '<p style="font-size:14px;color:rgba(255,255,255,0.6);line-height:1.8;">' + lastRecommendation + '</p>';
+    }
+
+    document.getElementById('email-capture').style.display = 'block';
+
+    // Action links
+    const loc = answers.location || '';
+    const searchTerm = loc.includes('Marina') ? 'Dubai+Marina+hotels' : loc.includes('Downtown') ? 'Downtown+Dubai+hotels' : loc.includes('Palm') ? 'Palm+Jumeirah+hotels' : loc.includes('DIFC') ? 'DIFC+Business+Bay+Dubai+hotels' : loc.includes('Deira') ? 'Deira+Dubai+hotels' : 'Dubai+hotels';
+    actionLinksEl.innerHTML = '<a href="https://www.booking.com/searchresults.html?ss=' + searchTerm + '&lang=en-gb" target="_blank" rel="noopener" class="action-link">Search all options on Booking.com →</a>';
+    actionLinksEl.innerHTML += '<a href="https://www.agoda.com/city/dubai-ae.html" target="_blank" rel="noopener" class="action-link secondary">Compare on Agoda →</a>';
+
+  } catch (e) {
+    resultBody.innerHTML = '<p style="color:rgba(255,255,255,0.5);">Could not find hotel matches right now — try again.</p>';
+  }
+  ctaEl.disabled = false;
+});
+
+async function sendRecommendation() {
+  const email = document.getElementById('eo-email').value.trim();
+  if (!email) return;
+  try {
+    await fetch('/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ vertical: 'hotels', answers, recommendation: lastRecommendation, contact: { name: 'Email capture only', email, phone: 'n/a' }, submittedAt: new Date().toISOString() })
+    });
+  } catch (e) {}
+  document.querySelector('.email-row').style.display = 'none';
+  document.getElementById('eo-confirm').style.display = 'block';
+}
+
+leadForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  const name = document.getElementById('lf-name').value.trim();
+  const email = document.getElementById('lf-email').value.trim();
+  const phone = document.getElementById('lf-phone').value.trim();
+  const consent = document.getElementById('lf-consent').checked;
+  if (!name || !email || !phone || !consent) return;
+  trackEvent('hotel_lead_submitted', { budget: answers.budget || '', location: answers.location || '' });
+  try {
+    await fetch('/api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ vertical: 'hotels', answers, recommendation: lastRecommendation, contact: { name, email, phone }, submittedAt: new Date().toISOString() })
+    });
+  } catch (e) {}
+  leadForm.style.display = 'none';
+  document.getElementById('confirm-text').textContent = 'Thanks, ' + name.split(' ')[0] + ' — a specialist will be in touch.';
+  confirmEl.classList.add('show');
+});
+
+renderQuiz();
+</script>
+</body>
+</html>
