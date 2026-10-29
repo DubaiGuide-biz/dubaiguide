@@ -88,24 +88,88 @@ Current Dubai market reality:
 - Apartments AED 1-2M: JVC, Dubai South, Al Furjan, Business Bay, Dubai Marina.
 - Apartments AED 2-5M: Dubai Marina, Downtown Dubai, Business Bay, Dubai Hills Estate, Palm Jumeirah.
 - Business Bay, Downtown Dubai, Dubai Marina — apartments ONLY, no villas.
-- If budget/type mismatch: say so directly, give realistic minimum needed, suggest alternative.
+- If budget/type mismatch: say so directly, give realistic minimum needed.
 
 Respond ONLY with valid JSON, no backticks, no markdown:
 {"recommendation": "2 sentences max. Honest, direct. Reference H2 2026 market.", "area": "Pick ONE from: ${areaOptions}"}`;
+
+    } else if (vertical === 'hotels') {
+      prompt = `You are an expert Dubai hotel consultant. Today is ${today}. A visitor completed a hotel matching quiz: ${JSON.stringify(answers)}.
+
+Dubai hotel market knowledge:
+
+BUDGET (under AED 400/night):
+- Deira/Bur Dubai: Ibis Dubai Mall of the Emirates, Rove Downtown, Rove City Centre, Premier Inn Dubai Airport, ibis Styles Dubai Airport
+- Marina area: Rove Dubai Marina
+- Rove brand: best budget brand in Dubai — modern, well-located, young traveller friendly
+
+MID-RANGE (AED 400-900/night):
+- Marina/JBR: Marriott Resort Palm Jumeirah, Westin Dubai Marina, Le Meridien Mina Seyahi
+- Downtown: Melia Dubai, Sofitel Downtown Dubai, Address Dubai Mall (lower category rooms)
+- DIFC/Bay: Taj Dubai, Radisson Blu Hotel Dubai Waterfront
+- Good value: Pullman Downtown, Crowne Plaza Festival City
+
+PREMIUM (AED 900-2000/night):
+- Marina: Jumeirah Beach Hotel, Intercontinental Dubai Marina, Address Beach Resort
+- Downtown: Address Downtown, Vida Downtown, Four Points by Sheraton Downtown
+- Palm: Anantara The Palm, Waldorf Astoria Palm Jumeirah, One&Only The Palm
+- DIFC: Grosvenor House, Le Royal Meridien Beach Resort
+
+LUXURY (AED 2000+/night):
+- Iconic: Burj Al Arab (from AED 6,000), Atlantis The Palm, Atlantis The Royal
+- Marina/JBR: Jumeirah Al Naseem, La Mer by Jumeirah, Address Beach Resort (premium floors)
+- Downtown: The Lana Dorchester Collection, Armani Hotel Dubai, Sofitel The Obelisk
+- Palm: Four Seasons Resort Dubai at Jumeirah Beach, One&Only The Palm, Waldorf Astoria
+- Business/DIFC: Four Seasons DIFC, Bvlgari Resort Dubai (Jumeirah Bay Island)
+
+LOCATION MATCHING:
+- Dubai Marina / JBR: Marina/waterfront hotels, beach access, walkable to tram and metro
+- Downtown Dubai: Address Downtown, Armani, Sofitel, Vida — walking distance to Burj Khalifa and Dubai Mall
+- Palm Jumeirah: Atlantis, One&Only, Anantara, Waldorf, Four Seasons Beach — resort feel, quieter
+- DIFC / Business Bay: Taj Dubai, Grosvenor House, Four Seasons DIFC, Radisson Blu Waterfront — dining scene, rooftops
+- Deira / Old Dubai: ibis, Premier Inn, Rove — budget-friendly, near Creek, authentic Dubai
+
+STYLE MATCHING:
+- Full resort: Atlantis The Palm, Jumeirah Al Naseem, Anantara The Palm, Address Beach Resort
+- Stylish base: Vida Downtown, Rove (mid-range), Taj Dubai, The Lana
+- Business-friendly: Grosvenor House, Taj Dubai, Four Seasons DIFC, Intercontinental Festival City
+- Family-focused: Atlantis The Palm (best for families), Jumeirah Beach Hotel, Le Meridien Mina Seyahi
+- Boutique & design: Bvlgari Resort, Armani Hotel, The Lana Dorchester, H Hotel Downtown
+
+Rules:
+- Recommend exactly 3 hotels in order of best match
+- Never recommend a hotel outside the stated budget tier
+- Include realistic nightly rate range
+- Be specific about what makes each hotel right for this person's answers
+- Include 3-4 highlights per hotel (pool, location, kids club, etc.)
+
+Respond ONLY with valid JSON, no backticks, no markdown:
+{
+  "recommendation": "One sentence summarising the match rationale.",
+  "hotels": [
+    {
+      "name": "Exact hotel name",
+      "area": "Area name",
+      "priceRange": "AED X,XXX – X,XXX per night",
+      "description": "2 sentences on why this hotel is right for this person specifically.",
+      "highlights": ["Highlight 1", "Highlight 2", "Highlight 3", "Highlight 4"]
+    }
+  ]
+}`;
 
     } else if (vertical === 'itinerary') {
       const days = answers.days || '3 days';
       const interests = Array.isArray(answers.interests) ? answers.interests.join(', ') : (answers.interests || 'mix');
       const group = answers.group || 'couple';
       const budget = answers.budget || 'mid-range';
-      const dayCount = days === '2 days' ? 2 : days === '3 days' ? 3 : days === '4-5 days' ? 5 : days === '1 week' ? 7 : 14;
+      const dayCount = days === '2 days' ? 2 : days === '3 days' ? 3 : days === '4–5 days' ? 5 : days === '1 week' ? 7 : 14;
 
       prompt = `You are an expert Dubai travel guide. Today is ${today}. A visitor is planning a trip: ${dayCount} days, interests: ${interests}, travelling as: ${group}, budget: ${budget}.
 
 Build a detailed day-by-day Dubai itinerary with exactly ${dayCount} days.
 
 Rules:
-- Name real, specific Dubai venues only — no generic suggestions
+- Name real, specific Dubai venues only
 - Morning / afternoon / evening structure for each day
 - Match budget: ${budget}
 - Match group: ${group}
@@ -113,26 +177,24 @@ Rules:
 
 Venue guidance by interest:
 - Culture & history: Al Fahidi Historic District, Dubai Museum, Gold Souk, Spice Souk, Jumeirah Mosque, Etihad Museum, Al Seef
-- Beaches & water: JBR Beach, Kite Beach, La Mer, Atlantis Aquaventure, Ain Dubai, Palm Jumeirah boardwalk
-- Luxury & fine dining: Nobu at Atlantis, Zuma DIFC, Nusr-Et, Pierchic, Ossiano, Atmosphere Burj Khalifa, Burj Al Arab Afternoon Tea
-- Adventure & outdoor: Skydive Dubai, Desert Safari with Al Maha, Hatta Mountain biking, Dubai Frame, XLine zipline, OliOli
-- Shopping: Dubai Mall, Mall of the Emirates, Gold Souk, Spice Souk, Outlet Village, Boxpark, La Mer, City Walk
-- Nightlife & bars: White Dubai, Soho Garden, Zero Gravity, FIVE Palm, Industrial Avenue, Iris DIFC, rooftop bars at DIFC
-- Family & kids: Dubai Aquarium, IMG Worlds of Adventure, Legoland, Kidzania, Wild Wadi, Dubai Frame, Dubai Parks & Resorts
-- Hidden gems & local: Al Quoz galleries, Alserkal Avenue, Satwa neighbourhood, Ripe Market, Last Exit Al Qudra, Expo City
+- Beaches & water: JBR Beach, Kite Beach, La Mer, Atlantis Aquaventure, Ain Dubai
+- Luxury & fine dining: Nobu at Atlantis, Zuma DIFC, Nusr-Et, Pierchic, Ossiano, Atmosphere Burj Khalifa
+- Adventure & outdoor: Skydive Dubai, Desert Safari, Hatta Mountain biking, XLine zipline
+- Shopping: Dubai Mall, Mall of the Emirates, Gold Souk, Spice Souk, Outlet Village, Boxpark, City Walk
+- Nightlife & bars: White Dubai, Soho Garden, Zero Gravity, FIVE Palm, Iris DIFC
+- Family & kids: Dubai Aquarium, IMG Worlds of Adventure, Legoland, Kidzania, Wild Wadi
+- Hidden gems & local: Al Quoz galleries, Alserkal Avenue, Satwa neighbourhood, Ripe Market
 
 Budget guidance:
-- Budget (under AED 300/day): Metro, Ravi Restaurant, public beaches, free attractions (Burj Khalifa viewing area exterior, Dubai Frame exterior), street food
-- Mid-range (AED 300-700/day): Ubers, casual dining, paid attractions, one nicer restaurant per day
-- Premium (AED 700-1500/day): taxis, smart casual dining, premium experiences, one luxury dinner
-- Luxury (AED 1500+/day): private transfers, fine dining every evening, VIP experiences, premium hotels assumed
+- Budget: Metro, Ravi Restaurant, public beaches, free attractions, street food
+- Mid-range: Ubers, casual dining, paid attractions, one nicer restaurant per day
+- Premium: taxis, smart casual dining, premium experiences, one luxury dinner
+- Luxury: private transfers, fine dining every evening, VIP experiences
 
-Respond ONLY with valid JSON, no backticks, no markdown:
+Respond ONLY with valid JSON, no backticks:
 {
   "intro": "One vivid sentence setting the scene for this specific trip.",
-  "days": [
-    {"label": "Day 1", "theme": "Short evocative theme", "plan": "Morning: [specific plan]. Afternoon: [specific plan]. Evening: [specific plan]. Tip: [one practical tip]."}
-  ],
+  "days": [{"label": "Day 1", "theme": "Short evocative theme", "plan": "Morning: [specific plan]. Afternoon: [specific plan]. Evening: [specific plan]. Tip: [one practical tip]."}],
   "recommendation": "Full itinerary as plain text fallback"
 }`;
 
@@ -147,11 +209,11 @@ AED 5K-12K: Mashreq Cashback Visa (FREE for life, 5% dining/international, 2% ev
 
 AED 12K-25K: HSBC Live+ (10% dining, AED 12,500 min, free yr1 then AED 314), Mashreq Solitaire (zero FX, lounge, AED 15k), ADCB Traveller (2x miles, AED 15k), Emirates NBD Skywards Signature (1.5 miles/AED, instant Silver, AED 20k, AED 900 fee), Amex Platinum (unlimited Priority Pass, AED 21,250 min).
 
-AED 25K-40K: Emirates NBD Skywards Infinite (3.5 miles/USD, Gold fast-track, AED 35k, AED 4,200 fee), ADCB Etihad Guest Infinite (3 miles/USD, 60k welcome miles, AED 40k), Citibank Prestige (premium travel, AED 36,750 min).
+AED 25K-40K: Emirates NBD Skywards Infinite (3.5 miles/USD, Gold fast-track, AED 35k, AED 4,200 fee), ADCB Etihad Guest Infinite (3 miles/USD, 60k welcome miles, AED 40k), Citibank Prestige (AED 36,750 min).
 
-AED 40K-60K: Citi Ultima (5 miles/USD, AED 36,750 min, AED 3,000 fee), FAB Elite (20x rewards, 50% off luxury dining, AED 50k, AED 1,200 fee).
+AED 40K-60K: Citi Ultima (5 miles/USD, AED 36,750 min, AED 3,000 fee), FAB Elite (20x rewards, 50% off luxury dining, AED 50k).
 
-AED 60K+: FAB Elite (best widely available), Amex Centurion (invite only, AED 500k+ spend), Private banking cards (speak to bank directly).
+AED 60K+: FAB Elite (best widely available), Amex Centurion (invite only), Private banking cards.
 
 STRICT RULES: Never recommend card below salary minimum. Below AED 5k = secured only. Islamic = ADIB/Emirates Islamic/DIB only. Emirates flyer = Skywards. Etihad flyer = Etihad Guest. Free only = Mashreq Cashback/Wio/Liv. Name exactly 2 cards. Max 3 sentences.
 
@@ -178,7 +240,7 @@ Respond ONLY with valid JSON, no backticks:
       },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: vertical === 'itinerary' ? 2000 : 400,
+        max_tokens: vertical === 'itinerary' ? 2000 : vertical === 'hotels' ? 1000 : 400,
         messages: [{ role: 'user', content: prompt }]
       })
     });
@@ -235,6 +297,11 @@ Respond ONLY with valid JSON, no backticks:
       itineraryIntro = parsed.intro || null;
     }
 
+    let hotels = null;
+    if (vertical === 'hotels' && parsed.hotels && Array.isArray(parsed.hotels)) {
+      hotels = parsed.hotels;
+    }
+
     res.status(200).json({
       recommendation,
       bayutListingsUrl,
@@ -243,6 +310,7 @@ Respond ONLY with valid JSON, no backticks:
       cardLinks,
       itineraryDays,
       itineraryIntro,
+      hotels,
       vertical
     });
 
@@ -255,6 +323,7 @@ Respond ONLY with valid JSON, no backticks:
       cardLinks: null,
       itineraryDays: null,
       itineraryIntro: null,
+      hotels: null,
       vertical: ''
     });
   }
