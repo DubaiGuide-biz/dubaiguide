@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Build your Dubai itinerary — mydubaiguide.biz</title>
-<meta name="description" content="Answer 4 questions and get a personalised day-by-day Dubai itinerary with top activities, restaurants and tips matched to your trip style.">
+<meta name="description" content="Answer 4 questions and get a personalised day-by-day Dubai itinerary matched to your interests, budget and trip style.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -47,24 +47,27 @@ nav { position: relative; z-index: 10; display: flex; align-items: center; justi
 /* Result */
 .result { background: #0b1424; border: 1px solid rgba(255,255,255,0.07); border-radius: 20px; padding: 2.5rem; display: none; margin-bottom: 1.5rem; }
 .result.show { display: block; }
-.result-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #f5b731; margin-bottom: 16px; }
+.result-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #f5b731; margin-bottom: 1rem; }
+.result-intro { font-size: 15px; color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 1.75rem; font-style: italic; }
 
 /* Day cards */
-.days-container { display: flex; flex-direction: column; gap: 1.25rem; margin-bottom: 2rem; }
-.day-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; overflow: hidden; }
-.day-header { display: flex; align-items: center; gap: 12px; padding: 1rem 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
-.day-badge { background: #f5b731; color: #000; font-size: 11px; font-weight: 800; letter-spacing: 0.06em; padding: 3px 10px; border-radius: 100px; text-transform: uppercase; white-space: nowrap; }
-.day-title { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.7); }
-.day-body { padding: 1.25rem; }
-.day-body p { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.75; }
-.day-body strong { color: #fff; }
+.days-grid { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.75rem; }
+.day-card { border-radius: 14px; overflow: hidden; border: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.02); }
+.day-header { display: flex; align-items: center; gap: 14px; padding: 1rem 1.25rem; background: rgba(245,183,49,0.06); border-bottom: 1px solid rgba(245,183,49,0.1); }
+.day-num { background: #f5b731; color: #000; font-size: 11px; font-weight: 800; padding: 3px 12px; border-radius: 100px; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; flex-shrink: 0; }
+.day-theme { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.8); }
 
-/* Action links */
-.action-links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
-.action-link { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: 100px; font-size: 13px; font-weight: 600; text-decoration: none; transition: all .15s; border: 1px solid rgba(245,183,49,0.2); background: rgba(245,183,49,0.06); color: #f5b731; }
-.action-link:hover { background: rgba(245,183,49,0.12); border-color: rgba(245,183,49,0.4); }
-.action-link.secondary { border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.5); }
-.action-link.secondary:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.8); }
+/* Time slots table */
+.day-slots { display: grid; grid-template-columns: 1fr 1fr 1fr; border-top: none; }
+.slot { padding: 1rem 1.25rem; border-right: 1px solid rgba(255,255,255,0.05); }
+.slot:last-child { border-right: none; }
+.slot-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(245,183,49,0.6); margin-bottom: 6px; display: flex; align-items: center; gap: 5px; }
+.slot-text { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.6; }
+
+/* Tip row */
+.day-tip { padding: .75rem 1.25rem; background: rgba(245,183,49,0.04); border-top: 1px solid rgba(245,183,49,0.08); display: flex; align-items: flex-start; gap: 8px; }
+.day-tip-icon { font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+.day-tip-text { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.5; }
 
 /* Loading */
 .loading { display: flex; gap: 6px; align-items: center; color: rgba(255,255,255,0.4); font-size: 14px; padding: 1rem 0; }
@@ -74,7 +77,7 @@ nav { position: relative; z-index: 10; display: flex; align-items: center; justi
 @keyframes pulse { 0%,80%,100%{opacity:.2;transform:scale(.8)} 40%{opacity:1;transform:scale(1)} }
 
 /* Email capture */
-.email-capture { margin: 1.25rem 0; padding: 1.25rem 1.5rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; }
+.email-capture { margin: 0 0 1.5rem; padding: 1.25rem 1.5rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; display: none; }
 .email-capture p { font-size: 13px; color: rgba(255,255,255,0.45); margin-bottom: .75rem; }
 .email-row { display: flex; gap: 8px; flex-wrap: wrap; }
 .email-row input { flex: 1; min-width: 180px; padding: 10px 16px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); font-family: inherit; font-size: 13px; color: #fff; outline: none; }
@@ -83,8 +86,14 @@ nav { position: relative; z-index: 10; display: flex; align-items: center; justi
 .email-row button { padding: 10px 20px; border-radius: 100px; border: none; background: #f5b731; color: #000; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; }
 .email-sent { font-size: 13px; color: rgba(245,183,49,0.8); margin-top: .6rem; display: none; }
 
-/* Leadform */
-.leadform { margin-top: 1.5rem; }
+/* Action links */
+.action-links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.action-link { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: 100px; font-size: 13px; font-weight: 600; text-decoration: none; transition: all .15s; border: 1px solid rgba(245,183,49,0.2); background: rgba(245,183,49,0.06); color: #f5b731; }
+.action-link:hover { background: rgba(245,183,49,0.12); border-color: rgba(245,183,49,0.4); }
+.action-link.secondary { border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.5); }
+.action-link.secondary:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.8); }
+
+/* Lead form */
 .leadform h3 { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 4px; }
 .leadform .hint { font-size: 13px; color: rgba(255,255,255,0.35); margin-bottom: 1.25rem; }
 .field { margin-bottom: 10px; }
@@ -99,7 +108,6 @@ nav { position: relative; z-index: 10; display: flex; align-items: center; justi
 .footer-links { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; }
 .footer-links a { font-size: 12px; color: rgba(255,255,255,0.25); text-decoration: none; margin: 0 12px; }
 .footer-links a:hover { color: rgba(255,255,255,0.5); }
-.disclaimer { font-size: 12px; color: rgba(255,255,255,0.2); margin-top: 1rem; line-height: 1.6; }
 
 @media (max-width: 768px) {
   nav { padding: 1.25rem 1.5rem; }
@@ -107,12 +115,14 @@ nav { position: relative; z-index: 10; display: flex; align-items: center; justi
   .page { padding: 2rem 1.25rem 4rem; }
   .quiz-card { padding: 1.5rem; }
   .result { padding: 1.5rem; }
+  .day-slots { grid-template-columns: 1fr; }
+  .slot { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .slot:last-child { border-bottom: none; }
 }
 </style>
 </head>
 <body>
 <div class="bg-glow"></div>
-
 <nav>
   <a href="/" class="wordmark">my<span class="teal">dubai</span>guide<span class="muted">.biz</span></a>
   <div class="nav-right">
@@ -125,7 +135,7 @@ nav { position: relative; z-index: 10; display: flex; align-items: center; justi
   <div class="page-header">
     <div class="page-tag">🗺️ Itinerary builder</div>
     <h1>Build your perfect Dubai itinerary</h1>
-    <p>Answer 4 questions · Get a detailed day-by-day plan · Personalised to your interests and trip style</p>
+    <p>Answer 4 questions · Get a detailed day-by-day plan · Personalised to your interests and budget</p>
   </div>
 
   <div class="quiz-card">
@@ -136,9 +146,10 @@ nav { position: relative; z-index: 10; display: flex; align-items: center; justi
 
   <div class="result" id="result">
     <div class="result-eyebrow">✦ Your personalised Dubai itinerary</div>
-    <div id="result-body"></div>
+    <div id="result-intro"></div>
+    <div id="result-days"></div>
 
-    <div class="email-capture" id="email-capture" style="display:none;">
+    <div class="email-capture" id="email-capture">
       <p>📩 Save this itinerary — we'll send it to your email.</p>
       <div class="email-row">
         <input type="email" id="eo-email" placeholder="your@email.com">
@@ -180,30 +191,10 @@ nav { position: relative; z-index: 10; display: flex; align-items: center; justi
 
 <script>
 const questions = [
-  {
-    id: 'days',
-    label: 'How long is your trip?',
-    multi: false,
-    options: ['2 days', '3 days', '4–5 days', '1 week', '2 weeks']
-  },
-  {
-    id: 'interests',
-    label: 'What are you into? — select all that apply',
-    multi: true,
-    options: ['Luxury & fine dining', 'Adventure & outdoor', 'Culture & history', 'Shopping & markets', 'Beaches & water', 'Family & kids', 'Nightlife & bars', 'Hidden gems & local']
-  },
-  {
-    id: 'group',
-    label: 'Who are you travelling with?',
-    multi: false,
-    options: ['Solo', 'Couple', 'Family with kids', 'Group of friends', 'Business trip']
-  },
-  {
-    id: 'budget',
-    label: 'What\'s your daily budget per person?',
-    multi: false,
-    options: ['Budget (under AED 300/day)', 'Mid-range (AED 300–700/day)', 'Premium (AED 700–1,500/day)', 'Luxury (AED 1,500+/day)']
-  }
+  { id:'days', label:'How long is your trip?', multi:false, options:['2 days','3 days','4–5 days','1 week','2 weeks'] },
+  { id:'interests', label:'What are you into? — select all that apply', multi:true, options:['Luxury & fine dining','Adventure & outdoor','Culture & history','Shopping & markets','Beaches & water','Family & kids','Nightlife & bars','Hidden gems & local'] },
+  { id:'group', label:'Who are you travelling with?', multi:false, options:['Solo','Couple','Family with kids','Group of friends','Business trip'] },
+  { id:'budget', label:"What's your daily budget per person?", multi:false, options:['Budget (under AED 300/day)','Mid-range (AED 300–700/day)','Premium (AED 700–1,500/day)','Luxury (AED 1,500+/day)'] }
 ];
 
 let answers = {};
@@ -213,7 +204,8 @@ const quizEl = document.getElementById('quiz');
 const ctaEl = document.getElementById('cta');
 const progressFill = document.getElementById('progress-fill');
 const resultEl = document.getElementById('result');
-const resultBody = document.getElementById('result-body');
+const resultIntroEl = document.getElementById('result-intro');
+const resultDaysEl = document.getElementById('result-days');
 const actionLinksEl = document.getElementById('action-links');
 const leadForm = document.getElementById('lead-form');
 const confirmEl = document.getElementById('confirm');
@@ -258,10 +250,53 @@ function selectOption(qId, value, btn, qDiv, multi) {
 }
 
 function updateProgress() {
-  const required = ['days', 'interests', 'group', 'budget'];
+  const required = ['days','interests','group','budget'];
   const done = required.filter(k => answers[k] && (Array.isArray(answers[k]) ? answers[k].length > 0 : true)).length;
   progressFill.style.width = Math.round((done / required.length) * 100) + '%';
   ctaEl.disabled = done < required.length;
+}
+
+function parseSlots(plan) {
+  const morning = plan.match(/Morning[:\s]+([^.]+(?:\.[^.]+)*?)(?=Afternoon|Evening|Tip|$)/i);
+  const afternoon = plan.match(/Afternoon[:\s]+([^.]+(?:\.[^.]+)*?)(?=Evening|Tip|$)/i);
+  const evening = plan.match(/Evening[:\s]+([^.]+(?:\.[^.]+)*?)(?=Tip|$)/i);
+  const tip = plan.match(/Tip[:\s]+(.+?)\.?\s*$/i);
+  return {
+    morning: morning ? morning[1].trim().replace(/\.$/, '') : null,
+    afternoon: afternoon ? afternoon[1].trim().replace(/\.$/, '') : null,
+    evening: evening ? evening[1].trim().replace(/\.$/, '') : null,
+    tip: tip ? tip[1].trim() : null
+  };
+}
+
+function renderDays(days, intro) {
+  if (intro) {
+    resultIntroEl.innerHTML = '<p class="result-intro">' + intro + '</p>';
+  }
+
+  let html = '<div class="days-grid">';
+  days.forEach(day => {
+    const slots = parseSlots(day.plan);
+    html += '<div class="day-card">';
+    html += '<div class="day-header"><span class="day-num">' + day.label + '</span><span class="day-theme">' + day.theme + '</span></div>';
+    html += '<div class="day-slots">';
+
+    if (slots.morning || slots.afternoon || slots.evening) {
+      html += '<div class="slot"><div class="slot-label">🌅 Morning</div><div class="slot-text">' + (slots.morning || '—') + '</div></div>';
+      html += '<div class="slot"><div class="slot-label">☀️ Afternoon</div><div class="slot-text">' + (slots.afternoon || '—') + '</div></div>';
+      html += '<div class="slot"><div class="slot-label">🌙 Evening</div><div class="slot-text">' + (slots.evening || '—') + '</div></div>';
+    } else {
+      html += '<div class="slot" style="grid-column:1/-1"><div class="slot-text">' + day.plan + '</div></div>';
+    }
+
+    html += '</div>';
+    if (slots.tip) {
+      html += '<div class="day-tip"><span class="day-tip-icon">💡</span><span class="day-tip-text">' + slots.tip + '</span></div>';
+    }
+    html += '</div>';
+  });
+  html += '</div>';
+  resultDaysEl.innerHTML = html;
 }
 
 function trackEvent(name, params) {
@@ -269,16 +304,11 @@ function trackEvent(name, params) {
 }
 
 ctaEl.addEventListener('click', async () => {
-  trackEvent('itinerary_requested', {
-    days: answers.days || '',
-    group: answers.group || '',
-    budget: answers.budget || '',
-    interests: Array.isArray(answers.interests) ? answers.interests.join(', ') : ''
-  });
-
+  trackEvent('itinerary_requested', { days: answers.days || '', group: answers.group || '', budget: answers.budget || '', interests: Array.isArray(answers.interests) ? answers.interests.join(', ') : '' });
   ctaEl.disabled = true;
   resultEl.classList.add('show');
-  resultBody.innerHTML = '<div class="loading"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span style="margin-left:6px">Building your itinerary — this takes a few seconds</span></div>';
+  resultIntroEl.innerHTML = '';
+  resultDaysEl.innerHTML = '<div class="loading"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span style="margin-left:6px">Building your itinerary — this takes a few seconds</span></div>';
   actionLinksEl.innerHTML = '';
   document.getElementById('email-capture').style.display = 'none';
   resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -292,20 +322,11 @@ ctaEl.addEventListener('click', async () => {
     const data = await response.json();
     lastItinerary = data.recommendation || '';
 
-    if (data.days && Array.isArray(data.days) && data.days.length > 0) {
-      let html = '';
-      if (data.intro) html += '<p style="font-size:15px;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:1.5rem;">' + data.intro + '</p>';
-      html += '<div class="days-container">';
-      data.days.forEach(day => {
-        html += '<div class="day-card">';
-        html += '<div class="day-header"><span class="day-badge">' + day.label + '</span><span class="day-title">' + day.theme + '</span></div>';
-        html += '<div class="day-body"><p>' + day.plan + '</p></div>';
-        html += '</div>';
-      });
-      html += '</div>';
-      resultBody.innerHTML = html;
+    if (data.itineraryDays && Array.isArray(data.itineraryDays) && data.itineraryDays.length > 0) {
+      renderDays(data.itineraryDays, data.itineraryIntro);
     } else {
-      resultBody.innerHTML = '<p style="font-size:15px;color:rgba(255,255,255,0.7);line-height:1.8;">' + lastItinerary + '</p>';
+      // Fallback - still render as paragraph
+      resultDaysEl.innerHTML = '<p style="font-size:14px;color:rgba(255,255,255,0.6);line-height:1.8;">' + lastItinerary + '</p>';
     }
 
     document.getElementById('email-capture').style.display = 'block';
@@ -313,19 +334,15 @@ ctaEl.addEventListener('click', async () => {
     // Action links
     actionLinksEl.innerHTML = '';
     const interests = Array.isArray(answers.interests) ? answers.interests : [];
-    if (interests.some(i => ['Adventure & outdoor', 'Beaches & water', 'Culture & history', 'Luxury & fine dining'].includes(i))) {
-      actionLinksEl.innerHTML += '<a href="https://www.viator.com/Dubai/d828-ttd" target="_blank" rel="noopener" class="action-link">Browse Dubai activities on Viator →</a>';
-    }
+    actionLinksEl.innerHTML += '<a href="https://www.viator.com/Dubai/d828-ttd" target="_blank" rel="noopener" class="action-link">Browse Dubai activities on Viator →</a>';
     actionLinksEl.innerHTML += '<a href="https://www.getyourguide.com/dubai-l173/" target="_blank" rel="noopener" class="action-link">Find tours on GetYourGuide →</a>';
-    if (interests.includes('Luxury & fine dining') || interests.includes('Nightlife & bars')) {
+    if (interests.includes('Luxury & fine dining') || interests.includes('Nightlife & bars') || interests.includes('Hidden gems & local')) {
       actionLinksEl.innerHTML += '<a href="https://www.zomato.com/dubai" target="_blank" rel="noopener" class="action-link secondary">Explore restaurants on Zomato →</a>';
     }
-    actionLinksEl.innerHTML += '<a href="/tourist/where-to-stay/" class="action-link secondary">Find hotels for your trip →</a>';
 
   } catch (e) {
-    resultBody.innerHTML = '<p style="color:rgba(255,255,255,0.5);">Could not build your itinerary right now — try again.</p>';
+    resultDaysEl.innerHTML = '<p style="color:rgba(255,255,255,0.5);">Could not build your itinerary right now — try again.</p>';
   }
-
   ctaEl.disabled = false;
 });
 
@@ -336,18 +353,11 @@ async function sendItinerary() {
     await fetch('/api/lead', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        vertical: 'itinerary',
-        answers,
-        recommendation: lastItinerary,
-        contact: { name: 'Email capture only', email, phone: 'n/a' },
-        submittedAt: new Date().toISOString()
-      })
+      body: JSON.stringify({ vertical: 'itinerary', answers, recommendation: lastItinerary, contact: { name: 'Email capture only', email, phone: 'n/a' }, submittedAt: new Date().toISOString() })
     });
   } catch (e) {}
   document.querySelector('.email-row').style.display = 'none';
   document.getElementById('eo-confirm').style.display = 'block';
-  trackEvent('itinerary_email_saved', { vertical: 'itinerary' });
 }
 
 leadForm.addEventListener('submit', async e => {
